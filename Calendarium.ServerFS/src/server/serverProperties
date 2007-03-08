@@ -1,0 +1,9 @@
+#--- Server Settings ---
+#Sun May 22 18:06:31 CEST 2005
+CalendariumEMail=Calendarium
+RMIServerPort=2005
+SMTPServerPort=25
+MtPaneYears=-1 .. +5
+RMIServerName=dimensionbc
+SMTPServerName=mailsrv.convnet.de
+
