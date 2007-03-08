@@ -1,0 +1,6 @@
+#--- Client Settings ---
+#Sun May 22 17:57:53 CEST 2005
+RMIServerPort=2005
+BrowserPath=
+MtPaneYears=-1 .. +5
+RMIServerName=dimensionbc
