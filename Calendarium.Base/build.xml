@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     12.03.2007 14:38:06                                                        
+
+     Calendarium    
+     Fallstudie zur SWT I Vorlesung
+                   
+     ====================================================================== -->
+
+<project name="Calendarium" default="default">
+    <description>
+            Fallstudie zur SWT I Vorlesung
+    </description>
+	
+	<property name="deploy.dir" value="deploy.client"/>
+
+
+    <!-- ================================= 
+          target: default              
+         ================================= -->
+    <target name="default" description="Buildfile Fallstudie zur SWT I Vorlesung">
+    	<echo>Buildfile zur Calendarium Fallstudie</echo>
+    	<echo>${ant.version}</echo>
+    	<echo>Java Version ${java.version}</echo>
+    </target>
+
+    <!-- ================================= 
+          target: deploy.client              
+         ================================= -->
+    <target name="deploy.client" depends="deploy.dir"
+	        description="stellt ausführbaren und verteilbaren Client zur Verfuegung">
+    	<copy todir="${deploy.dir}"><fileset dir="bin" excludes=".svn"/></copy>
+    	<copy todir="${deploy.dir}"><fileset dir="../Calendarium.Client/bin" excludes=".svn"/></copy>
+    	<copy todir="${deploy.dir}"><fileset dir="../Calendarium.Client" includes="*.bat"/></copy>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: deploy.dir                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="deploy.dir">
+    	<mkdir dir="${deploy.dir}"/>
+    </target>
+
+</project>
