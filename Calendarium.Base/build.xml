@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 <!-- ====================================================================== 
-     12.03.2007 14:38:06                                                        
 
-     Calendarium    
-     Fallstudie zur SWT I Vorlesung
+     Buildfile Calendarium-Fallstudie zur SWT I Vorlesung
                    
      ====================================================================== -->
 
@@ -18,7 +16,7 @@
     <!-- ================================= 
           target: default              
          ================================= -->
-    <target name="default" description="Buildfile Fallstudie zur SWT I Vorlesung">
+    <target name="default" description="Buildfile Calendarium zur SWT I Vorlesung">
     	<echo>Buildfile zur Calendarium Fallstudie</echo>
     	<echo>${ant.version}</echo>
     	<echo>Java Version ${java.version}</echo>
