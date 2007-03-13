@@ -157,7 +157,7 @@ public abstract class PersistentObject extends Object implements java.io.Seriali
 
 
     /** loads PersistentObject from db
-      * @param searchAttr "WHERE search_var = ..." (identifies one row in table)
+      * @param search_var "WHERE search_var = ..." (identifies one row in table)
       * @param value "WHERE ... = value"
       */
     public void retrieve(String search_var, Object value)
@@ -199,7 +199,7 @@ public abstract class PersistentObject extends Object implements java.io.Seriali
 
     /** loads inner table PersistentObject
       * @param nested_var name of inner table
-      * @param searchAttr "WHERE searchAttr = ..." (identifies one row in table)
+      * @param search_var "WHERE searchAttr = ..." (identifies one row in table)
       * @param value "WHERE ... = value"
       */
     public ResultSet retrieveInnerTable(String nested_var, String search_var, Object value)

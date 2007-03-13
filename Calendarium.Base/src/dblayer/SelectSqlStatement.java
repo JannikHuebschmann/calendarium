@@ -48,9 +48,9 @@ public class SelectSqlStatement extends SqlStatement
 
     /** builds select sql string for inner table in one row in db (one instance of a domain class)
       * @param nestedAttr "SELECT nestedAttr FROM ..."
-      * @param val1 is not needed and therefore null
+      * @param pObj is not needed and therefore null
       * @param searchAttr "WHERE attribute = ..." (search criteria)
-      * @param val2 the "WHERE .... = val2"
+      * @param val the "WHERE .... = val2"
       */
     public void buildForInnerTable(String nestedAttr, PersistentObject pObj, String searchAttr, Object val)
     {

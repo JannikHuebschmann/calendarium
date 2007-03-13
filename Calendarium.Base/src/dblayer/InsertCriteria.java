@@ -20,8 +20,6 @@ public class InsertCriteria extends PersistentCriteria
     }
 
     /** builds insert sql string for one row in db (one instance of a domain class
-      * @param attribute "WHERE attribute = ..." (search criteria)
-      * @param value the "WHERE .... = value"
       */
     public String buildForObject()
     {
@@ -62,9 +60,6 @@ public class InsertCriteria extends PersistentCriteria
 
     /** builds insert sql string for inner table in one row in db (one instance of a domain class)
       * @param nestedAttr "SELECT nestedAttr FROM ..."
-      * @param val1 "INSERT INTO THE ..... VALUES (val1)"
-      * @param searchAttr "WHERE attribute = ..." (search criteria)
-      * @param val2 the "WHERE .... = val2"
       */
     public String buildForInnerTable(String nestedAttr)
     {

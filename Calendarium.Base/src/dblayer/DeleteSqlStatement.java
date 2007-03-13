@@ -32,9 +32,9 @@ public class DeleteSqlStatement extends SqlStatement
 
     /** builds delete sql string for inner table in one row in db (one instance of a domain class)
       * @param nestedAttr "SELECT nestedAttr FROM ..."
-      * @param val1 "..)i...WHERE i.id = val1"
+      * @param pObj "..)i...WHERE i.id = val1"
       * @param searchAttr "WHERE attribute = ..." (search criteria)
-      * @param val2 the "WHERE .... = val2"
+      * @param val the "WHERE .... = val2"
       */
     public void buildForInnerTable(String nestedAttr, PersistentObject pObj, String searchAttr, Object val)
     {
