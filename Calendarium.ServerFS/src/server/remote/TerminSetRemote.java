@@ -21,9 +21,9 @@ public class TerminSetRemote extends UnicastRemoteObject implements interfaces.T
 	// Server
     private Server server;
 
-        // Daten
-        private Hashtable terminIDs;
-        private Hashtable termine;
+    // Daten
+    private Hashtable terminIDs;
+    private Hashtable termine;
     private long lastTerminID;       // Counter fuer TerminID
     private long lastSerienID;       // Counter fuer SerienID
 
@@ -50,58 +50,58 @@ public class TerminSetRemote extends UnicastRemoteObject implements interfaces.T
         server.getNfktQueue().createNotifiers(terminIDs);
     }
 
-        ///////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////
     // Laden // Laden // Laden // Laden // Laden // Laden // Laden // Laden // Laden //
     ///////////////////////////////////////////////////////////////////////////////////
-        private void load()
+    private void load()
     {
-        try
-                {   FileInputStream istream = new FileInputStream("data/files/termine.dat");
-            ObjectInputStream s = new ObjectInputStream(istream);
+        try {
+			FileInputStream istream = new FileInputStream(
+					"data/files/termine.dat");
+			ObjectInputStream s = new ObjectInputStream(istream);
 
-                        lastTerminID = ((Long) s.readObject()).longValue();
-                        lastSerienID = ((Long) s.readObject()).longValue();
-                        terminIDs = (Hashtable) s.readObject();
-            termine = (Hashtable) s.readObject();
+			lastTerminID = ((Long) s.readObject()).longValue();
+			lastSerienID = ((Long) s.readObject()).longValue();
+			terminIDs = (Hashtable) s.readObject();
+			termine = (Hashtable) s.readObject();
 
-            istream.close();
+			istream.close();
 
-                } catch(Exception e)
-                {
-                        lastTerminID = 0;
-                        lastSerienID = 0;
-                        termine = new Hashtable();
-                        terminIDs = new Hashtable();
-                }
+		} catch (Exception e) {
+			lastTerminID = 0;
+			lastSerienID = 0;
+			termine = new Hashtable();
+			terminIDs = new Hashtable();
+		}
     }
 
-        /////////////////////////////////////////////////////////////////////////////////
-    // Speichern // Speichern //  Speichern // Speichern // Speichern // Speichern //
     /////////////////////////////////////////////////////////////////////////////////
-        public synchronized void save()
-    {
-        try
-                {       FileOutputStream ostream = new FileOutputStream("data/files/termine.dat");
-                        ObjectOutputStream p = new ObjectOutputStream(ostream);
+    // Speichern // Speichern // Speichern // Speichern // Speichern // Speichern  //
+    /////////////////////////////////////////////////////////////////////////////////
+    public synchronized void save() {
+		try {
+			FileOutputStream ostream = new FileOutputStream(
+					"data/files/termine.dat");
+			ObjectOutputStream p = new ObjectOutputStream(ostream);
 
-                        p.writeObject(new Long(lastTerminID));
-                        p.writeObject(new Long(lastSerienID));
-                        p.writeObject(terminIDs);
-                        p.writeObject(termine);
-                        p.flush();
+			p.writeObject(new Long(lastTerminID));
+			p.writeObject(new Long(lastSerienID));
+			p.writeObject(terminIDs);
+			p.writeObject(termine);
+			p.flush();
 
-                        ostream.close();
+			ostream.close();
 
-                } catch(IOException e)
-                {
-                    e.printStackTrace();
-                    System.exit(0);
-                }
-    }
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+	}
 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    // MessageEvents // MessageEvents // MessageEvents // MessageEvents // MessageEvents //
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////////////
+    // MessageEvents // MessageEvents // MessageEvents // MessageEvents //
+	// MessageEvents //
+    // /////////////////////////////////////////////////////////////////////////////////////
 
     // Message: Neuer Termin
     private void sendNewMessages(Termin termin)
@@ -764,20 +764,24 @@ public class TerminSetRemote extends UnicastRemoteObject implements interfaces.T
         return terminNeu;
     }
 
-    // insert
-    @SuppressWarnings("unchecked")
+    /**
+		 * insert
+		 * 
+		 * @param termin
+		 */
+	@SuppressWarnings("unchecked")
 	private void insertTermin(Termin termin)
-    {
-        // LastID setzen
-                lastTerminID++;
-                termin.setID(lastTerminID);
+	{
+		// LastID setzen
+		lastTerminID++;
+		termin.setID(lastTerminID);
 
-                // Hashtable
-        terminIDs.put(new Long(lastTerminID), termin);
+		// Hashtable
+		terminIDs.put(new Long(lastTerminID), termin);
 
-                // TerminListe
-                addToTerminListe(termin);
-    }
+		// TerminListe
+		addToTerminListe(termin);
+	}
 
     // remove
     private void removeTermin(Termin termin)
@@ -1221,55 +1225,60 @@ public class TerminSetRemote extends UnicastRemoteObject implements interfaces.T
         save();
     }
 
-        // Termin anlegen
-        public void create(String kuerzel, Termin termin) throws RemoteException
-        {
-            Datum now = new Datum(new Date());
+   /** Termin anlegen
+    * @param kuerzel Parameternutzung ist unklar BC
+    */
+	public void create(String kuerzel, Termin termin) throws RemoteException
+	{
+		Datum now = new Datum(new Date());
 
-            // Messages
-            if(termin.getBeginn().isGreater(now) >= 0)
-            {   sendNewMessages(termin);
-            }
+		// Messages
+		if (termin.getBeginn().isGreater(now) >= 0)
+		{
+			sendNewMessages(termin);
+		}
 
-            // insert
-            insertTermin(termin);
+		// insert
+		insertTermin(termin);
 
-                // Notifikationen
-                if(termin.getNotifikationen() != null)
-                {   server.getNfktQueue().addNotifier(termin);
-        }
+		// Notifikationen
+		if (termin.getNotifikationen() != null)
+		{
+			server.getNfktQueue().addNotifier(termin);
+		}
 
-                // Update-Messages
-                TerminEvent evt = new TerminEvent(termin.getOwner(), null, termin);
-        server.getMessageServer().addEvent(evt);
+		// Update-Messages
+		TerminEvent evt = new TerminEvent(termin.getOwner(), null, termin);
+		server.getMessageServer().addEvent(evt);
 
-                // Serie
-                if(termin.getSerie() != null)
-                {
-                    lastSerienID++;
-                    termin.getSerie().setID(lastSerienID);
+		// Serie
+		if (termin.getSerie() != null)
+		{
+			lastSerienID++;
+			termin.getSerie().setID(lastSerienID);
 
-                    Vector serieExpanded = getSerienTermine(termin);
+			Vector serieExpanded = getSerienTermine(termin);
 
-                    Enumeration e = serieExpanded.elements();
-                    while(e.hasMoreElements())
-                    {
-                        Termin tSerie = (Termin) e.nextElement();
-                        insertTermin(tSerie);
+			Enumeration e = serieExpanded.elements();
+			while (e.hasMoreElements())
+			{
+				Termin tSerie = (Termin) e.nextElement();
+				insertTermin(tSerie);
 
-                        // Notifikationen
-                        if(tSerie.getNotifikationen() != null)
-                        {   server.getNfktQueue().addNotifier(tSerie);
-                }
+				// Notifikationen
+				if (tSerie.getNotifikationen() != null)
+				{
+					server.getNfktQueue().addNotifier(tSerie);
+				}
 
-                        // Update-Messages
-                        evt = new TerminEvent(tSerie.getOwner(), null, tSerie);
-                server.getMessageServer().addEvent(evt);
-                    }
-                }
+				// Update-Messages
+				evt = new TerminEvent(tSerie.getOwner(), null, tSerie);
+				server.getMessageServer().addEvent(evt);
+			}
+		}
 
-        save();
-        }
+		save();
+	}
 
         // Termin löschen
         public void delete(String kuerzel, Termin termin, boolean serie) throws RemoteException

@@ -22,8 +22,8 @@ public class MessageServer extends UnicastRemoteObject implements interfaces.Mes
 	// Server
         private Server server;
 
-        // Daten
-        private Hashtable loggedUsers = new Hashtable();
+    // Daten
+    private Hashtable loggedUsers = new Hashtable();
     private Hashtable eventHash = new Hashtable();
 
     // Thread
@@ -61,25 +61,25 @@ public class MessageServer extends UnicastRemoteObject implements interfaces.Mes
     ///////////////////////////////////////////////////////////////////////////////////
     // Laden // Laden // Laden // Laden // Laden // Laden // Laden // Laden // Laden //
     ///////////////////////////////////////////////////////////////////////////////////
-        private void load()
+    private void load()
     {
-        try
-                {   FileInputStream istream = new FileInputStream("data/files/events.dat");
-            ObjectInputStream s = new ObjectInputStream(istream);
+        try {
+			FileInputStream istream = new FileInputStream(
+					"data/files/events.dat");
+			ObjectInputStream s = new ObjectInputStream(istream);
 
-                        eventHash = (Hashtable) s.readObject();
-            istream.close();
+			eventHash = (Hashtable) s.readObject();
+			istream.close();
 
-                } catch(Exception e)
-                {
-                        initialize();
-                }
+		} catch (Exception e) {
+			initialize();
+		}
     }
 
-        /////////////////////////////////////////////////////////////////////////////////
-    // Speichern // Speichern //  Speichern // Speichern // Speichern // Speichern //
-    /////////////////////////////////////////////////////////////////////////////////
-        public synchronized void save()
+    // ///////////////////////////////////////////////////////////////////////////////
+    // Speichern // Speichern // Speichern // Speichern // Speichern //   Speichern //
+    //////////////////////////////////////////////////////////////////////////////////
+    public synchronized void save()
     {
         try
                 {       FileOutputStream ostream = new FileOutputStream("data/files/events.dat");
