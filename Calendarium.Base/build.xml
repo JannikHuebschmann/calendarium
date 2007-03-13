@@ -38,12 +38,20 @@
          ================================= -->
     <target name="deploy.javadoc" depends="deploy.dirs"
 	        description="erstellt Calendarium-javadoc-API-Beschreibung">
-		<javadoc destdir="${javadoc.dir}"
-			     group="Client_Packages client*,Data_Packages data*,Server_Packages server*">
+		<javadoc destdir="${javadoc.dir}">
 			<fileset dir="src" />
 			<fileset dir="../Calendarium.Client/src" />
 			<fileset dir="../Calendarium.Monitor/src" />
 			<fileset dir="../Calendarium.ServerFS/src" />
+			
+			<group title="Base Packages" packages="basisklassen*:data*:dblayer*:event*:interfaces*" />
+			<group title="Client Packages" packages="client*" />
+			<group title="Monitor Packages" packages="monitor*" />
+			<group title="Server Packages" packages="server*" />
+			
+			<doctitle><![CDATA[<h1>Calendarium API</h1>]]></doctitle>
+			<header>Calendarium Fallstudie SWT-Vorlesung im SS 2007</header>
+			<footer>Calendarium Fallstudie SWT-Vorlesung im SS 2007</footer>
 		</javadoc>
     </target>
 
