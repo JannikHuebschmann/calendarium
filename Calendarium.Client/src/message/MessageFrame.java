@@ -40,10 +40,6 @@ public class MessageFrame extends Ansicht {
 	@SuppressWarnings("unused")
 	private JFrame parentFrame;
 
-	/**
-	 * @param parentFrame
-	 * @param termin
-	 */
 	public MessageFrame(JFrame f, Eintrag eintrag, JLabel status) {
 
 		super(f, status);
