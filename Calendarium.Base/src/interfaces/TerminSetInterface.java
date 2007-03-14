@@ -16,7 +16,7 @@ public interface TerminSetInterface extends Remote
      * 
      * @param vomDat
      * @param personenListe
-     * @return
+     * @return Vector
      * @throws RemoteException
      */
     public Vector getTermineVom(Datum vomDat, Vector personenListe) throws RemoteException;
@@ -26,7 +26,7 @@ public interface TerminSetInterface extends Remote
 	 * @param vonDat
 	 * @param bisDat
 	 * @param personenListe
-	 * @return
+	 * @return Vector[]
 	 * @throws RemoteException
 	 */
 	public Vector[] getTermineVonBis(Datum vonDat, Datum bisDat, Vector personenListe) throws RemoteException;
@@ -36,7 +36,7 @@ public interface TerminSetInterface extends Remote
      * @param vonDat
      * @param bisDat
      * @param personenListe
-     * @return
+     * @return Vector[]
      * @throws RemoteException
      */
     public Vector[] getPersonsWithTermin(Datum vonDat, Datum bisDat, Vector personenListe) throws RemoteException;
@@ -44,7 +44,7 @@ public interface TerminSetInterface extends Remote
 	/** einen bestimmten Termin ausgeben
 	 * 
 	 * @param id
-	 * @return
+	 * @return Termin
 	 * @throws RemoteException
 	 */
 	public Termin getTerminByID(long id) throws RemoteException;
@@ -52,7 +52,7 @@ public interface TerminSetInterface extends Remote
     /** Konflikte ausgeben
      * 
      * @param termin
-     * @return
+     * @return Vector
      * @throws RemoteException
      */
     public Vector getKonflikte(Termin termin) throws RemoteException;
@@ -63,7 +63,7 @@ public interface TerminSetInterface extends Remote
      * @param bgn
      * @param end
      * @param wk
-     * @return
+     * @return Vector
      * @throws RemoteException
      */
     public Vector getFreeOfKonflikte(Hashtable persons, Datum bgn, Datum end, boolean wk) throws RemoteException;
