@@ -1,7 +1,7 @@
 package monitor; //
 ///////////////////
 
-import interfaces.DBSetInterface;
+import interfaces.DBInterface;
 import interfaces.MessageServerInterface;
 
 import java.awt.BorderLayout;
@@ -66,7 +66,7 @@ public class Monitor extends JFrame implements ActionListener
     private Hashtable frames = new Hashtable();
     
     //to create and delete tables
-    DBSetInterface dbi;
+    DBInterface dbi;
     
     //boolean if db server was started or not
     private boolean dbserver=false;
@@ -103,7 +103,7 @@ public class Monitor extends JFrame implements ActionListener
             
             
             try {
-            	dbi = (DBSetInterface) Naming.lookup(hostname + "DBSetRemote");
+            	dbi = (DBInterface) Naming.lookup(hostname + "DBSetRemote");
             	//hier kommt man nur her wenn man das DBSetRemote Objekt gefunden hat
             	//das ist nur der fall wenn der DB Server gestartet wurde
 				dbserver=true;
