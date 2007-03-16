@@ -1,0 +1,4 @@
+mögliche Änderungen:
+- gehört das Paket DBLayer zu den Basisklassen oder eher zum DB-Server-Paket?
+- sollte interfaces.DBSetInterface nicht besser in DBInterface umbenannt werden?
+- die Klasse server.Server sollte als Singelton realisiert werden!
