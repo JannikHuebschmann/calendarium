@@ -4,6 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Calendarium.Base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Calendarium.ServerFS"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Calendarium.Client"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Calendarium.Client.Swing"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
