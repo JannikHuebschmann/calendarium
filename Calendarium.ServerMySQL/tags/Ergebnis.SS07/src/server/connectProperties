@@ -1,0 +1,5 @@
+#--- ConnectString Settings ---
+#Tue Mar 29 14:55:06 GMT 2005
+Connect=jdbc:mysql://localhost:3306/caldb
+Benutzer=swt2
+Passwort=swt2
