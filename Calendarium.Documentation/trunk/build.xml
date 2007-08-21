@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @author Jan-Bernd Ernsten
+ * this xml file creates in the directory: Calendarium.Documentation/doc
+ * the javadocumentation of the Client, Server, Base and Monitor project
+ **/
+-->
+	
+<project name="Dokumentation_Calendarium" default="do_nothing" basedir=".">
+	
+	<property name="doc.dir" location="doc"></property>	
+	<property name="workspace.dir" location=".." />		
+		
+	<target name="do_nothing">
+		<echo> do nothing! please choose a target</echo>
+	</target>
+	
+	<target name="cleandoc">
+		<!-- Delete the ${doc.dir} directory trees -->
+		<delete dir="${doc.dir}"></delete>
+		<echo> delete = ${doc.dir}</echo>
+	</target>
+	
+	<!-- Damit Javadoc aufgerufen wird muß unter den Projekt einstellungen
+		 Run -> Installed JRE's der Haken bei JDK gesetzt sein und nicht JRE -->
+	<target name="javadoc_calendarium_project" depends="javadoc_base,javadoc_client,javadoc_serverfs,javadoc_monitor,javadoc_server_mysql">
+		<echo>Komplette Doc erstellt</echo>
+<!--		<echo>home.dir=${workspace.dir}</echo>	
+-->
+	</target>
+	
+	<target name="javadoc_base">
+    	<javadoc 
+    			access="private" 
+    			author="true" 
+    			classpath="." 
+    			destdir="${doc.dir}/base" 
+    			doctitle="Calendarium Base" 
+    			nodeprecated="false" 
+    			nodeprecatedlist="false" 
+    			noindex="false" 
+    			nonavbar="false" 
+    			notree="false" 
+    			packagenames="dblayer,interfaces,basisklassen,data.sets,data,event" 
+    			source="1.6" 
+    			sourcepath="${workspace.dir}/Calendarium.Base/src" 
+    			splitindex="true" 
+    			use="true" 
+    			version="true"
+    	/>
+    				    
+	    </target>
+
+    <target name="javadoc_client">
+		<javadoc 
+				access="private" 
+				author="true" 
+				classpath="../Calendarium.Base/bin" 
+				destdir="${doc.dir}/client" 
+				doctitle="Calendarium Client" 
+				nodeprecated="false" 
+				nodeprecatedlist="false" 
+				noindex="false" 
+				nonavbar="false" 
+				notree="false" 
+				packagenames="client.admin.recht,client,client.admin.feiertag,client.utility.darstellung,client.admin.typ,client.ansicht,client.utility,client.admin.gruppe,message,client.utility.darstellung.cell,client.admin.user,client.admin,client.eintrag,client.gui" 
+				source="1.6" 
+				sourcepath="${workspace.dir}/Calendarium.Client.Swing/src" 
+				splitindex="true" 
+				use="true" 
+				version="true"
+		/>
+ 	</target>
+  
+    <target name="javadoc_serverfs">
+		<javadoc 
+				access="private" 
+				author="true" 
+				classpath="../Calendarium.Base/bin" 
+				destdir="${doc.dir}/server" 
+				doctitle="Calendarium ServerFS" 
+				nodeprecated="false" 
+				nodeprecatedlist="false" 
+				noindex="false" 
+				nonavbar="false" 
+				notree="false" 
+				packagenames="server,server.mail,server.remote" 
+				source="1.6" 
+				sourcepath="${workspace.dir}/Calendarium.ServerFS/src" 
+				splitindex="true" 
+				use="true" 
+				version="true"
+		/>		
+	</target>
+    				
+    <target name="javadoc_monitor">
+		<javadoc 
+				access="private" 
+				author="true" 
+				classpath="../Calendarium.Client.Swing/bin;../Calendarium.ServerFS/bin;../Calendarium.Base/bin" 
+				destdir="${doc.dir}/monitor" 
+				doctitle="Calendarium Monitor" 
+				nodeprecated="false" 
+				nodeprecatedlist="false" 
+				noindex="false" 
+				nonavbar="false" 
+				notree="false" 
+				packagenames="feiertaginit,monitor" 
+				source="1.6" 
+				sourcepath="${workspace.dir}/Calendarium.Monitor.Swing/src" 
+				splitindex="true" 
+				use="true" 
+				version="true"/>
+				 
+ 	</target>
+	
+    <target name="javadoc_server_mysql">
+		<javadoc 
+				access="private"
+				author="true" 
+				classpath="." 
+				destdir="${doc.dir}/server_mysql"  
+				doctitle="Calendarium Server MySQL" 
+				nodeprecated="false" 
+				nodeprecatedlist="false" 
+				noindex="false" 
+				nonavbar="false" 
+				notree="false" 
+				packagenames="basisklassen,server,server.mail,data.sets,data,dblayer,interfaces,server.remote,event" 
+				source="1.6" 
+				sourcepath="${workspace.dir}/Calendarium.ServerMySQL/src" 
+				splitindex="true" 
+				use="true" 
+				version="true"
+		/>
+ 	</target>
+</project>
+
+
