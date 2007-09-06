@@ -1,14 +1,52 @@
-<HTML>
-<HEAD>
-<TITLE>Das Softwaretechnik-Kalenderprojekt</TITLE>
-<BODY>
-<H1>Softwaretechnik-Kalenderprojekt</H1>
-<p>Ziel erläutern</p>
-Aufbau und Bestandteile aufzaehlen<BR>
-Links auf Web-Dokumentation<BR>
-bla bla
-</BODY>
-</HTML>
+<html>
+
+<head>
+<title>Das Softwaretechnik-Kalenderprojekt</title>
+
+<body>
+<h1>Softwaretechnik-Kalenderprojekt</h1>
+
+<p>Das SWTKal-Projekt dient der Verdeutlichung der vermittelten Vorlesungsinhalte an einer
+mittelgroßen (und damit nicht ganz trivialen) Fallstudie.
+Darüber hinaus stellt das Projekt gleichzeitig eine Standardumgebung für die direkte
+Anwendung der erlernten Inhalte im Rahmen von Praktikumsaufgaben dar.<p/>
+
+<p>Das gesamte Projekt ist in mehrere einzelne Eclipse-Projekte unterteilt,
+die sich z.T. gegenseitig benutzen und aufeinander verweisen:
+<ul>
+<li><b>SWTKal -</b>
+Dieses Eclipse-Projekt enthält u.a. die Dokumentation zum Gesamtprojekt
+und alle übergreifenden Aspekte dazu.</li>
+<li><b>SWTKal.Base -</b> Dieses Projekt enthält die anwendungsspezifischen Grundklassen,
+die Realisierung der anwendungsspezifischen Funktionalität sowie die Spezifikation
+wichtiger Schnittstellen als Interfaces oder abstrakte Klasse.
+Darüberhinaus werden beispielhaft einfachste Server-, Monitor- und
+Client-Realisierungen zur Verfügung gestellt.
+</li>
+<li><b>SWTKal.Server.mySQL -</b> enthält eine Server-Realisierung auf der Basis
+des Open-Source-DBMS mySQL.</li>
+<li><b>SWTKal.Swing -</b> Dieses Projekt und die beiden Folgeprojekte realisieren
+eine einfache Swing-basierte Benutzungsoberfläche zum SWT-Kalenderprojekt,
+die im Wesentlichen unverändert und nur leicht angepasst aus dem Calendarium-Projekt
+zum UML-Lehrbuch Hitz et al. übernommen wurde.
+Hier sind allgemeine Swing-Basisklassen realisiert, die sowohl in der Monitor- als
+auch in der Client-Anwendung genutzt werden.</li>
+<li><b>SWTKal.Swing.Client</b></li>
+<li><b>SWTKal.Swing.Monitor</b></li>
+</ul>
+</p>
+
+<p>Einige hilfreiche Links zum weiteren Einstieg ins Kalenderprojekt:
+<ul>
+<li><a href="unknown">Lastenheft (auszugsweise)</a></li>
+<li><a href="unknown">Pflichtenheft (auszugsweise)</a></li>
+<li><a href="./documentation/entwurf.html">Entwurfsdokument</a></li>
+<li><a href="unknown">Javadoc API-Dokumentation</a></li>
+</ul>
+</p>
+
+</body>
+</html>
 
 
 
