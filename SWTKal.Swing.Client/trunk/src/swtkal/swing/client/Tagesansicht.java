@@ -1,6 +1,5 @@
 package swtkal.swing.client;
-
-// TODO viele dieser hilfsklassen ins swing-paket verschieben
+//Achtung: im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.awt.*;
 import java.awt.event.*;
@@ -24,7 +23,7 @@ import swtkal.swing.elements.MonatsObjekt;
 
 public class Tagesansicht extends Ansicht
 {
-// TODO Kontextmenü für Einträge erscheint erst ab dem zweiten Klick	
+// FIXME Kontextmenü für Einträge erscheint erst ab dem zweiten Klick	
 	protected SwingClient client;
 
 	// Panels
@@ -121,7 +120,7 @@ public class Tagesansicht extends Ansicht
 		right.setLayout(new BorderLayout(0, 20));
 		
 		// MonatsPanel
-//	 TODO MtPaneYears noch einlesen
+//	 TODO MtPaneYears aus Properties einlesen
 //		String intervall = ((SwingClient) parentFrame).getProperty("MtPaneYears");
 		String intervall = "-1 .. +5";
 		mtPanel = new MonatsObjekt(bgnAnsicht, intervall);
@@ -139,6 +138,7 @@ public class Tagesansicht extends Ansicht
 		setDateLabelSize(new Dimension(100, 25));
 	}
 
+	@SuppressWarnings("unchecked")
 	private void loadDataObjects()
 	{
 	// Vector toDo = Data.toDo
@@ -151,7 +151,6 @@ public class Tagesansicht extends Ansicht
 		}
 		catch (TerminException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	//
@@ -215,7 +214,7 @@ public class Tagesansicht extends Ansicht
 	}
 
 //	public void updateTermine(Termin t)
-//	// TODO wieso spielt der Parameter t keine Rolle?
+//	// wieso spielt der Parameter t keine Rolle?
 //	{
 //		splitPane.remove(terminListe.getGUI());
 //		
@@ -226,7 +225,6 @@ public class Tagesansicht extends Ansicht
 //		}
 //		catch (TerminException e)
 //		{
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		terminListe = new TerminListeObjekt(this, bgnAnsicht, termine);

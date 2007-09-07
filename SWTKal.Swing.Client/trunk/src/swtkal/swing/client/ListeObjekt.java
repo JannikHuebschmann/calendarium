@@ -1,6 +1,5 @@
 package swtkal.swing.client;
-
-// TODO Achtung: im Wesentlichen unveraendert aus Calendarium uebernommen
+// Achtung: im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.awt.*;
 import javax.swing.*;

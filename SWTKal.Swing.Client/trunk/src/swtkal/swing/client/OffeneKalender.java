@@ -1,6 +1,5 @@
 package swtkal.swing.client;
-
-// TODO Achtung: im Wesentlichen unveraendert aus Calendarium uebernommen
+// Achtung: im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.util.*;
 import swtkal.domain.Person;
@@ -13,8 +12,10 @@ public class OffeneKalender
 {
 //	private Hashtable personenTable;
 
+	@SuppressWarnings("unchecked")
 	private Vector personenListe;
 
+	@SuppressWarnings("unchecked")
 	public OffeneKalender()
 	{
 //		personenTable = new Hashtable();
@@ -26,6 +27,7 @@ public class OffeneKalender
 	// Funktionen //
 	// ////////////////////////////////////////////////////////////////////////////////////
 
+	@SuppressWarnings("unchecked")
 	public Enumeration getEnumeration()
 	{
 		return personenListe.elements();
@@ -53,6 +55,7 @@ public class OffeneKalender
 		return 0;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Vector getPersonenListe()
 	{
 		return personenListe;

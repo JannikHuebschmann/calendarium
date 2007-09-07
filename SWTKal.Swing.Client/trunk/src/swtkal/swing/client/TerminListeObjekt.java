@@ -1,6 +1,5 @@
 package swtkal.swing.client;
-
-// TODO Achtung: im Wesentlichen unveraendert aus Calendarium uebernommen
+//Achtung: im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.awt.*;
 import javax.swing.*;
@@ -24,6 +23,7 @@ class TerminListeObjekt extends ListeObjekt
 	// Beschriftung
 	private boolean small;
 
+	@SuppressWarnings("unchecked")
 	TerminListeObjekt(Ansicht s, Datum d, Vector termine)
 	{
 		super(s, d);
@@ -42,6 +42,7 @@ class TerminListeObjekt extends ListeObjekt
 		HOUR_HEIGHT = 36;
 	}
 
+	@SuppressWarnings("unchecked")
 	void create(Vector termine)
 	{
 		TerminScrollListe terminListe;
@@ -70,6 +71,7 @@ class TerminListeObjekt extends ListeObjekt
 		gui.add("Center", terminListe);
 	}
 
+	@SuppressWarnings("unchecked")
 	void addToGrid(Vector termine, int index, long grid[][])
 	{
 		int bgnMin, bgnHour;
@@ -244,6 +246,7 @@ class TerminListeObjekt extends ListeObjekt
 			create();
 		}
 
+		@SuppressWarnings("unchecked")
 		TerminScrollListe(Vector termine, long grid[][])
 		{
 			create(grid, termine);
@@ -369,6 +372,7 @@ class TerminListeObjekt extends ListeObjekt
 			setViewportView(mControlPane);
 		}
 
+		@SuppressWarnings("unchecked")
 		void create(long grid[][], Vector termine)
 		{
 			int bWidth, bHeight;

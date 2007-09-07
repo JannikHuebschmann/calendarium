@@ -1,6 +1,5 @@
 package swtkal.swing.client;
-
-// TODO Achtung: im Wesentlichen unveraendert aus Calendarium uebernommen
+// Achtung: im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import swtkal.domain.Datum;
 import swtkal.swing.elements.PanelMitPopup;

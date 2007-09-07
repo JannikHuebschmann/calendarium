@@ -1,5 +1,5 @@
 package swtkal.swing.client;
-// TODO Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
+// Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 
 //import java.awt.SystemColor;
 import java.awt.event.*;
@@ -103,12 +103,11 @@ public class EditTerminControl implements ActionListener
 		}
 		catch (TerminException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return true;
-// TODO mögliche Konflikte verarbeiten		
+
 //		Vector konflikte = Data.termine.getKonflikte(termin);
 //
 //		if (konflikte.size() == 0)

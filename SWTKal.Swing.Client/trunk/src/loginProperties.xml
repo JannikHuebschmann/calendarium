@@ -3,7 +3,7 @@
 <properties>
 <comment>--- Client Login Settings ---</comment>
 <entry key="RMIServerPort">2005</entry>
-<entry key="RMIServerName">dimensionbc</entry>
+<entry key="RMIServerName">localhost</entry>
 <entry key="BrowserPath"></entry>
 <entry key="MtPaneYears">-1 .. +5</entry>
 </properties>

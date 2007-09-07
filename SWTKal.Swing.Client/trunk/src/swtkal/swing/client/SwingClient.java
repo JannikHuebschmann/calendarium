@@ -1,6 +1,6 @@
 package swtkal.swing.client;
-
-// TODO image directory sollte nicht zweimal vorhanden sein
+//Achtung: im Wesentlichen unveraendert aus Calendarium uebernommen
+// FIXME image directory sollte nicht zweimal vorhanden sein
 
 import java.awt.*;
 import java.awt.event.*;
@@ -36,8 +36,7 @@ public class SwingClient extends Client implements ActionListener
 
 	protected SwingClient()
 	{
-		// TODO konkreten Server ueber ein Property bestimmen
-		server = swtkal.server.SimpleServer.getServer();
+		server = swtkal.server.Server.getServer();
 		server.startServer();
 		
 		// Look & Feel
@@ -64,7 +63,7 @@ public class SwingClient extends Client implements ActionListener
 			System.exit(0);
 		}
 		
-// TODO vorlaeufige Initialisierung mit 2 Terminen
+// TODO Initialisierung in den SimpleServer verschieben
 		Person p;
 		try
 		{
@@ -76,8 +75,8 @@ public class SwingClient extends Client implements ActionListener
 		}
 		catch (Exception e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.exit(0);
 		}
 		
 		frame.setSize(INITIAL_WIDTH, INITIAL_HEIGHT);
