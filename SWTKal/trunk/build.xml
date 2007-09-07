@@ -17,8 +17,7 @@
 	<!-- ================================= 
           target: default              
          ================================= -->
-    <target name="default" depends="info, generate.javadoc">
-    	<ant dir="../SWTKal.Base" inheritall="false"></ant>
+    <target name="default" depends="info, collect.javadoc">
     </target>
 
     <!-- ================================= 
@@ -42,27 +41,12 @@
     </target>
 
 	<!-- ================================= 
-          target: generate.javadoc              
+          target: collect.javadoc              
          ================================= -->
-    <target name="generate.javadoc" depends="deploy.dirs"
-	        description="Erstellt API-Beschreibung">
-		<echo>muss noch angepasst werden!</echo>    	
-<!--		<javadoc destdir="${javadoc.dir}">
-			<fileset dir="src" />
-			<fileset dir="../Calendarium.Client.Swing/src" />
-			<fileset dir="../Calendarium.Monitor.Swing/src" />
-			<fileset dir="../Calendarium.ServerFS/src" />
-			
-			<group title="Base Packages" packages="basisklassen*:data*:dblayer*:event*:interfaces*" />
-			<group title="Client Packages" packages="client*" />
-			<group title="Monitor Packages" packages="monitor*" />
-			<group title="Server Packages" packages="server*" />
-			
-			<doctitle><![CDATA[<h1>Calendarium API</h1>]]></doctitle>
-			<header>Calendarium Fallstudie SWT-Vorlesung im SS 2007</header>
-			<footer>Calendarium Fallstudie SWT-Vorlesung im SS 2007</footer>
-		</javadoc>
--->		
+    <target name="collect.javadoc" depends="deploy.dirs"
+	        description="Fasst die API-Beschreibungen zusammen">
+    	<ant dir="../SWTKal.Base" inheritall="false"></ant>
+    	<copy todir="${javadoc.dir}/base"><fileset dir="../SWTKal.Base/deploy/javadoc"/></copy>
     </target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
@@ -70,6 +54,7 @@
          - - - - - - - - - - - - - - - - - -->
     <target name="deploy.dirs">
     	<mkdir dir="${javadoc.dir}"/>
+    	<mkdir dir="${javadoc.dir}/base"/>
     	<!-- <mkdir dir="${client.dir}"/> -->
     </target>
 
