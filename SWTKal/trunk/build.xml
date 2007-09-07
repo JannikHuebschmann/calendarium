@@ -5,22 +5,20 @@
                    
      ====================================================================== -->
 
-<project name="SWTKal" default="info">
+<project name="SWTKal" default="default">
     <description>
-            Fallstudie zur SWT I Vorlesung
+            SWT-Kalender als Fallstudie zur SWT I Vorlesung
     </description>
 	
 	<property name="javadoc.dir" value="documentation/javadoc"/>
-	<property name="client.dir" value="deploy.client"/>
+<!--	<property name="client.dir" value="deploy.client"/> -->
 
 
-    <!-- ================================= 
-          target: info              
+	<!-- ================================= 
+          target: default              
          ================================= -->
-    <target name="info" description="Buildfile SWT-Kalender zur SWT I Vorlesung">
-    	<echo>Buildfile zur SWT-Kalender-Fallstudie</echo>
-    	<echo>${ant.version}</echo>
-    	<echo>Java Version ${java.version}</echo>
+    <target name="default" depends="info, generate.javadoc">
+    	<ant dir="../SWTKal.Base"></ant>
     </target>
 
     <!-- ================================= 
@@ -72,7 +70,16 @@
          - - - - - - - - - - - - - - - - - -->
     <target name="deploy.dirs">
     	<mkdir dir="${javadoc.dir}"/>
-    	<mkdir dir="${client.dir}"/>
+    	<!-- <mkdir dir="${client.dir}"/> -->
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: info                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="info">
+    	<echo>Buildfile zur SWT-Kalender-Fallstudie</echo>
+    	<echo>${ant.version}</echo>
+    	<echo>Java Version ${java.version}</echo>
     </target>
 
 </project>
