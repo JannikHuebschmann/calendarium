@@ -1,4 +1,5 @@
 package swtkal.swing.monitor;
+//Achtung: Klasse in wesentlichen Teilen aus Calendarium uebernommen
 
 import java.awt.*;
 import java.awt.event.*;
@@ -11,7 +12,6 @@ import swtkal.swing.elements.person.EditUserControl;
 
 public class SwingMonitor extends Monitor implements ActionListener
 {
-
 	public static void main(String[] args)
 	{
 		new SwingMonitor().frame.setVisible(true);
@@ -27,8 +27,7 @@ public class SwingMonitor extends Monitor implements ActionListener
 
 	protected SwingMonitor()
 	{
-		// TODO konkreten Server ueber ein Property bestimmen
-		server = swtkal.server.SimpleServer.getServer();
+		server = swtkal.server.Server.getServer();
 		server.startServer();
 
 		// Look & Feel
