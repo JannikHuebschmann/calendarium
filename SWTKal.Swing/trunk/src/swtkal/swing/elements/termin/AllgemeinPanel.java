@@ -1,5 +1,5 @@
 package swtkal.swing.elements.termin;
-//TODO Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
+// Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.awt.*;
 import java.awt.event.*;
@@ -7,10 +7,10 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.EventListenerList;
 
-import java.util.Enumeration;
+//import java.util.Enumeration;
 
 import swtkal.domain.Termin;
-import swtkal.domain.ToDo;
+//import swtkal.domain.ToDo;
 //import swtkal.domain.EintragsTyp;
 import swtkal.swing.ListenerForActions;
 import swtkal.swing.elements.ButtonPanel;

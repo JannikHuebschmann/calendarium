@@ -1,12 +1,12 @@
 package swtkal.swing.elements.termin;
-//TODO Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
+// Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import java.util.*;
+//import java.util.*;
 
 //import swtkal.domain.EintragsTyp;
 //import client.gui.*;
@@ -121,7 +121,6 @@ public class EditEintrag extends ListenerForActions implements ChangeListener, I
 	// ///////////////////////////////////////////////////////////////////////////////////////
 	class InternalFrameEventHandler extends InternalFrameAdapter
 	{
-// TODO InternalFrameEventHandler noch ausprogrammieren		
 		public void internalFrameClosed(InternalFrameEvent e)
 		{
 //			allgemeinPane.datePanel[0].closeCalendar();

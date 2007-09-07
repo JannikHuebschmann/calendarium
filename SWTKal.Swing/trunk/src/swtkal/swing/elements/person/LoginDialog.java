@@ -1,5 +1,5 @@
 package swtkal.swing.elements.person;
-// TODO LoginDialog noch vollständig überarbeiten
+// Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.awt.*;
 import java.awt.event.*;
@@ -15,8 +15,6 @@ import swtkal.exceptions.PersonException;
 import swtkal.server.Server;
 import swtkal.swing.elements.ButtonPanel;
 
-// TODO LoginDialog als LoginDialog zu swing.elements? properties=?
-// TODO Login-Person irgendwo ablegen
 public class LoginDialog implements ActionListener
 {
 	protected JFrame parentFrame;

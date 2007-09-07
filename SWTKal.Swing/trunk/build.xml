@@ -1,66 +1,29 @@
 <?xml version="1.0"?>
 <!-- ====================================================================== 
 
-     Buildfile Calendarium-Fallstudie zur SWT I Vorlesung
+     Buildfile zum SWTKal.Swing Teilprojekt
                    
      ====================================================================== -->
 
-<project name="Calendarium" default="default">
-    <description>
-            Fallstudie zur SWT I Vorlesung
-    </description>
+<project name="SWTKal.Swing" default="default">
 	
-	<property name="javadoc.dir" value="../Calendarium.Documentation/deploy.javadoc"/>
-	<property name="client.dir" value="deploy.client"/>
+	<property name="javadoc.dir" value="deploy/javadoc"/>
+	<property name="deploy.dir" value="deploy/jars"/>
 
 
     <!-- ================================= 
           target: default              
          ================================= -->
-    <target name="default" description="Buildfile Calendarium zur SWT I Vorlesung">
-    	<echo>Buildfile zur Calendarium Fallstudie</echo>
-    	<echo>${ant.version}</echo>
-    	<echo>Java Version ${java.version}</echo>
-    </target>
-
-    <!-- ================================= 
-          target: deploy.client              
-         ================================= -->
-    <target name="deploy.client" depends="deploy.dirs"
-	        description="stellt ausführbaren und verteilbaren Client zur Verfuegung">
-    	<copy todir="${client.dir}"><fileset dir="bin" excludes=".svn"/></copy>
-    	<copy todir="${client.dir}"><fileset dir="../Calendarium.Client.Swing/bin" excludes=".svn"/></copy>
-    	<copy todir="${client.dir}"><fileset dir="../Calendarium.Client.Swing" includes="*.bat"/></copy>
-    </target>
-
-    <!-- ================================= 
-          target: deploy.javadoc              
-         ================================= -->
-    <target name="deploy.javadoc" depends="deploy.dirs"
-	        description="erstellt Calendarium-javadoc-API-Beschreibung">
-		<javadoc destdir="${javadoc.dir}">
-			<fileset dir="src" />
-			<fileset dir="../Calendarium.Client.Swing/src" />
-			<fileset dir="../Calendarium.Monitor.Swing/src" />
-			<fileset dir="../Calendarium.ServerFS/src" />
-			
-			<group title="Base Packages" packages="basisklassen*:data*:dblayer*:event*:interfaces*" />
-			<group title="Client Packages" packages="client*" />
-			<group title="Monitor Packages" packages="monitor*" />
-			<group title="Server Packages" packages="server*" />
-			
-			<doctitle><![CDATA[<h1>Calendarium API</h1>]]></doctitle>
-			<header>Calendarium Fallstudie SWT-Vorlesung im SS 2007</header>
-			<footer>Calendarium Fallstudie SWT-Vorlesung im SS 2007</footer>
-		</javadoc>
-    </target>
+    <target name="default">
+    	<echo>Buildfile SWTKal.Swing-Teilprojekt</echo>
+     </target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
           target: deploy.dirs                      
          - - - - - - - - - - - - - - - - - -->
     <target name="deploy.dirs">
     	<mkdir dir="${javadoc.dir}"/>
-    	<mkdir dir="${client.dir}"/>
+    	<mkdir dir="${deploy.dir}"/>
     </target>
 
 </project>

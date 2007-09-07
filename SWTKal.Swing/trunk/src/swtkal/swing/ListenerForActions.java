@@ -1,5 +1,5 @@
-package swtkal.swing; //
-//////////////////////////
+package swtkal.swing;
+// Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import javax.swing.event.*;
 import java.awt.event.*;

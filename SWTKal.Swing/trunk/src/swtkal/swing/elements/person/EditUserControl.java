@@ -1,4 +1,5 @@
 package swtkal.swing.elements.person;
+// Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.awt.event.*;
 import javax.swing.*;
@@ -79,7 +80,7 @@ public class EditUserControl implements ActionListener
 		}
 		catch (PersonException e)
 		{
-			// TODO Exception Handling und Passwort-Uebergabe fehlen noch
+			// FIXME Exception Handling und Passwort-Uebergabe fehlen noch
 			e.printStackTrace();
 		}
 	}
@@ -94,7 +95,7 @@ public class EditUserControl implements ActionListener
 		}
 		catch (PersonException e)
 		{
-			// TODO Auto-generated catch block und Passwort fehlt noch
+			// FIXME Fehlerbehandlung und Passwort-Update fehlt noch
 			e.printStackTrace();
 		}
 	}
@@ -109,7 +110,7 @@ public class EditUserControl implements ActionListener
 		}
 		catch (PersonException e)
 		{
-			// TODO vernünftiges Exception Handling fehlt noch
+			// vernünftige Fehlerbehandlung fehlt noch
 			e.printStackTrace();
 		}
 	}

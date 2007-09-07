@@ -1,4 +1,5 @@
 package swtkal.swing.elements.person;
+// Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.awt.*;
 import javax.swing.*;

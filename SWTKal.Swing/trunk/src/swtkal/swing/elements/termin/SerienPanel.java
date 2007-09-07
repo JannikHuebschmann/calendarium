@@ -1,8 +1,8 @@
 package swtkal.swing.elements.termin;
-//TODO Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
+// Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import javax.swing.*;
-import javax.swing.border.*;
+//import javax.swing.border.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -26,9 +26,9 @@ class SerienPanel extends ListenerForActions // implements data.Shared
 	// graphical Representation
 	private JPanel gui = new JPanel();
 
-	// ParentFrame
-	private JFrame parentFrame;
-
+//	// ParentFrame
+//	private JFrame parentFrame;
+//
 //	// Beginn-, Endedatum
 //	private DatePanel[] datePanel = new DatePanel[2];
 //
@@ -53,7 +53,7 @@ class SerienPanel extends ListenerForActions // implements data.Shared
 	// damit enddatum mittels kalender (icon) einstellbar ist
 	SerienPanel(JFrame f)
 	{
-		parentFrame = f;
+//		parentFrame = f;
 		gui.setLayout(new BorderLayout());
 		create();
 	}

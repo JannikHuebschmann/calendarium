@@ -1,5 +1,5 @@
 package swtkal.swing.elements.termin;
-//TODO Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
+// Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.awt.*;
 import java.awt.event.*;
@@ -91,7 +91,7 @@ class DatePanel implements ActionListener
 		{
 			if (mtPanel == null)
 			{
-// TODO MtPaneYears ordentlich übergeben?				
+// TODO MtPaneYears ordentlich aus Properties übergeben?				
 //				String intervall = ((Client) parentFrame)
 //						.getProperty("MtPaneYears");
 String intervall ="-1 .. +5";

@@ -1,6 +1,5 @@
 package swtkal.swing.elements;
-
-// Achtung: im Wesentlichen unveraendert aus Calendarium uebernommen
+//Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.awt.event.*;
 import javax.swing.*;

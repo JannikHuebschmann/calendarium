@@ -1,63 +1,62 @@
 package swtkal.swing.elements.termin;
-
-//TODO Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
+// Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.tree.*;
-import javax.swing.table.*;
+//import javax.swing.tree.*;
+//import javax.swing.table.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
 
-import java.util.*;
+//import java.util.*;
 
-import swtkal.domain.*;
-import swtkal.swing.elements.*;
+//import swtkal.domain.*;
+//import swtkal.swing.elements.*;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 // TeilnehmerPanel // TeilnehmerPanel // TeilnehmerPanel // TeilnehmerPanel // TeilnehmerPanel //
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 public class TeilnehmerPanel // extends BasicSelection
-// TODO BasicSelection noch integrieren
+// BasicSelection noch integrieren
 {
 	// Teilnehmer
-	private Vector teilnehmerListe = null;
+//	private Vector teilnehmerListe = null;
 
 	// parentFrame
-	private JFrame parentFrame;
+//	private JFrame parentFrame;
 
 	// graphical Representation
 	private JPanel gui = new JPanel();
 
 	// Checkbox
-	private boolean chkState[][] = { { true, true }, { true, true },
-			{ true, true } };
-
-	// Columns
-	private boolean column[] = { true, true, true };
-
-	// ColumnModel
-	private DefaultTableColumnModel gruppenColumnModel;
-
-	private DefaultTableColumnModel personenColumnModel;
-
-	private TableColumn gruppenCol[] = new TableColumn[3];
-
-	private TableColumn personenCol[] = new TableColumn[3];
-
-	// Buttons
-	private ButtonPanel buttons;
-
+//	private boolean chkState[][] = { { true, true }, { true, true },
+//			{ true, true } };
+//
+//	// Columns
+//	private boolean column[] = { true, true, true };
+//
+//	// ColumnModel
+//	private DefaultTableColumnModel gruppenColumnModel;
+//
+//	private DefaultTableColumnModel personenColumnModel;
+//
+//	private TableColumn gruppenCol[] = new TableColumn[3];
+//
+//	private TableColumn personenCol[] = new TableColumn[3];
+//
+//	// Buttons
+//	private ButtonPanel buttons;
+//
 //	// Recht
 //	private Recht recht = new Recht(EINTRAGSRECHT);
-
-	// No Rights
-	private Vector failedGruppen = null;
-
-	private Vector failedPersonen = null;
-
+//
+//	// No Rights
+//	private Vector failedGruppen = null;
+//
+//	private Vector failedPersonen = null;
+//
 	// Events
 	private EventListenerList mActionListenerList;
 
@@ -66,7 +65,7 @@ public class TeilnehmerPanel // extends BasicSelection
 //		super(204, new String[] { "Gruppen/Benachrichtigungen",
 //				"Personen/Benachrichtigungen" });
 //
-		parentFrame = f;
+//		parentFrame = f;
 		mActionListenerList = new EventListenerList();
 
 //		adjustTable();

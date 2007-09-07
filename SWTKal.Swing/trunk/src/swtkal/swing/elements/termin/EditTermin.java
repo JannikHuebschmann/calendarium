@@ -1,9 +1,9 @@
 package swtkal.swing.elements.termin;
-// TODO Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
+// Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.event.*;
+//import javax.swing.event.*;
 
 import swtkal.domain.Termin;
 //import swtkal.domain.Serie;
