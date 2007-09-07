@@ -9,6 +9,11 @@ import swtkal.exceptions.PersonException;
 import swtkal.exceptions.TerminException;
 import swtkal.server.Server;
 
+/**
+ * Class SimpleServer is a single-user, memory-based Server that can be
+ * used to easily test the SWTKal application.
+ *
+ */
 public class SimpleServer extends Server
 {
 	protected Map<String, Person> personen;
@@ -17,7 +22,8 @@ public class SimpleServer extends Server
 		// speichert zu jedem Personenkürzel-String eine Map
 		// diese Map liefert zu jedem Datums-String einen Vector
 		// dieser Vector enthaelt alle Termine zur Person am konkreten Datum
-	
+
+// TODO weitere Javadoc-Kommentare (evtl. aus Server oder interfaces) einfügen	
 	protected SimpleServer()
 	{
 		personen = new HashMap<String, Person>();
@@ -35,31 +41,6 @@ public class SimpleServer extends Server
 		}
 	}
 	
-	public void startServer()
-	{
-		if (!isServerRunning)
-		{
-			System.out.println("Server starten ...");
-			// TODO Daten aus Datei einlesen
-			isServerRunning = true;
-		}
-	}
-
-	public void stopServer()
-	{
-		if (isServerRunning)
-		{
-			System.out.println("Server stoppen ...");
-			// TODO Daten in Datei wegschreiben
-			isServerRunning = false;
-		}
-	}
-	
-	public boolean isServerRunning()
-	{
-		return isServerRunning;
-	}
-
 	public void insert(Person p, String passwort) throws PersonException
 	{
 		String kuerzel = p.getKuerzel();
@@ -105,20 +86,18 @@ public class SimpleServer extends Server
 
 	public Vector<Person> getOrderedVector()
 	{
-		// TODO Vector muss noch sortiert werden
+// TODO Vector muss noch sortiert werden (wonach eigentlich?)
 		return new Vector<Person>(personen.values());
 	}
 
 	public void update(Person p) throws PersonException
 	{
-	// TODO Auto-generated method stub
-
+// TODO Auto-generated method stub
 	}
 
 	public void update(Person p, String passwort) throws PersonException
 	{
 	// TODO Auto-generated method stub
-
 	}
 
 	public void insert(Termin termin) throws TerminException
@@ -150,8 +129,8 @@ public class SimpleServer extends Server
 	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person person)
 			throws TerminException
 	{
-		// TODO getTermineVonBis ausprogrammieren insbesondere der bis-Teil
-		// durch die einzelnen Tage laufen und Termine aufsammeln
+// FIXME getTermineVonBis ausprogrammieren insbesondere der bis-Teil
+// durch die einzelnen Tage laufen und Termine aufsammeln
 		String kuerzel = person.getKuerzel();
 		if (!server.contains(kuerzel))
 			throw new TerminException("Besitzer des Termins ist unbekannt!");
@@ -171,12 +150,12 @@ public class SimpleServer extends Server
 
 	public void delete(Termin termin) throws TerminException
 	{
-		// TODO delete-Implementierung noch überprüfen
-		// equal-test auf Termine im Vector stimmig?
+// XXX delete-Implementierung noch überprüfen
+// equal-test auf Termine im Vector stimmig?
 		String kuerzel = termin.getBesitzer().getKuerzel();
 		String datum = termin.getBeginn().getDate();
 		
-		Vector terminVector = termine.get(kuerzel).get(datum);
+		Vector<Termin> terminVector = termine.get(kuerzel).get(datum);
 		terminVector.remove(termin);
 	}
 }

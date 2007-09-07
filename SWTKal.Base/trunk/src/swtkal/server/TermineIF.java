@@ -7,32 +7,38 @@ import swtkal.exceptions.TerminException;
 
 import java.util.Vector;
 
+/**
+ * Interface TermineIF specifies those services of the server interface that
+ * deal with Termin objects.
+ *
+ */
 public interface TermineIF
 {
-	/** einen neuen Termin anlegen
-	 * 
-	 * @param Termin termin
+	/**
+	 * Inserts a Termin object into the server.
+	 * @param termin Termin
 	 * @throws TerminException
 	 */
 	public void insert(Termin termin) throws TerminException;
 
-	/** Termine einer Person fuer einen Zeitraum ausgeben
-	 * 
-	 * @param Datum vonDat
-	 * @param Datum bisDat
-	 * @param Person p
+	/**
+	 * Finds all appointments of a person for a given period of time.
+	 * @param vonDat Datum 
+	 * @param bisDat Datum 
+	 * @param p Person 
 	 * @return Vector<Termin>
 	 * @throws TerminException
 	 */
 	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person p) throws TerminException;
 
-	/** Termin löschen
-	 * 
+	/**
+	 * Deletes a Termin object from the server.
 	 * @param termin
 	 * @throws TerminException
 	 */
 	public void delete(Termin termin) throws TerminException;
 
+// weitere Methoden, die evtl. beim weiteren Ausbau noch benötigt werden	
 //	/** Personen mit Terminen
 //	 * 
 //	 * @param vonDat

@@ -13,5 +13,4 @@ public class PersonException extends SWTKalException
 	{
 		super(message);
 	}
-
 }

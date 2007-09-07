@@ -1,5 +1,9 @@
 package swtkal.domain;
 
+/**
+ * Superclass with common properties for Termin and ToDo
+ *
+ */
 public class Eintrag
 {
 	protected String kurzText = "", langText = "";

@@ -1,5 +1,9 @@
 package swtkal.domain;
 
+/**
+ * Class Person represents users of SWTKal
+ *
+ */
 public class Person
 {
 	protected String vorname, nachname, kuerzel;

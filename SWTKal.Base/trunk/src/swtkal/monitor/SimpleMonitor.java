@@ -6,21 +6,47 @@ import java.util.Vector;
 import swtkal.domain.Person;
 import swtkal.exceptions.PersonException;
 
+/**
+ * Class SimpleMonitor is a single-user-ASCII-Monitor that can be
+ * used to test the SimpleServer implementation.
+ *
+ */
 public class SimpleMonitor extends Monitor
 {
-	/**
-	 * @param args
-	 * @throws IOException 
-	 */
+	protected static SimpleMonitor monitor = new SimpleMonitor();
+
 	public static void main(String[] args) throws IOException
 	{
-		SimpleMonitor m = new SimpleMonitor();
-		System.out.println("SimpleMonitor: bitte geben Sie Kommandos oder \"help\" ein");
-		m.processCommands();
+		monitor.connectToServer();
+		monitor.processCommands();
+		monitor.disconnectFromServer();
+	}
+
+	protected void connectToServer()
+	{
+		System.out.println("Server initialisieren ...");
+		server.startServer();
+		try
+		{
+			user = server.find("ADM");
+		}
+		catch (PersonException e)
+		{
+			e.printStackTrace();
+			System.exit(0);
+		}
+	}
+
+	protected void disconnectFromServer()
+	{
+		System.out.println("Server beenden ...");
+		server.stopServer();
 	}
 
 	protected void processCommands() throws IOException
 	{
+		System.out.println("bitte geben Sie Kommandos oder \"help\" ein");
+
 		while (true)
 		{
 			System.out.print("> ");
@@ -49,6 +75,7 @@ public class SimpleMonitor extends Monitor
 
 	protected void processCommand(String command)
 	{
+// TODO SimpleMonitor weiter ausbauen!		
 		if (command.startsWith("help"))
 		{
 			help();
@@ -86,7 +113,8 @@ public class SimpleMonitor extends Monitor
 	{
 		Person p;
 		String kuerzel;
-		// TODO Personendaten interaktiv einlesen
+		// create a new person and insert it
+		// details should be read in from System.in!!!
 		p = new Person("Vorname","Nachname","kuerzel");
 		kuerzel = p.getKuerzel();
 		try
@@ -102,7 +130,8 @@ public class SimpleMonitor extends Monitor
 	protected void delperson()
 	{
 		Person p;
-		// TODO Personendaten interaktiv einlesen
+		// deletes a default person
+		// details should be read in from System.in!!!
 		p = new Person("Vorname","Nachname","kuerzel");
 		try
 		{

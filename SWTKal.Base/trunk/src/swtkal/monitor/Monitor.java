@@ -1,13 +1,11 @@
 package swtkal.monitor;
 
-import swtkal.server.Server;
+import swtkal.client.Client;
 
-public abstract class Monitor
+/**
+ * Abstract class Monitor specifies the required monitor interface.
+ * 
+ */
+public abstract class Monitor extends Client
 {
-	protected Server server = swtkal.server.Server.getServer();;
-	
-	public Server getServer()
-	{
-		return server;
-	}
 }

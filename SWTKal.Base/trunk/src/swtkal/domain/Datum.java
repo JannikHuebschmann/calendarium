@@ -1,6 +1,7 @@
 package swtkal.domain;
 
-// TODO Achtung: diese Klasse wurde noch komplett aus der Calendarium-Anwendung übernommen
+// diese Klasse wurde im Wesentlichen unverändert aus dem Calendarium-Projekt übernommen
+// FIXME Klasse Datum enthält noch einige Fehler und muss überarbeitet werden
 
 import java.util.*;
 import java.io.Serializable;

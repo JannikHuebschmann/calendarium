@@ -1,6 +1,6 @@
 package swtkal.domain;
 
-// TODO Achtung: diese Klasse wurde im Wesentlichen aus Calendarium ungeprueft uebernomme
+// Achtung: diese Klasse wurde im Wesentlichen aus Calendarium ungeprueft uebernomme
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

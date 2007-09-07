@@ -13,5 +13,4 @@ public class TerminException extends SWTKalException
 	{
 		super(message);
 	}
-
 }

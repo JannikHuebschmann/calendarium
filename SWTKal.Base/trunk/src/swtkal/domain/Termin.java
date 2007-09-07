@@ -2,6 +2,10 @@ package swtkal.domain;
 
 import java.util.Vector;
 
+/**
+ * Class Termin represents appointments that are managed by the calendar server.
+ *
+ */
 public class Termin extends Eintrag
 {
 	protected Datum beginn;
