@@ -147,6 +147,7 @@ public class SelectListEntry implements ActionListener, ListSelectionListener,
 		return scrollPane;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void createModel(Server server)
 	{
 		mModel = new DefaultListModel();
@@ -180,6 +181,7 @@ public class SelectListEntry implements ActionListener, ListSelectionListener,
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void removePerson(String kuerzel)
 	{
 		Enumeration enumer = mModel.elements();
@@ -192,6 +194,7 @@ public class SelectListEntry implements ActionListener, ListSelectionListener,
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private Person contains(String kuerzel)
 	{
 		Enumeration enumer = mModel.elements();
