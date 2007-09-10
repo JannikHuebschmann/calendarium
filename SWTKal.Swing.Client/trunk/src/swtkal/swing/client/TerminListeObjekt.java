@@ -48,10 +48,11 @@ class TerminListeObjekt extends ListeObjekt
 		TerminScrollListe terminListe;
 
 		if (termine != null && termine.size() > 0)
-		{
-			long grid[][] = new long[48][];
+		{	// gefüllte TerminScrollListe
+			Termin [][] grid = new Termin[48][];
 			int index = 0;
 
+			// Grid mit den Terminen aufbauen
 			while (index < termine.size())
 			{
 				addToGrid(termine, index, grid);
@@ -60,7 +61,7 @@ class TerminListeObjekt extends ListeObjekt
 			terminListe = new TerminScrollListe(termine, grid);
 		}
 		else
-		{
+		{  // leere TerminScrollListe
 			terminListe = new TerminScrollListe();
 		}
 
@@ -72,7 +73,7 @@ class TerminListeObjekt extends ListeObjekt
 	}
 
 	@SuppressWarnings("unchecked")
-	void addToGrid(Vector termine, int index, long grid[][])
+	void addToGrid(Vector termine, int index, Termin[][] grid)
 	{
 		int bgnMin, bgnHour;
 		int endMin, endHour;
@@ -90,14 +91,7 @@ class TerminListeObjekt extends ListeObjekt
 		}
 
 		Termin termin = (Termin) termine.elementAt(index);
-// Achtung: werden hier und weiter unten die TerminIDs benoetigt?		
-// das waren ObjektIDs fuer persistente Objekte
-// hier merkt man sich, welche Termine in welchem Zeitraum dargestellt werden müssen
-// d.h. das muss unten bei TerminScrollListe noch einmal benötigt werden
-// im Moment wird immer der Default-Wert 1 genutzt		
-		// long id = termin.getID();
-		long id = 1;	
-		
+
 		if (termin.getBeginn().isGreater(date) >= 0)
 		{
 			bgnHour = termin.getBeginn().getHour();
@@ -150,31 +144,30 @@ class TerminListeObjekt extends ListeObjekt
 		end = endHour * 2 + endMin - 1;
 
 		if (gridWidth == 0)
-		{
+		{	// erste Spalte erzeugen und Termin an der entsprechenden Stelle einfügen
 			for (i = 0; i < 48; i++)
 			{
-				grid[i] = new long[1];
+				grid[i] = new Termin[1];
 
 				if (i >= bgn && i <= end)
 				{
-//					grid[i][0] = termin.getID();
-					grid[i][0] = id;					
+					grid[i][0] = termin;					
 				}
 				else
 				{
-					grid[i][0] = 0;
+					grid[i][0] = null;
 				}
 			}
 			gridWidth = 1;
-
 		}
 		else
-		{
+		{	// Termin an den richtigen Stellen im vorhandenen Grid einfügen
+			// Schleife sucht einen passenden freien Bereich im Grid
 			for (i = 0; i < gridWidth; i++)
 			{
 				for (j = bgn; j <= end; j++)
 				{
-					if (grid[j][i] != 0)
+					if (grid[j][i] != null)
 						break;
 				}
 				if (j > end)
@@ -182,54 +175,48 @@ class TerminListeObjekt extends ListeObjekt
 			}
 
 			if (i == gridWidth)
-			{
+			{	// eine neue Spalte wird ins Grid eingefügt und Termin dort eingetragen
 				gridWidth++;
 				resizeGrid(grid, gridWidth);
 
 				for (j = 0; j < 48; j++)
 					if (j >= bgn && j <= end)
 					{
-//						grid[j][gridWidth - 1] = termin.getID();
-						grid[j][gridWidth - 1] = id;
+						grid[j][gridWidth - 1] = termin;
 					}
 					else
 					{
-						grid[j][gridWidth - 1] = 0;
+						grid[j][gridWidth - 1] = null;
 					}
 
 			}
 			else
-			{
+			{	// Termin in der aktuelle Spalte einfügen
 				for (j = bgn; j <= end; j++)
 				{
-//					grid[j][i] = termin.getID();
-					grid[j][i] = id;
+					grid[j][i] = termin;
 				}
 			}
 		}
 	}
 
 	// Redimensionieren des Arrays
-	void resizeGrid(long grid[][], int size)
+	void resizeGrid(Termin[][] grid, int size)
 	{
-		long help[][] = new long[48][];
+		Termin[] help;
 
 		int m = Math.min(size, grid[0].length);
 		int i, j;
 
 		for (i = 0; i < 48; i++)
 		{
-			help[i] = new long[size];
+			help = new Termin[size];
 			for (j = 0; j < m; j++)
 			{
-				help[i][j] = grid[i][j];
+				help[j] = grid[i][j];
 			}
 
-			grid[i] = new long[size];
-			for (j = 0; j < m; j++)
-			{
-				grid[i][j] = help[i][j];
-			}
+			grid[i] = help;
 		}
 	}
 
@@ -247,7 +234,7 @@ class TerminListeObjekt extends ListeObjekt
 		}
 
 		@SuppressWarnings("unchecked")
-		TerminScrollListe(Vector termine, long grid[][])
+		TerminScrollListe(Vector termine, Termin[][] grid)
 		{
 			create(grid, termine);
 		}
@@ -365,15 +352,15 @@ class TerminListeObjekt extends ListeObjekt
 					// Add to
 					gridbag.setConstraints(zeile, c);
 					mControlPane.add(zeile);
-				}
-			}
+				}	// end for j
+			}	// end for i
 
 			// Tell the scroll pane which component to scroll.
 			setViewportView(mControlPane);
 		}
 
 		@SuppressWarnings("unchecked")
-		void create(long grid[][], Vector termine)
+		void create(Termin[][] grid, Vector termine)
 		{
 			int bWidth, bHeight;
 			int i, j, k, x;
@@ -470,8 +457,6 @@ class TerminListeObjekt extends ListeObjekt
 			c.weighty = 1.0;
 			c.weightx = 1.0;
 
-			int terminNr = 0;
-
 			for (i = 0; i < grid[0].length; i++)
 			{
 				bHeight = 0;
@@ -479,7 +464,7 @@ class TerminListeObjekt extends ListeObjekt
 
 				for (j = 0; j < 48; j++)
 				{
-					if (grid[j][i] != 0)
+					if (grid[j][i] != null)
 					{
 						if (bHeight > 0 && (grid[j - 1][i] != grid[j][i] || j == 47))
 						{
@@ -488,7 +473,8 @@ class TerminListeObjekt extends ListeObjekt
 							c.gridwidth = bWidth;
 							c.gridheight = bHeight + (j == 47 ? 1 : 0);
 
-							Termin t = (Termin) termine.elementAt(terminNr);
+							Termin t = grid[j-1][i];
+//							Termin t = (Termin) termine.elementAt(terminNr);
 
 //							TerminObjekt tObj = new TerminObjekt(t, sicht.openCal,
 //									true, 10);
@@ -501,7 +487,6 @@ class TerminListeObjekt extends ListeObjekt
 
 							bHeight = 0;
 							bWidth = 0;
-							terminNr++;
 						}
 
 						bHeight++;
@@ -520,7 +505,7 @@ class TerminListeObjekt extends ListeObjekt
 
 					}
 					else
-					{
+					{	// grid[j][i] == 0
 						if (bHeight > 0 && bWidth > 0)
 						{
 							c.gridx = i + 2;
@@ -528,7 +513,8 @@ class TerminListeObjekt extends ListeObjekt
 							c.gridwidth = bWidth;
 							c.gridheight = bHeight;
 
-							Termin t = (Termin) termine.elementAt(terminNr);
+							Termin t = grid[j-1][i];
+//							Termin t = (Termin) termine.elementAt(terminNr);
 
 //							TerminObjekt tObj = new TerminObjekt(t, sicht.openCal,
 //									true, 10);
@@ -541,7 +527,6 @@ class TerminListeObjekt extends ListeObjekt
 
 							bHeight = 0;
 							bWidth = 0;
-							terminNr++;
 						}
 
 						c.gridx = i + 2;
@@ -614,15 +599,15 @@ class TerminListeObjekt extends ListeObjekt
 			{
 				while (!scrollBar.isShowing())
 				{
-					Thread.sleep(1000);
+					Thread.sleep(500);
 				}
 
-				scrollBar.setValue(302);
+				scrollBar.setValue(302);		// sets scrollbar to 8:00 AM
 
 				while (scrollBar.getValue() == 0)
 				{
-					Thread.sleep(1000);
-					scrollBar.setValue(302);
+					Thread.sleep(500);
+					scrollBar.setValue(302);	// sets scrollbar to 8:00 AM
 				}
 
 			}
