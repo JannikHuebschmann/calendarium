@@ -31,9 +31,14 @@ public class SimpleServer extends Server
 		termine = new HashMap<String, Map<String, Vector<Termin>>>();
 		try
 		{
-			// Administrator als initialer Default-User 
+			// administrator as initial default user 
 			Person p = new Person("SWTKal", "Admin", "ADM");
 			insert(p, "admin");
+			//	two simple test dates for today
+			insert(new Termin(p, "1. Testtermin", "Dies ist der Langtext zum 1. Testtermin",
+					new Datum(new Date()), new Datum(new Date()).addDauer(1)));
+			insert(new Termin(p, "2. Testtermin", "Dies ist der Langtext zum 2. Testtermin",
+						new Datum(new Date()).addDauer(1.5), new Datum(new Date()).addDauer(2.5)));
 		}
 		catch (Exception e)
 		{
@@ -43,6 +48,8 @@ public class SimpleServer extends Server
 	
 	public void insert(Person p, String passwort) throws PersonException
 	{
+		logger.fine("Insertion of person " + p + " with a password");
+		
 		String kuerzel = p.getKuerzel();
 		
 		if (passwoerter.containsKey(kuerzel))
@@ -54,13 +61,21 @@ public class SimpleServer extends Server
 	public Person authenticate(String kuerzel, String passwort)
 		throws PersonException
 	{
+		logger.fine("Authentication of userid " + kuerzel + " with a password");
+		
 		if (!passwoerter.containsKey(kuerzel))
+		{
+			logger.warning("Failed authentication for userid " + kuerzel);
 			throw new PersonException("Kuerzel unbekannt!");
+		}
 		Person p = personen.get(kuerzel);
 		if (passwort.equals(passwoerter.get(kuerzel)))
 			return p;
 		else
+		{
+			logger.warning("Wrong password for userid " + kuerzel);
 			throw new PersonException("Passwort fehlerhaft!");
+		}
 	}
 
 	public boolean contains(String kuerzel)
@@ -70,6 +85,8 @@ public class SimpleServer extends Server
 
 	public void delete(Person p) throws PersonException
 	{
+		logger.fine("Deletion of person " + p);
+		
 		String kuerzel = p.getKuerzel();
 		if (!passwoerter.containsKey(kuerzel))
 				throw new PersonException("Kuerzel unbekannt!");
@@ -79,6 +96,8 @@ public class SimpleServer extends Server
 
 	public Person find(String kuerzel) throws PersonException
 	{
+		logger.finer("Find person with userid " + kuerzel);
+		
 		if (!passwoerter.containsKey(kuerzel))
 			throw new PersonException("Kuerzel unbekannt!");
 		return personen.get(kuerzel);
@@ -86,7 +105,9 @@ public class SimpleServer extends Server
 
 	public Vector<Person> getOrderedVector()
 	{
-// TODO Vector muss noch sortiert werden (wonach eigentlich?)
+// FIXME Vector muss noch sortiert werden (wonach eigentlich?)
+		logger.finer("Method getOrderedVector called");
+		
 		return new Vector<Person>(personen.values());
 	}
 
@@ -102,6 +123,8 @@ public class SimpleServer extends Server
 
 	public void insert(Termin termin) throws TerminException
 	{
+		logger.fine("Insertion of date " + termin);
+		
 		String kuerzel = termin.getBesitzer().getKuerzel();
 		if (!server.contains(kuerzel))
 			throw new TerminException("Besitzer des Termins ist unbekannt!");
@@ -121,7 +144,8 @@ public class SimpleServer extends Server
 			termine.get(kuerzel).put(termin.getBeginn().getDate(), vector);
 		}
 		else
-		{
+		{	// zusaetzlicher Termin fuer diese Person an diesem Datum
+			assert termine.get(kuerzel).get(termin.getBeginn().getDate())!=null;
 			termine.get(kuerzel).get(termin.getBeginn().getDate()).add(termin);
 		}
 	}
@@ -131,6 +155,8 @@ public class SimpleServer extends Server
 	{
 // FIXME getTermineVonBis ausprogrammieren insbesondere der bis-Teil
 // durch die einzelnen Tage laufen und Termine aufsammeln
+		logger.finer("Method getTermineVonBis called from " + vonDat + " to " + bisDat);
+		
 		String kuerzel = person.getKuerzel();
 		if (!server.contains(kuerzel))
 			throw new TerminException("Besitzer des Termins ist unbekannt!");
@@ -150,11 +176,17 @@ public class SimpleServer extends Server
 
 	public void delete(Termin termin) throws TerminException
 	{
+		logger.fine("Deletion of date " + termin);
+		
 // XXX delete-Implementierung noch überprüfen
 // equal-test auf Termine im Vector stimmig?
 		String kuerzel = termin.getBesitzer().getKuerzel();
 		String datum = termin.getBeginn().getDate();
 		
+		if (!server.contains(kuerzel))
+			throw new TerminException("Besitzer des Termins ist unbekannt!");
+
+		assert termine.get(kuerzel).get(datum)!=null;
 		Vector<Termin> terminVector = termine.get(kuerzel).get(datum);
 		terminVector.remove(termin);
 	}
