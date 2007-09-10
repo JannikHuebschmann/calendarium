@@ -126,7 +126,7 @@ public class SimpleServer extends Server
 		logger.fine("Insertion of date " + termin);
 		
 		String kuerzel = termin.getBesitzer().getKuerzel();
-		if (!server.contains(kuerzel))
+		if (!personen.containsKey(kuerzel))
 			throw new TerminException("Besitzer des Termins ist unbekannt!");
 
 		if (!termine.containsKey(kuerzel))
