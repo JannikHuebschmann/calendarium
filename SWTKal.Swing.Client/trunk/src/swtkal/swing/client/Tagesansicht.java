@@ -6,7 +6,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import swtkal.domain.*;
@@ -23,7 +22,6 @@ import swtkal.swing.elements.MonatsObjekt;
 
 public class Tagesansicht extends Ansicht
 {
-// FIXME Kontextmenü für Einträge erscheint erst ab dem zweiten Klick	
 	protected SwingClient client;
 
 	// Panels
@@ -55,8 +53,7 @@ public class Tagesansicht extends Ansicht
 			}
 		});
 
-		SimpleDateFormat simpleDate = new SimpleDateFormat("dd.MM.yyyy");
-		bgnAnsicht = new Datum(simpleDate.format(date));
+		bgnAnsicht = new Datum(date);
 		endAnsicht = bgnAnsicht;
 
 		createContent();

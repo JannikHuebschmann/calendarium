@@ -273,8 +273,8 @@ public class SwingClient extends Client implements ActionListener
 	}
 	
 	protected void neuerTermin()
-	{
-		EditTerminControl termin = new EditTerminControl(frame, this);
+	{ 
+		EditTerminControl termin = new EditTerminControl(frame, this, tagesansicht.bgnAnsicht);
 		JInternalFrame gui = termin.getGUI();
 		gui.setVisible(true);
 		layer.add(gui, 0);

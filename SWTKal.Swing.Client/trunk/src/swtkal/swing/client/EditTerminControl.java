@@ -45,7 +45,7 @@ public class EditTerminControl implements ActionListener
 		editTermin = new EditTermin(f);
 		editTermin.addActionListener(this);
 
-		termin = new Termin(client.getUser(), d, d.addDauer(1.0));
+		termin = new Termin(client.getUser(), d.addDauer(0.0), d.addDauer(1.0));
 		editTermin.start(termin);
 		editTermin.setTitle("Termin eintragen");
 	}
