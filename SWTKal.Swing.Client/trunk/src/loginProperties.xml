@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties>
-<comment>--- Client Login Settings ---</comment>
-<entry key="RMIServerPort">2005</entry>
-<entry key="RMIServerName">localhost</entry>
-<entry key="BrowserPath"></entry>
-<entry key="MtPaneYears">-1 .. +5</entry>
-</properties>

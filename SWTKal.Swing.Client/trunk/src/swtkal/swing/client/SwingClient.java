@@ -9,9 +9,6 @@ import javax.swing.*;
 import java.util.*;
 
 import swtkal.client.Client;
-import swtkal.domain.Datum;
-import swtkal.domain.Person;
-import swtkal.domain.Termin;
 import swtkal.exceptions.PersonException;
 import swtkal.swing.elements.person.LoginDialog;
 
@@ -62,23 +59,7 @@ public class SwingClient extends Client implements ActionListener
 			server.stopServer();
 			System.exit(0);
 		}
-		
-// TODO Initialisierung in den SimpleServer verschieben
-		Person p;
-		try
-		{
-			p = server.find("ADM");
-			server.insert(new Termin(p, "Testtermin", "Dies ist der Langtext zum Testtermin",
-					new Datum(new Date()), new Datum(new Date()).addDauer(1)));
-			server.insert(new Termin(p, "Feierabend", "Dies ist der Langtext zum Feierabend",
-					new Datum(new Date()).addDauer(1.5), new Datum(new Date()).addDauer(2.5)));
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			System.exit(0);
-		}
-		
+				
 		frame.setSize(INITIAL_WIDTH, INITIAL_HEIGHT);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation(screenSize.width/2 - INITIAL_WIDTH/2,
