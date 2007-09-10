@@ -65,6 +65,7 @@ public class LoginDialog implements ActionListener
 	 * @return Properties Gibt die genutzten Verbindungsparameter zurueck.
 	 */
 	protected Properties setProperties()
+// xxx Client-Properties werden eigentlich in der Klasse Client verwaltet
 	{
 		Properties props = new Properties();
 		InetAddress thisMachine = null;
@@ -86,10 +87,10 @@ public class LoginDialog implements ActionListener
 		props.put("MtPaneYears", "-1 .. +5");
 		props.put("RMIServerName", thisMachine.getHostName());
 
-		// UserProperties aus der Datei loginProperties.xml
+		// UserProperties aus der Datei swtkalClientProperties.xml
 		try
 		{
-			FileInputStream in = new FileInputStream("loginProperties.xml");
+			FileInputStream in = new FileInputStream("swtkalClientProperties.xml");
 			props.loadFromXML(in);
 			in.close();
 		}
@@ -97,7 +98,7 @@ public class LoginDialog implements ActionListener
 		{
 			try
 			{
-				FileOutputStream out = new FileOutputStream("loginProperties.xml");
+				FileOutputStream out = new FileOutputStream("swtkalClientProperties.xml");
 				props.storeToXML(out, "--- Client Login Settings ---");
 				out.close();
 			}
@@ -118,7 +119,7 @@ public class LoginDialog implements ActionListener
 
 			try
 			{
-				FileOutputStream out = new FileOutputStream("loginProperties.xml");
+				FileOutputStream out = new FileOutputStream("swtkalClientProperties.xml");
 				properties.storeToXML(out, "--- Client Login Settings ---");
 				out.close();
 			}
