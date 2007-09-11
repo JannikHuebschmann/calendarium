@@ -10,13 +10,36 @@
 	<property name="javadoc.dir" value="deploy/javadoc"/>
 	<property name="deploy.dir" value="deploy/jars"/>
 
-
     <!-- ================================= 
           target: default              
          ================================= -->
-    <target name="default">
+    <target name="default" depends="deploy.jar, deploy.javadoc">
     	<echo>Buildfile SWTKal.Swing-Teilprojekt</echo>
      </target>
+
+    <!-- ================================= 
+          target: deploy.jar              
+         ================================= -->
+    <target name="deploy.jar" depends="deploy.dirs"
+	        description="stellt die SWTKal.Swing-Klassen als Jar-Datei zur Verfuegung">
+    	<jar destfile="${deploy.dir}/swtkal.swing.jar"><fileset dir="bin" excludes="junit/**"/></jar>
+    </target>
+
+    <!-- ================================= 
+          target: deploy.javadoc              
+         ================================= -->
+    <target name="deploy.javadoc" depends="deploy.dirs"
+        	description="stellt die Javadoc-Dokumentation zur Verfuegung">
+			<javadoc destdir="${javadoc.dir}" executable="${javadoc.exe}">
+			<fileset dir="src" excludes="junit/**, images/**" />
+			
+			<group title="Swing Packages" packages="swtkal.swing*" />
+			
+			<doctitle><![CDATA[<h1>SWTKal API</h1>]]></doctitle>
+			<header>SWTKal Fallstudie SWT-Vorlesung im WS 2007</header>
+			<footer>SWTKal Fallstudie SWT-Vorlesung im WS 2007</footer>
+		</javadoc>
+    </target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
           target: deploy.dirs                      
