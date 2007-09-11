@@ -8,8 +8,8 @@
 <project name="SWTKal.Base" default="default">
 	
 	<property name="javadoc.dir" value="deploy/javadoc"/>
-	<property name="deploy.dir" value="deploy/jars"/>
 	<property name="javadoc.exe" value="C:/Programme/Java/jdk1.6.0_02/bin/javadoc.exe"/>
+	<property name="deploy.dir" value="deploy/jars"/>
 
     <!-- ================================= 
           target: default              
@@ -23,18 +23,16 @@
          ================================= -->
     <target name="deploy.jar" depends="deploy.dirs"
 	        description="stellt die SWTKal-Basisklassen als Jar-Datei zur Verfuegung">
-<!--    	<copy todir="${client.dir}"><fileset dir="bin" excludes=".svn"/></copy>
-    	<copy todir="${client.dir}"><fileset dir="../Calendarium.Client.Swing/bin" excludes=".svn"/></copy>
-    	<copy todir="${client.dir}"><fileset dir="../Calendarium.Client.Swing" includes="*.bat"/></copy>
--->    	
+    	<jar destfile="${deploy.dir}/swtkal.base.jar"><fileset dir="bin" excludes="junit/**"/></jar>
     </target>
 
     <!-- ================================= 
           target: deploy.javadoc              
          ================================= -->
-    <target name="deploy.javadoc" depends="deploy.dirs">
+    <target name="deploy.javadoc" depends="deploy.dirs"
+        	description="stellt die Javadoc-Dokumentation zur Verfuegung">
 			<javadoc destdir="${javadoc.dir}" executable="${javadoc.exe}">
-			<fileset dir="src" />
+			<fileset dir="src" excludes="junit/**, **Properties.xml" />
 			
 			<group title="Base Packages" packages=
 				"swtkal.client*:swtkal.domain*:swtkal.exceptions*:swtkal.monitor*:swtkal.server*" />
