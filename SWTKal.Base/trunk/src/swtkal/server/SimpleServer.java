@@ -19,9 +19,11 @@ public class SimpleServer extends Server
 	protected Map<String, Person> personen;
 	protected Map<String, String> passwoerter;
 	protected Map<String, Map<String, Vector<Termin>>> termine;
+		// verwaltet die Besitzer-Termin-Assoziation
 		// speichert zu jedem Personenkürzel-String eine Map
 		// diese Map liefert zu jedem Datums-String einen Vector
-		// dieser Vector enthaelt alle Termine zur Person am konkreten Datum
+		// dieser Vector enthaelt alle Termine zur Besitzerperson am konkreten Datum
+// TODO analoge Datenstruktur fuer Teilnehmer-Assoziation einfuegen	
 
 // TODO weitere Javadoc-Kommentare (evtl. aus Server oder interfaces) einfügen	
 	protected SimpleServer()
@@ -58,7 +60,34 @@ public class SimpleServer extends Server
 		personen.put(kuerzel, p);
 	}
 
-	public Person authenticate(String kuerzel, String passwort)
+
+	public void delete(Person p) throws PersonException
+	{
+		logger.fine("Deletion of person " + p);
+		
+		String kuerzel = p.getKuerzel();
+		if (!passwoerter.containsKey(kuerzel))
+				throw new PersonException("Kuerzel unbekannt!");
+		passwoerter.remove(kuerzel);
+		personen.remove(kuerzel);
+	}
+
+	public void update(Person p) throws PersonException
+	{
+// TODO Auto-generated method stub
+	}
+
+	public void updatePasswort(Person p, String passwort) throws PersonException
+	{
+	// TODO Auto-generated method stub
+	}
+
+	public void updateKuerzel(Person p, String kuerzel) throws PersonException
+	{
+		// TODO Auto-generated method stub
+	}
+
+	public Person authenticatePerson(String kuerzel, String passwort)
 		throws PersonException
 	{
 		logger.fine("Authentication of userid " + kuerzel + " with a password");
@@ -78,23 +107,12 @@ public class SimpleServer extends Server
 		}
 	}
 
-	public boolean contains(String kuerzel)
+	public boolean isPersonKnown(String kuerzel)
 	{
 		return passwoerter.containsKey(kuerzel);
 	}
 
-	public void delete(Person p) throws PersonException
-	{
-		logger.fine("Deletion of person " + p);
-		
-		String kuerzel = p.getKuerzel();
-		if (!passwoerter.containsKey(kuerzel))
-				throw new PersonException("Kuerzel unbekannt!");
-		passwoerter.remove(kuerzel);
-		personen.remove(kuerzel);
-	}
-
-	public Person find(String kuerzel) throws PersonException
+	public Person findPerson(String kuerzel) throws PersonException
 	{
 		logger.finer("Find person with userid " + kuerzel);
 		
@@ -103,27 +121,11 @@ public class SimpleServer extends Server
 		return personen.get(kuerzel);
 	}
 
-	public Vector<Person> getOrderedVector()
+	public Vector<Person> getPersonVector()
 	{
-// FIXME Vector muss noch sortiert werden (wonach eigentlich?)
 		logger.finer("Method getOrderedVector called");
 		
 		return new Vector<Person>(personen.values());
-	}
-
-	public void update(Person p) throws PersonException
-	{
-// TODO Auto-generated method stub
-	}
-
-	public void updatePasswort(Person p, String passwort) throws PersonException
-	{
-	// TODO Auto-generated method stub
-	}
-
-	public void updateKuerzel(Person p, String kuerzel) throws PersonException
-	{
-		// TODO Auto-generated method stub
 	}
 
 	public void insert(Termin termin) throws TerminException
@@ -161,7 +163,7 @@ public class SimpleServer extends Server
 		logger.finer("Method getTermineVom called for " + dat);
 				
 		String kuerzel = person.getKuerzel();
-		if (!server.contains(kuerzel))
+		if (!server.isPersonKnown(kuerzel))
 			throw new TerminException("Person ist unbekannt!");
 				
 		Vector<Termin> result = new Vector<Termin>();
@@ -194,7 +196,7 @@ public class SimpleServer extends Server
 		String kuerzel = termin.getBesitzer().getKuerzel();
 		String datum = termin.getBeginn().getDate();
 		
-		if (!server.contains(kuerzel))
+		if (!server.isPersonKnown(kuerzel))
 			throw new TerminException("Besitzer des Termins ist unbekannt!");
 
 		assert termine.get(kuerzel).get(datum)!=null;

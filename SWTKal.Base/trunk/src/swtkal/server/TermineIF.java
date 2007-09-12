@@ -49,7 +49,7 @@ public interface TermineIF
 	 */
 	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person p) throws TerminException;
 
-// weitere Methoden, die evtl. beim weiteren Ausbau noch benötigt werden	
+// weitere Methoden aus Calendarium, die evtl. beim weiteren Ausbau noch benötigt werden	
 //	/** Personen mit Terminen
 //	 * 
 //	 * @param vonDat

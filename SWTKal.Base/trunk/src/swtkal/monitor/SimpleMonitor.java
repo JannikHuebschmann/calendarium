@@ -28,7 +28,7 @@ public class SimpleMonitor extends Monitor
 		server.startServer();
 		try
 		{
-			user = server.find("ADM");
+			user = server.findPerson("ADM");
 		}
 		catch (PersonException e)
 		{
@@ -145,7 +145,7 @@ public class SimpleMonitor extends Monitor
 
 	protected void listperson()
 	{
-		Vector<Person> personen = server.getOrderedVector();
+		Vector<Person> personen = server.getPersonVector();
 		for (Person p : personen)
 		{
 			System.out.println(p.toString());

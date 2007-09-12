@@ -23,7 +23,7 @@ public class Termin extends Eintrag
 		ende = e;
 		verschiebbar = v;
 		
-		teilnehmer.add(besitzer);
+		teilnehmer.add(besitzer);	// the owner is a default participant
 	}
 
 	public Termin(Person besitzer, String kurzText, String langText,
