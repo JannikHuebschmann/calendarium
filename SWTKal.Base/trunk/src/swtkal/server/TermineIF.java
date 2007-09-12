@@ -31,23 +31,23 @@ public interface TermineIF
 	/**
 	 * Finds all appointments of a person as a participant for a given day.
 	 * @param dat Datum 
-	 * @param p Person 
+	 * @param teilnehmer Person 
 	 * @return Vector<Termin>
 	 * @throws TerminException
 	 */
-	public Vector<Termin> getTermineVom(Datum dat, Person p) throws TerminException;
+	public Vector<Termin> getTermineVom(Datum dat, Person teilnehmer) throws TerminException;
 	// TODO soll die Person Teilnehmer oder Besitzer des Termins sein???
-	// eher Teilnehmer!	
+	// eher Teilnehmer! brauchen wir eine analoge Methode fuer Besitzer?	
 
 	/**
 	 * Finds all appointments of a person as a participant for a given period of time.
 	 * @param vonDat Datum 
 	 * @param bisDat Datum 
-	 * @param p Person 
+	 * @param teilnehmer 
 	 * @return Vector<Termin>
 	 * @throws TerminException
 	 */
-	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person p) throws TerminException;
+	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person teilnehmer) throws TerminException;
 
 // weitere Methoden aus Calendarium, die evtl. beim weiteren Ausbau noch benötigt werden	
 //	/** Personen mit Terminen
