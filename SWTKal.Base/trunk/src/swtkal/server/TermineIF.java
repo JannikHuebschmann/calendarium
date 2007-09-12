@@ -15,14 +15,32 @@ import java.util.Vector;
 public interface TermineIF
 {
 	/**
-	 * Inserts a Termin object into the server.
+	 * Inserts an appointment into the server.
 	 * @param termin Termin
 	 * @throws TerminException
 	 */
 	public void insert(Termin termin) throws TerminException;
 
 	/**
-	 * Finds all appointments of a person for a given period of time.
+	 * Deletes an appointment from the server.
+	 * @param termin
+	 * @throws TerminException
+	 */
+	public void delete(Termin termin) throws TerminException;
+
+	/**
+	 * Finds all appointments of a person as a participant for a given day.
+	 * @param dat Datum 
+	 * @param p Person 
+	 * @return Vector<Termin>
+	 * @throws TerminException
+	 */
+	public Vector<Termin> getTermineVom(Datum dat, Person p) throws TerminException;
+	// TODO soll die Person Teilnehmer oder Besitzer des Termins sein???
+	// eher Teilnehmer!	
+
+	/**
+	 * Finds all appointments of a person as a participant for a given period of time.
 	 * @param vonDat Datum 
 	 * @param bisDat Datum 
 	 * @param p Person 
@@ -30,13 +48,6 @@ public interface TermineIF
 	 * @throws TerminException
 	 */
 	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person p) throws TerminException;
-
-	/**
-	 * Deletes a Termin object from the server.
-	 * @param termin
-	 * @throws TerminException
-	 */
-	public void delete(Termin termin) throws TerminException;
 
 // weitere Methoden, die evtl. beim weiteren Ausbau noch benötigt werden	
 //	/** Personen mit Terminen

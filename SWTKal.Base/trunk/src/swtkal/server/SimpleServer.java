@@ -155,28 +155,34 @@ public class SimpleServer extends Server
 		}
 	}
 
-	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person person)
+	public Vector<Termin> getTermineVom(Datum dat, Person person)
 			throws TerminException
 	{
-// FIXME getTermineVonBis ausprogrammieren insbesondere der bis-Teil
-// durch die einzelnen Tage laufen und Termine aufsammeln
-		logger.finer("Method getTermineVonBis called from " + vonDat + " to " + bisDat);
-		
+		logger.finer("Method getTermineVom called for " + dat);
+				
 		String kuerzel = person.getKuerzel();
 		if (!server.contains(kuerzel))
-			throw new TerminException("Besitzer des Termins ist unbekannt!");
-		
+			throw new TerminException("Person ist unbekannt!");
+				
 		Vector<Termin> result = new Vector<Termin>();
-		
+				
 		Map<String, Vector<Termin>> map = termine.get(kuerzel);
 		if (map!=null )
 		{
-			Vector<Termin> vector = map.get(vonDat.getDate());
+			Vector<Termin> vector = map.get(dat.getDate());
 			if (vector!=null)
 				result = vector;
 		}
-		
+	
 		return result;
+	}
+
+	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person person)
+			throws TerminException
+	{
+		logger.finer("Method getTermineVonBis called from " + vonDat + " to " + bisDat);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public void delete(Termin termin) throws TerminException
