@@ -91,7 +91,7 @@ public class EditUserControl implements ActionListener
 	{
 		try
 		{
-			server.update(person, "passwort");
+			server.update(person);
 		}
 		catch (PersonException e)
 		{
