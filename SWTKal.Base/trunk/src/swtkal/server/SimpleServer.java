@@ -116,9 +116,14 @@ public class SimpleServer extends Server
 // TODO Auto-generated method stub
 	}
 
-	public void update(Person p, String passwort) throws PersonException
+	public void updatePasswort(Person p, String passwort) throws PersonException
 	{
 	// TODO Auto-generated method stub
+	}
+
+	public void updateKuerzel(Person p, String kuerzel) throws PersonException
+	{
+		// TODO Auto-generated method stub
 	}
 
 	public void insert(Termin termin) throws TerminException
