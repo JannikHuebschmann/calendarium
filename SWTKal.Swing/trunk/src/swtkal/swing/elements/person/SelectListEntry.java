@@ -153,9 +153,9 @@ public class SelectListEntry implements ActionListener, ListSelectionListener,
 		mModel = new DefaultListModel();
 		mSize = 0;
 
-		if (server.getOrderedVector() != null)
+		if (server.getPersonVector() != null)
 		{
-			Enumeration e = server.getOrderedVector().elements();
+			Enumeration e = server.getPersonVector().elements();
 			while (e.hasMoreElements())
 			{
 				mModel.addElement((Person) e.nextElement());
