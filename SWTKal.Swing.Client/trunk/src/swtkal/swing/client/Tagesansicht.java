@@ -144,7 +144,7 @@ public class Tagesansicht extends Ansicht
 		Vector termine = new Vector();
 		try
 		{
-			termine = client.getServer().getTermineVonBis(bgnAnsicht, endAnsicht, client.getUser());
+			termine = client.getServer().getTermineVom(bgnAnsicht, client.getUser());
 		}
 		catch (TerminException e)
 		{
