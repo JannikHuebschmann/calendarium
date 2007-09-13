@@ -34,16 +34,12 @@ public class Termin extends Eintrag
 
 	public Termin(Person besitzer, Datum b, Datum e, boolean v)
 	{
-		super(besitzer);
-
-		beginn = b;
-		ende = e;
-		verschiebbar = v;
+		this(besitzer, "", "", b, e, v);
 	}
 
 	public Termin(Person besitzer, Datum b, Datum e)
 	{
-		this(besitzer, b, e, false);
+		this(besitzer, "", "", b, e, false);
 	}
 
 	public String toString()

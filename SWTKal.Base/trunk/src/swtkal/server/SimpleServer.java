@@ -19,11 +19,12 @@ public class SimpleServer extends Server
 	protected Map<String, Person> personen;
 	protected Map<String, String> passwoerter;
 	protected Map<String, Map<String, Vector<Termin>>> teilnehmerTermine;
-		// verwaltet die Besitzer-Termin-Assoziation
+		// verwaltet die Teilnehmer-Termin-Assoziation
 		// speichert zu jedem Personenkürzel-String eine Map
 		// diese Map liefert zu jedem Datums-String einen Vector
-		// dieser Vector enthaelt alle Termine zur Besitzerperson am konkreten Datum
-// TODO analoge Datenstruktur fuer Teilnehmer-Assoziation einfuegen	
+		// dieser Vector enthaelt alle Termine zur Teilnehmerperson am konkreten Datum
+// TODO analoge Datenstruktur und Interface-Methoden fuer Besitzer-Assoziation einfuegen	
+//	protected Map<String, Map<String, Vector<Termin>>> besitzerTermine;
 
 // TODO weitere Javadoc-Kommentare (evtl. aus Server oder interfaces) einfügen	
 	protected SimpleServer()
@@ -54,7 +55,7 @@ public class SimpleServer extends Server
 		
 		String kuerzel = p.getKuerzel();
 		
-		if (passwoerter.containsKey(kuerzel))
+		if (isPersonKnown(kuerzel))
 				throw new PersonException("Userid is already used!");
 		passwoerter.put(kuerzel, passwort);
 		personen.put(kuerzel, p);
@@ -65,10 +66,11 @@ public class SimpleServer extends Server
 		logger.fine("Deletion of person " + p);
 		
 		String kuerzel = p.getKuerzel();
-		if (!passwoerter.containsKey(kuerzel))
+		if (!isPersonKnown(kuerzel))
 				throw new PersonException("Userid unknown!");
 		passwoerter.remove(kuerzel);
 		personen.remove(kuerzel);
+// TODO Termine dieser Person auch löschen!		
 	}
 
 	public void update(Person p) throws PersonException
@@ -76,7 +78,7 @@ public class SimpleServer extends Server
 		logger.fine("Update of person " + p);
 		
 		String kuerzel = p.getKuerzel();
-		if (!passwoerter.containsKey(kuerzel))
+		if (!isPersonKnown(kuerzel))
 				throw new PersonException("Userid unknown!");
 		personen.put(kuerzel, p);
 	}
@@ -86,7 +88,7 @@ public class SimpleServer extends Server
 		logger.fine("Update of password of person " + p);
 		
 		String kuerzel = p.getKuerzel();
-		if (!passwoerter.containsKey(kuerzel))
+		if (!isPersonKnown(kuerzel))
 				throw new PersonException("Userid unknown!");
 		passwoerter.put(kuerzel, passwort);
 	}
@@ -96,9 +98,9 @@ public class SimpleServer extends Server
 		logger.fine("Update of userid of person " + p);
 		
 		String oldKuerzel = p.getKuerzel();
-		if (!passwoerter.containsKey(oldKuerzel))
+		if (!isPersonKnown(oldKuerzel))
 				throw new PersonException("Userid unknown!");
-		if (passwoerter.containsKey(neuKuerzel))
+		if (isPersonKnown(neuKuerzel))
 			throw new PersonException("Userid is already used!");
 		
 		personen.remove(oldKuerzel);
@@ -106,6 +108,7 @@ public class SimpleServer extends Server
 		
 		passwoerter.put(neuKuerzel, passwoerter.get(oldKuerzel));
 		passwoerter.remove(oldKuerzel);
+// TODO kuerzel auch in der Terminverwaltung ändern		
 	}
 
 	public Person authenticatePerson(String kuerzel, String passwort)
@@ -113,7 +116,7 @@ public class SimpleServer extends Server
 	{
 		logger.fine("Authentication of userid " + kuerzel + " with a password");
 		
-		if (!passwoerter.containsKey(kuerzel))
+		if (!isPersonKnown(kuerzel))
 		{
 			logger.warning("Failed authentication for userid " + kuerzel);
 			throw new PersonException("Userid unknown!");
@@ -137,7 +140,7 @@ public class SimpleServer extends Server
 	{
 		logger.finer("Find person with userid " + kuerzel);
 		
-		if (!passwoerter.containsKey(kuerzel))
+		if (!isPersonKnown(kuerzel))
 			throw new PersonException("Userid unknown!");
 		return personen.get(kuerzel);
 	}
@@ -153,28 +156,42 @@ public class SimpleServer extends Server
 	{
 		logger.fine("Insertion of date " + termin);
 		
-		String kuerzel = termin.getBesitzer().getKuerzel();
-		if (!personen.containsKey(kuerzel))
-			throw new TerminException("Userid unknown!");
-
-		if (!teilnehmerTermine.containsKey(kuerzel))
-		{	// erster Termin fuer diese Person
-			Vector<Termin> vector = new Vector<Termin>();
-			vector.add(termin);		// einziger Termin
-			Map<String, Vector<Termin>> map = new HashMap<String, Vector<Termin>>();
-			map.put(termin.getBeginn().getDate(), vector);
-			teilnehmerTermine.put(kuerzel, map);
+		// insert into teilnehmerTermine
+		Vector<Person> teilnehmer = termin.getTeilnehmer();
+		for (Person p : teilnehmer)
+		{
+			if (!isPersonKnown(p.getKuerzel()))
+				throw new TerminException("Userid unknown!");
+			insert(termin, p, teilnehmerTermine);
 		}
-		else if (!teilnehmerTermine.get(kuerzel).containsKey(termin.getBeginn().getDate()))
-		{	// erster Termin fuer diese Person an diesem Datum
+
+//		// insert into besitzerTermine
+//		String kuerzel = termin.getBesitzer().getKuerzel();
+//		if (!isPersonKnown(kuerzel))
+//			throw new TerminException("Userid unknown!");
+//		insert(termin, termin.getBesitzer(), besitzerTermine);
+	}
+
+	private void insert(Termin termin, Person p, Map<String, Map<String, Vector<Termin>>> map)
+	{
+		if (!map.containsKey(p.getKuerzel()))
+		{	// first appointment for this person
 			Vector<Termin> vector = new Vector<Termin>();
-			vector.add(termin);		// einziger Termin
-			teilnehmerTermine.get(kuerzel).put(termin.getBeginn().getDate(), vector);
+			vector.add(termin);									// only one appointment
+			Map<String, Vector<Termin>> dayMap = new HashMap<String, Vector<Termin>>();
+			dayMap.put(termin.getBeginn().getDate(), vector);
+			map.put(p.getKuerzel(), dayMap);
+		}
+		else if (!map.get(p.getKuerzel()).containsKey(termin.getBeginn().getDate()))
+		{	// first appointment for this date
+			Vector<Termin> vector = new Vector<Termin>();
+			vector.add(termin);									// only one appointment
+			map.get(p.getKuerzel()).put(termin.getBeginn().getDate(), vector);
 		}
 		else
-		{	// zusaetzlicher Termin fuer diese Person an diesem Datum
-			assert teilnehmerTermine.get(kuerzel).get(termin.getBeginn().getDate())!=null;
-			teilnehmerTermine.get(kuerzel).get(termin.getBeginn().getDate()).add(termin);
+		{	// additional appointment for this person and this date
+			assert map.get(p.getKuerzel()).get(termin.getBeginn().getDate())!=null;
+			map.get(p.getKuerzel()).get(termin.getBeginn().getDate()).add(termin);
 		}
 	}
 
@@ -184,7 +201,7 @@ public class SimpleServer extends Server
 		logger.finer("Method getTermineVom called for " + dat);
 				
 		String kuerzel = tn.getKuerzel();
-		if (!server.isPersonKnown(kuerzel))
+		if (!isPersonKnown(kuerzel))
 			throw new TerminException("Userid unknown!");
 				
 		Vector<Termin> result = new Vector<Termin>();
@@ -204,7 +221,7 @@ public class SimpleServer extends Server
 			throws TerminException
 	{
 		logger.finer("Method getTermineVonBis called from " + vonDat + " to " + bisDat);
-		// TODO Auto-generated method stub
+		// TODO getTermineVonBis noch ausprogrammieren
 		return null;
 	}
 
@@ -212,16 +229,30 @@ public class SimpleServer extends Server
 	{
 		logger.fine("Deletion of date " + termin);
 		
-// XXX delete-Implementierung noch überprüfen
-// equal-test auf Termine im Vector stimmig?
-		String kuerzel = termin.getBesitzer().getKuerzel();
-		String datum = termin.getBeginn().getDate();
-		
-		if (!server.isPersonKnown(kuerzel))
-			throw new TerminException("Userid unknown!");
+		// delete from teilnehmerTermine
+		Vector<Person> teilnehmer = termin.getTeilnehmer();
+		for (Person p : teilnehmer)
+		{
+			if (!isPersonKnown(p.getKuerzel()))
+				throw new TerminException("Userid unknown!");
+			delete(termin, p, teilnehmerTermine);
+		}
 
-		assert teilnehmerTermine.get(kuerzel).get(datum)!=null;
-		Vector<Termin> terminVector = teilnehmerTermine.get(kuerzel).get(datum);
-		terminVector.remove(termin);
+//		// delete from besitzerTermine
+//		String kuerzel = termin.getBesitzer().getKuerzel();
+//		if (!personen.containsKey(kuerzel))
+//			throw new TerminException("Userid unknown!");
+//		delete(termin, termin.getBesitzer(), besitzerTermine);
+	}
+
+	private void delete(Termin termin, Person p, Map<String, Map<String, Vector<Termin>>> map)
+	{
+		Map<String, Vector<Termin>> dayMap = map.get(p.getKuerzel());
+		if (dayMap!=null)
+		{
+			Vector<Termin> vector = dayMap.get(termin.getBeginn().getDate());
+			if (vector!=null)
+				vector.remove(termin);
+		}
 	}
 }
