@@ -26,7 +26,6 @@ public class SimpleServer extends Server
 // TODO analoge Datenstruktur und Interface-Methoden fuer Besitzer-Assoziation einfuegen	
 //	protected Map<String, Map<String, Vector<Termin>>> besitzerTermine;
 
-// TODO weitere Javadoc-Kommentare (evtl. aus Server oder interfaces) einfügen	
 	protected SimpleServer()
 	{
 		personen = new HashMap<String, Person>();

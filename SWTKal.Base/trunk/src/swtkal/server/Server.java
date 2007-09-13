@@ -6,8 +6,6 @@ import java.util.logging.Logger;
 import java.util.logging.Handler;
 import java.util.logging.FileHandler;
 
-// TODO JUnit hier für Server einsetzen
-
 /**
  * Abstract class Server specifies the required server interface.
  *

@@ -36,8 +36,6 @@ public interface TermineIF
 	 * @throws TerminException
 	 */
 	public Vector<Termin> getTermineVom(Datum dat, Person teilnehmer) throws TerminException;
-	// TODO soll die Person Teilnehmer oder Besitzer des Termins sein???
-	// eher Teilnehmer! brauchen wir eine analoge Methode fuer Besitzer?	
 
 	/**
 	 * Finds all appointments of a person as a participant for a given period of time.
