@@ -186,6 +186,7 @@ public class Ansicht implements ActionListener, MouseListener,
 		return gui;
 	}
 
+	@SuppressWarnings("deprecation")
 	private void showDialog(String title, String text)
 	{
 		JTextArea area = new JTextArea(text);
