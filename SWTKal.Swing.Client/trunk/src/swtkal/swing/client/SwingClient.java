@@ -1,6 +1,5 @@
 package swtkal.swing.client;
 //Achtung: im Wesentlichen unveraendert aus Calendarium uebernommen
-// FIXME image directory sollte nicht zweimal vorhanden sein
 
 import java.awt.*;
 import java.awt.event.*;

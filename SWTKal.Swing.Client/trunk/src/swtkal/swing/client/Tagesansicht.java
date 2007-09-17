@@ -117,9 +117,7 @@ public class Tagesansicht extends Ansicht
 		right.setLayout(new BorderLayout(0, 20));
 		
 		// MonatsPanel
-//	 TODO MtPaneYears aus Properties einlesen
-//		String intervall = ((SwingClient) parentFrame).getProperty("MtPaneYears");
-		String intervall = "-1 .. +5";
+		String intervall = client.getClientProperties().getProperty("MtPaneYears");
 		mtPanel = new MonatsObjekt(bgnAnsicht, intervall);
 		mtPanel.addActionListener(this);
 
