@@ -26,7 +26,8 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
    static final Color FEIERTAG_FOREGRD = Color.red;                 // Feiertag
 
 	// Datum
-	private GregorianCalendar cal, day;
+	private GregorianCalendar cal,		// aktuelles Datum
+	                          day;		// selektiertes Datum
 
 	// Combobox
 	private JComboBox monthCombo;
@@ -156,7 +157,7 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 
 		yearCombo.setEditable(true);
 		yearCombo.setEditor(new CenteredEditor());
-		yearCombo.setSelectedIndex(1);
+		yearCombo.setSelectedIndex(grenze[0]);
 		yearCombo.addItemListener(this);
 
 		monthPanel.add(Box.createHorizontalGlue());
@@ -372,16 +373,17 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 
 		if (e.getActionCommand().equals("previousMonth"))
 		{
-			mt--;
-			if (mt < 0)
+			if (mt==0 && yr>(cal.get(Calendar.YEAR)-grenze[0]))
 			{
 				mt = 11;
 				yr--;
 				yearCombo.setSelectedIndex(yearCombo.getSelectedIndex() - 1);
-// XXX achtung out of range problem?			
 			}
+			else
+				mt--;
 
 			monthCombo.setSelectedIndex(mt);
+// XXX muss hier noch day aktualisiert werden?
 
 			remove(dyPanel);
 			dyPanel = createDySelect(mt, yr);
@@ -390,24 +392,24 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 		}
 		else if (e.getActionCommand().equals("nextMonth"))
 		{
-			mt++;
-			if (mt > 11)
+			if (mt==11 && yr<(cal.get(Calendar.YEAR)+grenze[1]))
 			{
 				mt = 0;
 				yr++;
 				yearCombo.setSelectedIndex(yearCombo.getSelectedIndex() + 1);
-// XXX achtung out of range problem?			
 			}
+			else
+				mt++;
 
 			monthCombo.setSelectedIndex(mt);
-
+// XXX muss hier noch day aktualisiert werden?
+			
 			remove(dyPanel);
 			dyPanel = createDySelect(mt, yr);
 			add("Center", dyPanel);
 			validate();
 		}
 		else	// day selected
-// XXX stimmt das?			
 		{
 			index = Integer.valueOf(e.getActionCommand()).intValue();
 			dy = Integer.valueOf(days[index].getText()).intValue();
@@ -415,9 +417,9 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 			int mo = Integer.valueOf(
 					days[index].getAccessibleContext().getAccessibleDescription())
 					.intValue();
-			if (mt != mo)	// Tag in einem Nachbarmonat angeklickt
+			if (mt != mo)		// Tag in einem Nachbarmonat angeklickt
 			{
-				if (index < 7) // Vorgaengermonat
+				if (index < 7) 	// Vorgaengermonat
 				{
 					mt--;
 					if (mt < 0)
@@ -465,15 +467,19 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 			{
 				mt = monthCombo.getSelectedIndex();
 				yr = day.get(Calendar.YEAR);
-
 			}
 			else
-			{
+			{	// yearCombo
 // FIXME Fehler java.lang.String cannot be cast to java.lang.Integer
 // Exception in thread "AWT-EventQueue-0"
-				yr = ((Integer) e.getItem()).intValue();				
 				mt = day.get(Calendar.MONTH);
+				yr = ((Integer) yearCombo.getSelectedItem()).intValue();				
+//				yr = ((Integer) e.getItem()).intValue();				
 			}
+
+// XXX muss hier noch day aktualisiert werden?
+			day.set(Calendar.MONTH, mt);
+			day.set(Calendar.YEAR, yr);
 
 			remove(dyPanel);
 			dyPanel = createDySelect(mt, yr);
