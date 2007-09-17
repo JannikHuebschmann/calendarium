@@ -298,7 +298,8 @@ bevorzugt.setEnabled(false);
 	{
 		if (person != null)
 		{
-			person.setKuerzel(kuerzel.getText().toUpperCase());
+//			person.setKuerzel(kuerzel.getText().toUpperCase());
+// altes Kürzel bleibt im Person-Objekt!			
 			person.setNachname(nachname.getText());
 			person.setVorname(vorname.getText());
 //			person.setEmailAdresse(email.getText());
@@ -319,7 +320,16 @@ bevorzugt.setEnabled(false);
 
 		return person;
 	}
+	
+	String getPasswort()
+	{
+		return new String(passwort[0].getPassword());
+	}
 
+	String getKuerzel()
+	{
+		return kuerzel.getText().toUpperCase();
+	}
 	boolean checkInput()
 	{
 //		String kbez = kuerzel.getText().toUpperCase();

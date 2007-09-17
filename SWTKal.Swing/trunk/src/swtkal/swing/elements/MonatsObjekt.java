@@ -19,7 +19,7 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 {
 	private static final long serialVersionUID = -474376454842120422L;
 
-// TODO Farbkodierungen evtl. noch einmal an eine zentrale Stelle verschieben	
+// XXX Farbkodierungen evtl. an eine zentrale Stelle verschieben?	
    static final Color HEADING_BACKGRD = Color.gray;                 // new Color(128, 255, 128);   // Überschrift
    static final Color TAGE_BACKGRD = new Color(230, 230, 230);      // Tage
    static final Color TAG_BACKGRD = new Color(230, 205, 160);       // Datumslabel
@@ -259,7 +259,7 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 
 					days[index] = new JButton(dayName);
 
-// XXX Feiertagsfarbe reparieren					
+// XXX Feiertagsfarbe fuer Feiertage reparieren					
 					if ( /* (feiertag = Data.feiertage.getFeiertagByDate(new Datum(day))) != null
 							|| */ j == 6)
 					{
@@ -464,7 +464,9 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 			}
 			else
 			{
-				yr = ((Integer) e.getItem()).intValue();
+// FIXME Fehler java.lang.String cannot be cast to java.lang.Integer
+// Exception in thread "AWT-EventQueue-0"
+				yr = ((Integer) e.getItem()).intValue();				
 				mt = day.get(Calendar.MONTH);
 			}
 

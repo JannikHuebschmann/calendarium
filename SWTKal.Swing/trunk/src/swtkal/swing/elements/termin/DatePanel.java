@@ -91,7 +91,7 @@ class DatePanel implements ActionListener
 		{
 			if (mtPanel == null)
 			{
-// TODO MtPaneYears ordentlich aus Properties übergeben?				
+// TODO MtPaneYears ordentlich aus Client-Properties einlesen!				
 //				String intervall = ((Client) parentFrame)
 //						.getProperty("MtPaneYears");
 String intervall ="-1 .. +5";

@@ -72,30 +72,39 @@ public class EditUserControl implements ActionListener
 
 	// create // create // create // create // create // create // create //
 	// create // create //
-	private void createUser(Person person)
+	private void createUser(Person person, String passwort)
 	{
 		try
 		{
-			server.insert(person, "passwort");
+			server.insert(person, passwort);
 		}
 		catch (PersonException e)
 		{
-			// FIXME Exception Handling und Passwort-Uebergabe fehlen noch
+// XXX ausfuehrlicheres Exception Handling?
 			e.printStackTrace();
 		}
 	}
 
 	// update // update // update // update // update // update // update //
 	// update // update //
-	private void updateUser(Person person)
+	private void updateUser(Person person, String neuesKuerzel, String neuesPasswort)
 	{
 		try
 		{
+			String oldKuerzel = person.getKuerzel();
+			
+			if (!neuesKuerzel.equalsIgnoreCase(oldKuerzel))
+			{
+				person.setKuerzel(neuesKuerzel);
+				server.updateKuerzel(person, oldKuerzel);
+			}
+			
+			server.updatePasswort(person, neuesPasswort);
 			server.update(person);
 		}
 		catch (PersonException e)
 		{
-			// FIXME Fehlerbehandlung und Passwort-Update fehlt noch
+			// XXX ausfuehrlicheres Exception Handling?
 			e.printStackTrace();
 		}
 	}
@@ -189,11 +198,11 @@ public class EditUserControl implements ActionListener
 				{
 					if (edit)
 					{
-						updateUser(editOneUser.getPerson());
+						updateUser(editOneUser.getPerson(), editOneUser.getKuerzel(), editOneUser.getPasswort());
 					}
 					else
 					{
-						createUser(editOneUser.getPerson());
+						createUser(editOneUser.getPerson(), editOneUser.getPasswort());
 					}
 
 					// Dialog schlieﬂen
@@ -206,7 +215,7 @@ public class EditUserControl implements ActionListener
 			}
 			else
 			{
-				updateUser(editOneUser.getPerson());
+				updateUser(editOneUser.getPerson(), editOneUser.getKuerzel(), editOneUser.getPasswort());
 				editOneUser.closeFrame();
 			}
 		}
