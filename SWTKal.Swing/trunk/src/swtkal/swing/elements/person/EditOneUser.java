@@ -258,6 +258,7 @@ bevorzugt.setEnabled(false);
 //		bevorzugt.setSelectedIndex(person.getVorzugsNfkt());
 	}
 
+	@SuppressWarnings("deprecation")
 	void start()
 	{
 		if (person != null)
@@ -330,6 +331,7 @@ bevorzugt.setEnabled(false);
 	{
 		return kuerzel.getText().toUpperCase();
 	}
+	@SuppressWarnings("deprecation")
 	boolean checkInput()
 	{
 //		String kbez = kuerzel.getText().toUpperCase();
@@ -356,7 +358,7 @@ bevorzugt.setEnabled(false);
 //		}
 
 		// Passwörter unterschiedlich
-		if (!passwort[0].getText().equals(passwort[1].getText()))
+		if (!passwort[0].getPassword().equals(passwort[1].getPassword()))
 		{
 			String text = "Die Paßwörter sind nicht ident. Bitte tragen Sie das Paßwort nochmals in beide Textfelder ein!\n";
 			passwort[0].setText("");

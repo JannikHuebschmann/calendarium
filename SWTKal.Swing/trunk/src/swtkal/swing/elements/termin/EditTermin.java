@@ -51,6 +51,7 @@ public class EditTermin extends EditEintrag
 //		}
 	}
 //
+	@SuppressWarnings("deprecation")
 	public boolean checkInput()
 	{
 		String msg = "";

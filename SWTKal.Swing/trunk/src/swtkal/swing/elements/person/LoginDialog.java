@@ -260,7 +260,7 @@ public class LoginDialog implements ActionListener
 			// anmelden
 			try
 			{
-				this.user = server.authenticatePerson(txt.getText().toUpperCase(), pwf.getText());
+				this.user = server.authenticatePerson(txt.getText().toUpperCase(), new String(pwf.getPassword()));
 				dialog.dispose();
 			}
 			catch (PersonException exception)

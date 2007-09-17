@@ -85,6 +85,7 @@ class DatePanel implements ActionListener
 		return calendar;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() != mtPanel)
