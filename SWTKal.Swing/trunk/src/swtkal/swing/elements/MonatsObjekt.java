@@ -259,7 +259,7 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 
 					days[index] = new JButton(dayName);
 
-// XXX Feiertagsfarbe fuer Feiertage reparieren					
+// Feiertagsfarbe fuer Feiertage reparieren					
 					if ( /* (feiertag = Data.feiertage.getFeiertagByDate(new Datum(day))) != null
 							|| */ j == 6)
 					{
@@ -378,6 +378,7 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 				mt = 11;
 				yr--;
 				yearCombo.setSelectedIndex(yearCombo.getSelectedIndex() - 1);
+// XXX achtung out of range problem?			
 			}
 
 			monthCombo.setSelectedIndex(mt);
@@ -395,6 +396,7 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 				mt = 0;
 				yr++;
 				yearCombo.setSelectedIndex(yearCombo.getSelectedIndex() + 1);
+// XXX achtung out of range problem?			
 			}
 
 			monthCombo.setSelectedIndex(mt);
@@ -404,7 +406,8 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 			add("Center", dyPanel);
 			validate();
 		}
-		else
+		else	// day selected
+// XXX stimmt das?			
 		{
 			index = Integer.valueOf(e.getActionCommand()).intValue();
 			dy = Integer.valueOf(days[index].getText()).intValue();
@@ -412,9 +415,9 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 			int mo = Integer.valueOf(
 					days[index].getAccessibleContext().getAccessibleDescription())
 					.intValue();
-			if (mt != mo)
+			if (mt != mo)	// Tag in einem Nachbarmonat angeklickt
 			{
-				if (index < 7)
+				if (index < 7) // Vorgaengermonat
 				{
 					mt--;
 					if (mt < 0)
@@ -422,9 +425,10 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 						mt = 11;
 						yr--;
 						yearCombo.setSelectedIndex(yearCombo.getSelectedIndex() - 1);
+// XXX achtung out of range problem?			
 					}
 				}
-				else
+				else				// Nachfolgemonat
 				{
 					mt++;
 					if (mt > 11)
@@ -432,6 +436,7 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 						mt = 0;
 						yr++;
 						yearCombo.setSelectedIndex(yearCombo.getSelectedIndex() + 1);
+// XXX achtung out of range problem?			
 					}
 				}
 
