@@ -1,5 +1,6 @@
 package swtkal.swing.elements;
 //Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
+// FIXME Klasse MonatsObjekt enthaelt noch kleinere Fehler und muss ueberarbeitet werden
 
 import java.awt.*;
 import java.awt.event.*;
@@ -383,7 +384,6 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 				mt--;
 
 			monthCombo.setSelectedIndex(mt);
-// XXX muss hier noch day aktualisiert werden?
 
 			remove(dyPanel);
 			dyPanel = createDySelect(mt, yr);
@@ -402,7 +402,6 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 				mt++;
 
 			monthCombo.setSelectedIndex(mt);
-// XXX muss hier noch day aktualisiert werden?
 			
 			remove(dyPanel);
 			dyPanel = createDySelect(mt, yr);
@@ -417,29 +416,29 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 			int mo = Integer.valueOf(
 					days[index].getAccessibleContext().getAccessibleDescription())
 					.intValue();
-			if (mt != mo)		// Tag in einem Nachbarmonat angeklickt
+			if (mt != mo)	// Tag in einem Nachbarmonat angeklickt
 			{
 				if (index < 7) 	// Vorgaengermonat
 				{
-					mt--;
-					if (mt < 0)
+					if (mt==0 && yr>(cal.get(Calendar.YEAR)-grenze[0]))
 					{
 						mt = 11;
 						yr--;
 						yearCombo.setSelectedIndex(yearCombo.getSelectedIndex() - 1);
-// XXX achtung out of range problem?			
 					}
+					else
+						mt--;						
 				}
-				else				// Nachfolgemonat
+				else					// Nachfolgemonat
 				{
-					mt++;
-					if (mt > 11)
+					if (mt==11 && yr<(cal.get(Calendar.YEAR)+grenze[1]))
 					{
 						mt = 0;
 						yr++;
 						yearCombo.setSelectedIndex(yearCombo.getSelectedIndex() + 1);
-// XXX achtung out of range problem?			
 					}
+					else
+						mt++;
 				}
 
 				monthCombo.setSelectedIndex(mt);
@@ -463,23 +462,17 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 		{
 			int mt, yr;
 
-			if (e.getSource() == monthCombo)
+			mt = day.get(Calendar.MONTH);
+			yr = day.get(Calendar.YEAR);
+
+			if (e.getSource() == monthCombo && monthCombo.getSelectedIndex()!=-1)
 			{
 				mt = monthCombo.getSelectedIndex();
-				yr = day.get(Calendar.YEAR);
 			}
-			else
-			{	// yearCombo
-// FIXME Fehler java.lang.String cannot be cast to java.lang.Integer
-// Exception in thread "AWT-EventQueue-0"
-				mt = day.get(Calendar.MONTH);
+			else if (e.getSource() == yearCombo && yearCombo.getSelectedIndex()!=-1)
+			{
 				yr = ((Integer) yearCombo.getSelectedItem()).intValue();				
-//				yr = ((Integer) e.getItem()).intValue();				
 			}
-
-// XXX muss hier noch day aktualisiert werden?
-			day.set(Calendar.MONTH, mt);
-			day.set(Calendar.YEAR, yr);
 
 			remove(dyPanel);
 			dyPanel = createDySelect(mt, yr);
