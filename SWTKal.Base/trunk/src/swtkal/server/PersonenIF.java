@@ -17,7 +17,7 @@ public interface PersonenIF
 	public void delete(Person p) throws PersonException;
 	public void update(Person p) throws PersonException;
 	public void updatePasswort(Person p, String passwort) throws PersonException;
-	public void updateKuerzel(Person p, String kuerzel) throws PersonException;
+	public void updateKuerzel(Person p, String oldKuerzel) throws PersonException;
 	
 	public Person authenticatePerson(String kuerzel, String passwort) throws PersonException;
 	public Person findPerson(String kuerzel) throws PersonException;

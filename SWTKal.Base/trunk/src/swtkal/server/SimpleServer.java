@@ -92,11 +92,11 @@ public class SimpleServer extends Server
 		passwoerter.put(kuerzel, passwort);
 	}
 
-	public void updateKuerzel(Person p, String neuKuerzel) throws PersonException
+	public void updateKuerzel(Person p, String oldKuerzel) throws PersonException
 	{
 		logger.fine("Update of userid of person " + p);
 		
-		String oldKuerzel = p.getKuerzel();
+		String neuKuerzel = p.getKuerzel();
 		if (!isPersonKnown(oldKuerzel))
 				throw new PersonException("Userid unknown!");
 		if (isPersonKnown(neuKuerzel))

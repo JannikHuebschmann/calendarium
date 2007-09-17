@@ -41,6 +41,8 @@ public abstract class Client
 	{
 		if (clientProperties==null)
 		{
+			clientProperties = new Properties();
+			
 			// set default properties
 			clientProperties.put("RMIServerPort", "2005");
 			clientProperties.put("BrowserPath", "");
