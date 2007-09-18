@@ -2,9 +2,7 @@ package swtkal.server;
 
 import java.io.*;
 import java.util.Properties;
-import java.util.logging.Logger;
-import java.util.logging.Handler;
-import java.util.logging.FileHandler;
+import java.util.logging.*;
 
 /**
  * Abstract class Server specifies the required server interface.
@@ -27,6 +25,7 @@ public abstract class Server implements PersonenIF, TermineIF
 
 		// set default properties
 		serverProperties.put("ServerClass", "swtkal.server.SimpleServer");
+		serverProperties.put("ServerLogLevel", "WARNING");
 
 		// overwrite properties from swtkalServerProperties.xml if file exists
 		try
@@ -55,8 +54,8 @@ public abstract class Server implements PersonenIF, TermineIF
 		try
 		{
 			handler = new FileHandler("swtkal.log", false);
+			handler.setLevel(Level.parse(serverProperties.getProperty("ServerLogLevel")));
 			logger.addHandler(handler);
-//TODO Logging über properties einstellen				
 		}
 			catch (IOException e)
 		{

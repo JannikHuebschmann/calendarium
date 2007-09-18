@@ -23,7 +23,7 @@ public class SimpleServer extends Server
 		// speichert zu jedem Personenkürzel-String eine Map
 		// diese Map liefert zu jedem Datums-String einen Vector
 		// dieser Vector enthaelt alle Termine zur Teilnehmerperson am konkreten Datum
-// TODO analoge Datenstruktur und Interface-Methoden fuer Besitzer-Assoziation einfuegen	
+// TODO analoge Datenstruktur und Interface-Methoden fuer Besitzer-Assoziation einfuegen?	
 //	protected Map<String, Map<String, Vector<Termin>>> besitzerTermine;
 
 	protected SimpleServer()
@@ -67,9 +67,9 @@ public class SimpleServer extends Server
 		String kuerzel = p.getKuerzel();
 		if (!isPersonKnown(kuerzel))
 				throw new PersonException("Userid unknown!");
-		passwoerter.remove(kuerzel);
+		teilnehmerTermine.remove(kuerzel);
 		personen.remove(kuerzel);
-// TODO Termine dieser Person auch löschen!		
+		passwoerter.remove(kuerzel);
 	}
 
 	public void update(Person p) throws PersonException
@@ -107,7 +107,6 @@ public class SimpleServer extends Server
 		
 		passwoerter.put(neuKuerzel, passwoerter.get(oldKuerzel));
 		passwoerter.remove(oldKuerzel);
-// TODO kuerzel auch in der Terminverwaltung ändern		
 	}
 
 	public Person authenticatePerson(String kuerzel, String passwort)

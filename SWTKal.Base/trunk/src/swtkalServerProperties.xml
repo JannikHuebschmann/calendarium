@@ -3,4 +3,5 @@
 <properties>
 <comment>--- SWTKal Server Settings ---</comment>
 <entry key="ServerClass">swtkal.server.SimpleServer</entry>
+<entry key="ServerLogLevel">WARNING</entry>
 </properties>
