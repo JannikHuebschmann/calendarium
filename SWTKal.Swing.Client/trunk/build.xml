@@ -7,7 +7,6 @@
 
 <project name="SWTKal.Swing.Client" default="default">
 
-	<property name="javadoc.dir" value="deploy/javadoc"/>
 	<property name="deploy.dir" value="deploy/jars"/>
 
     <!-- ================================= 
@@ -29,7 +28,6 @@
           target: deploy.dirs                      
          - - - - - - - - - - - - - - - - - -->
     <target name="deploy.dirs">
-    	<mkdir dir="${javadoc.dir}"/>
     	<mkdir dir="${deploy.dir}"/>
     </target>
 
