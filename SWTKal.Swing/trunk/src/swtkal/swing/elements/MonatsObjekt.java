@@ -1,6 +1,7 @@
 package swtkal.swing.elements;
 //Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 // FIXME Klasse MonatsObjekt enthaelt noch kleinere Fehler und muss ueberarbeitet werden
+// insbesondere type casting Probleme in der local class CenteredEditor
 
 import java.awt.*;
 import java.awt.event.*;
