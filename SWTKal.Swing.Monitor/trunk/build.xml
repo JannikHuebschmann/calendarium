@@ -7,7 +7,6 @@
 
 <project name="SWTKal.Swing.Monitor" default="default">
 	
-	<property name="javadoc.dir" value="deploy/javadoc"/>
 	<property name="deploy.dir" value="deploy/jars"/>
 
     <!-- ================================= 
@@ -21,7 +20,7 @@
           target: deploy.jar              
          ================================= -->
     <target name="deploy.jar" depends="deploy.dirs"
-	        description="stellt die SWTKal.Swing.Monitor-Klassen als Jar-Datei zur Verfuegung">
+	        description="Stellt die SWTKal.Swing.Monitor-Klassen als Jar-Datei zur Verfuegung.">
     	<jar destfile="${deploy.dir}/swtkal.swing.monitor.jar"><fileset dir="bin" excludes="junit/**"/></jar>
     </target>
 
@@ -29,7 +28,6 @@
           target: deploy.dirs                      
          - - - - - - - - - - - - - - - - - -->
     <target name="deploy.dirs">
-    	<mkdir dir="${javadoc.dir}"/>
     	<mkdir dir="${deploy.dir}"/>
     </target>
 
