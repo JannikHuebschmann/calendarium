@@ -1,5 +1,6 @@
 package swtkal.swing.client;
 //Achtung: im Wesentlichen unveraendert aus Calendarium uebernommen
+// FIXME Zugriff auf Images so abaendern, dass auch die Images in einer Jar-Datei liegen duerfen!
 
 import java.awt.*;
 import java.awt.event.*;

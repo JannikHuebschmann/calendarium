@@ -13,9 +13,17 @@
     <!-- ================================= 
           target: default              
          ================================= -->
-    <target name="default">
+    <target name="default" depends="deploy.jar">
     	<echo>Buildfile SWTKal.Swing.Client-Teilprojekt</echo>
      </target>
+
+    <!-- ================================= 
+          target: deploy.jar              
+         ================================= -->
+    <target name="deploy.jar" depends="deploy.dirs"
+	        description="stellt die SWTKal.Swing.Client-Klassen als Jar-Datei zur Verfuegung">
+    	<jar destfile="${deploy.dir}/swtkal.swing.client.jar"><fileset dir="bin" excludes="junit/**"/></jar>
+    </target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
           target: deploy.dirs                      
