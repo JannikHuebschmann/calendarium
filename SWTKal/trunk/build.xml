@@ -9,53 +9,102 @@
     <description>
             SWT-Kalender als Fallstudie zur SWT I Vorlesung
     </description>
+
 	
 	<property name="javadoc.dir" value="documentation/javadoc"/>
-<!--	<property name="client.dir" value="deploy.client"/> -->
+	<property name="deploy.client" value="deploy.client"/>
+	<property name="deploy.monitor" value="deploy.monitor"/>
+	<property name="run.dir" value="run.dir"/>
 
 
 	<!-- ================================= 
           target: default              
          ================================= -->
-    <target name="default" depends="info, collect.javadoc">
+    <target name="default" depends="info, collect.jars, collect.javadoc">
     </target>
 
     <!-- ================================= 
           target: start.swing.client              
          ================================= -->
-    <target name="start.swing.client" depends="deploy.dirs"
+    <target name="start.swing.client" depends="collect.jars"
 	        description="Startet den Swing-basierten Client.">
-<!--    	
-    	<copy todir="${client.dir}"><fileset dir="bin" excludes=".svn"/></copy>
-    	<copy todir="${client.dir}"><fileset dir="../Calendarium.Client.Swing/bin" excludes=".svn"/></copy>
-    	<copy todir="${client.dir}"><fileset dir="../Calendarium.Client.Swing" includes="*.bat"/></copy>
--->		<echo>muss noch erstellt werden!</echo>    	
+    	
+		<!-- wird unnoetig, wenn Zugriff auf Image-Ressourcen von Jar-Datei realisiert wurde -->
+    	<copy todir="${run.dir}"><fileset dir="../SWTKal.Swing/src/" includes="images/**"/></copy>
+
+    	<java  dir="${run.dir}" classname="swtkal.swing.client.SwingClient" fork="true">
+    		<classpath>
+    			<fileset dir="${deploy.client}">
+    		        <include name="**/*.jar"/>
+    		    </fileset>
+    		</classpath>
+    	</java>
     </target>
 
     <!-- ================================= 
           target: start.swing.monitor              
          ================================= -->
-    <target name="start.swing.monitor" depends="deploy.dirs"
+    <target name="start.swing.monitor" depends="collect.jars"
 	        description="Startet den Swing-basierten Monitor.">
-		<echo>muss noch erstellt werden!</echo>    	
+    	
+		<!-- wird unnoetig, wenn Zugriff auf Image-Ressourcen von Jar-Datei realisiert wurde -->
+    	<copy todir="${run.dir}"><fileset dir="../SWTKal.Swing/src/" includes="images/**"/></copy>
+
+    	<java  dir="${run.dir}" classname="swtkal.swing.monitor.SwingMonitor" fork="true">
+    		<classpath>
+    			<fileset dir="${deploy.monitor}">
+    		        <include name="**/*.jar"/>
+    		    </fileset>
+    		</classpath>
+    	</java>
+    </target>
+
+	<!-- ================================= 
+          target: collect.jars              
+         ================================= -->
+    <target name="collect.jars" depends="create.dirs"
+	        description="Sammelt die jar-Dateien auf.">
+    	<ant dir="../SWTKal.Base" inheritall="false"></ant>
+    	<ant dir="../SWTKal.Swing" inheritall="false"></ant>
+    	<ant dir="../SWTKal.Swing.Client" inheritall="false"></ant>
+    	<ant dir="../SWTKal.Swing.Monitor" inheritall="false"></ant>
+
+    	<copy todir="${deploy.client}"><fileset dir="../SWTKal.Base/deploy/jars"/></copy>
+    	<copy todir="${deploy.client}"><fileset dir="../SWTKal.Swing/deploy/jars"/></copy>
+    	<copy todir="${deploy.client}"><fileset dir="../SWTKal.Swing.Client/deploy/jars"/></copy>
+    	<copy todir="${deploy.monitor}"><fileset dir="../SWTKal.Base/deploy/jars"/></copy>
+    	<copy todir="${deploy.monitor}"><fileset dir="../SWTKal.Swing/deploy/jars"/></copy>
+    	<copy todir="${deploy.monitor}"><fileset dir="../SWTKal.Swing.Monitor/deploy/jars"/></copy>
     </target>
 
 	<!-- ================================= 
           target: collect.javadoc              
          ================================= -->
-    <target name="collect.javadoc" depends="deploy.dirs"
+    <target name="collect.javadoc" depends="create.dirs"
 	        description="Fasst die API-Beschreibungen zusammen">
     	<ant dir="../SWTKal.Base" inheritall="false"></ant>
     	<copy todir="${javadoc.dir}/base"><fileset dir="../SWTKal.Base/deploy/javadoc"/></copy>
     </target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
-          target: deploy.dirs                      
+          target: create.dirs                      
          - - - - - - - - - - - - - - - - - -->
-    <target name="deploy.dirs">
+    <target name="create.dirs">
     	<mkdir dir="${javadoc.dir}"/>
     	<mkdir dir="${javadoc.dir}/base"/>
-    	<!-- <mkdir dir="${client.dir}"/> -->
+    	<mkdir dir="${deploy.client}"/>
+    	<mkdir dir="${deploy.monitor}"/>
+    	<mkdir dir="${run.dir}"/>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: clean                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="clean">
+    	<delete dir="${javadoc.dir}/"/>
+    	<delete dir="${deploy.client}/"/>
+    	<delete dir="${deploy.monitor}/"/>
+    	<delete dir="${run.dir}/"/>
     </target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
