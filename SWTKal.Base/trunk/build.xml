@@ -14,7 +14,7 @@
     <!-- ================================= 
           target: default              
          ================================= -->
-    <target name="default" depends="deploy.jar, deploy.javadoc">
+    <target name="default" depends="deploy.jar">
     	<echo>Buildfile SWTKal.Base-Teilprojekt</echo>
     </target>
 
@@ -23,7 +23,7 @@
          ================================= -->
     <target name="deploy.jar" depends="deploy.dirs"
 	        description="stellt die SWTKal-Basisklassen als Jar-Datei zur Verfuegung">
-    	<jar destfile="${deploy.dir}/swtkal.base.jar"><fileset dir="bin" excludes="junit/**"/></jar>
+    	<jar destfile="${deploy.dir}/swtkal.base.jar"><fileset dir="bin" excludes="junit/** *.xml"/></jar>
     </target>
 
     <!-- ================================= 
