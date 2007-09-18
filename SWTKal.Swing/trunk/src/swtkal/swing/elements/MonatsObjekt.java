@@ -379,12 +379,12 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 			{
 				mt = 11;
 				yr--;
-				yearCombo.setSelectedIndex(yearCombo.getSelectedIndex() - 1);
 			}
 			else
 				mt--;
 
 			monthCombo.setSelectedIndex(mt);
+			yearCombo.setSelectedIndex(yr-cal.get(Calendar.YEAR)+1);
 
 			remove(dyPanel);
 			dyPanel = createDySelect(mt, yr);
@@ -397,12 +397,12 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 			{
 				mt = 0;
 				yr++;
-				yearCombo.setSelectedIndex(yearCombo.getSelectedIndex() + 1);
 			}
 			else
 				mt++;
 
 			monthCombo.setSelectedIndex(mt);
+			yearCombo.setSelectedIndex(yr-cal.get(Calendar.YEAR)+1);
 			
 			remove(dyPanel);
 			dyPanel = createDySelect(mt, yr);
