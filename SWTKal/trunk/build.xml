@@ -19,9 +19,9 @@
 	<property name="proj.swtkal.base.bin" 			value="../SWTKal.Base/bin"/>
 	<property name="proj.swtkal.base.src" 			value="../SWTKal.Base/src"/>
 	
-	<property name="deploy.client" value="deploy.client"/>
-	<property name="deploy.monitor" value="deploy.monitor"/>
-	<property name="run.dir" value="run.dir"/>
+	<property name="deploy.client" 					value="deploy.client"/>
+	<property name="deploy.monitor" 				value="deploy.monitor"/>
+	<property name="run.dir" 						value="run.dir"/>
 
 
 	<!-- ================================= 
