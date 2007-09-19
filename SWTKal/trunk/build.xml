@@ -11,7 +11,14 @@
     </description>
 
 	
-	<property name="javadoc.dir" value="documentation/javadoc"/>
+	<property name="javadoc.dir" 					value="documentation/javadoc"/>
+	<property name="javadoc.data.dir"				value="documentation/javadocdata"/>
+	<property name="javadoc.swtkal.base.dir" 		value="${javadoc.dir}/swtkal.base"/>
+	<property name="javadoc.swtkkal.stylesheet" 	value="${javadoc.data.dir}/stylesheet.css"/>
+	<property name="javadoc.swtkal.base.overview" 	value="${javadoc.data.dir}/SWTKalBase.html"/>
+	<property name="proj.swtkal.base.bin" 			value="../SWTKal.Base/bin"/>
+	<property name="proj.swtkal.base.src" 			value="../SWTKal.Base/src"/>
+	
 	<property name="deploy.client" value="deploy.client"/>
 	<property name="deploy.monitor" value="deploy.monitor"/>
 	<property name="run.dir" value="run.dir"/>
@@ -91,13 +98,47 @@
          - - - - - - - - - - - - - - - - - -->
     <target name="create.dirs">
     	<mkdir dir="${javadoc.dir}"/>
-    	<mkdir dir="${javadoc.dir}/base"/>
+    	<mkdir dir="${javadoc.dir}/swtkal.base"/>
     	<mkdir dir="${deploy.client}"/>
     	<mkdir dir="${deploy.monitor}"/>
     	<mkdir dir="${run.dir}"/>
     </target>
-
+	
+	
 	<!-- - - - - - - - - - - - - - - - - - 
+          target: create javadoc for swtkal.base                   
+         - - - - - - - - - - - - - - - - - -->	
+	<!-- To run javadoc, please change in the "projekt" -> "properties" -> "Java Build path" 
+			-> "Libraries" -> JRE System Library to "JDK 1.6.0_02" -->		
+    <target name="javadoc.SWTKal.Base">
+	        <javadoc
+	        	access="private" 
+	        	author="true" 
+	        	classpath="${proj.swtkal.base.bin}" 
+	        	destdir="${javadoc.swtkal.base.dir}" 
+	        	overview="${javadoc.swtkal.base.overview}"
+	        	charset="ISO_2033-1983"
+	        	header= "SWTKal"
+	        	doctitle="SWTKal - Fallstudie SWT-Vorlesung" 
+	        	windowtitle="Calendarium"
+	        	footer="SWTKal - Fallstudie SWT-Vorlesung"
+	          	nodeprecated="false" 
+	        	nodeprecatedlist="false" 
+	        	noindex="false" 
+	        	nonavbar="false" 
+	          	notree="false" 
+	        	packagenames="swtkal.server,swtkal.domain,swtkal.monitor,swtkal.exceptions,swtkal.client" 
+	        	source="1.6" 
+	          	sourcepath="${proj.swtkal.base.src}" 
+	        	splitindex="true" 
+	        	stylesheetfile="${javadoc.swtkkal.stylesheet}" 
+	        	use="true" 
+	        	version="true"
+	        	>	    		
+	        	<link href="http://java.sun.com/javase/6/docs/api/"/>
+	        </javadoc>
+	    </target>
+		<!-- - - - - - - - - - - - - - - - - - 
           target: clean                      
          - - - - - - - - - - - - - - - - - -->
     <target name="clean">
