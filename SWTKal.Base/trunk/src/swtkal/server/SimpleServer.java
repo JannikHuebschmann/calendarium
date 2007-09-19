@@ -1,3 +1,15 @@
+/*****************************************************************************************************
+ * 	Project:			SWTKal.Base
+ * 	
+ *  creation date:		01.08.2007
+ *
+ * 
+ *****************************************************************************************************
+ *	date			| 	author		| 	reason for change
+ *****************************************************************************************************
+ *	01.08.2007			calproj			transfer out of the calendarium project
+ *
+ */
 package swtkal.server;
 
 import java.util.*;
@@ -9,10 +21,11 @@ import swtkal.exceptions.PersonException;
 import swtkal.exceptions.TerminException;
 import swtkal.server.Server;
 
-/**
+/*****************************************************************************************************
  * Class SimpleServer is a single-user, memory-based Server that can be
  * used to easily test the SWTKal application.
- *
+ * 
+ * @author calendarium project
  */
 public class SimpleServer extends Server
 {
@@ -26,6 +39,8 @@ public class SimpleServer extends Server
 // TODO analoge Datenstruktur und Interface-Methoden fuer Besitzer-Assoziation einfuegen?	
 //	protected Map<String, Map<String, Vector<Termin>>> besitzerTermine;
 
+	/** This Constructor creates a initial default uster "Admin" with the pass "ADM"
+	 */
 	protected SimpleServer()
 	{
 		personen = new HashMap<String, Person>();

@@ -1,12 +1,25 @@
+/*****************************************************************************************************
+ * 	Project:			SWTKal.Base
+ * 	
+ *  creation date:		01.08.2007
+ *
+ * 
+ *****************************************************************************************************
+ *	date			| 	author		| 	reason for change
+ *****************************************************************************************************
+ *	01.08.2007			calproj			transfer out of the calendarium project
+ *
+ */
 package swtkal.server;
 
 import java.io.*;
 import java.util.Properties;
 import java.util.logging.*;
 
-/**
+/*****************************************************************************************************
  * Abstract class Server specifies the required server interface.
- *
+ * 
+ * @author calendarium project
  */
 public abstract class Server implements PersonenIF, TermineIF
 {

@@ -1,3 +1,15 @@
+/*****************************************************************************************************
+ * 	Project:			SWTKal.Base
+ * 	
+ *  creation date:		01.08.2007
+ *
+ * 
+ *****************************************************************************************************
+ *	date			| 	author		| 	reason for change
+ *****************************************************************************************************
+ *	01.08.2007			calproj			transfer out of the calendarium project
+ *
+ */
 package swtkal.domain;
 
 // Achtung: diese Klasse wurde im Wesentlichen aus Calendarium ungeprueft uebernomme
@@ -5,6 +17,11 @@ package swtkal.domain;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+/*****************************************************************************************************
+ * This Feiertag ......
+ * 
+ * @author calendarium project
+ */
 public class Feiertag
 {
 	private GregorianCalendar date;

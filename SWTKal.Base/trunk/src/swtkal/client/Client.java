@@ -1,3 +1,15 @@
+/*****************************************************************************************************
+ * 	Project:			SWTKal.Base
+ * 	
+ *  creation date:		01.08.2007
+ *
+ * 
+ *****************************************************************************************************
+ *	date			| 	author		| 	reason for change
+ *****************************************************************************************************
+ *	01.08.2007			calproj			transfer out of the calendarium project
+ *
+ */
 package swtkal.client;
 
 import java.io.*;
@@ -6,10 +18,11 @@ import java.util.Properties;
 import swtkal.domain.Person;
 import swtkal.server.Server;
 
-/**
+/*****************************************************************************************************
  * Abstract class Client specifies the required client interface that each
  * Client subclass is supposed to implement.
  * 
+ * @author calendarium project
  */
 public abstract class Client
 {

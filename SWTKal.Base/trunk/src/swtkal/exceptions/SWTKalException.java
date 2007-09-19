@@ -1,9 +1,21 @@
+/*****************************************************************************************************
+ * 	Project:			SWTKal.Base
+ * 	
+ *  creation date:		01.08.2007
+ *
+ * 
+ *****************************************************************************************************
+ *	date			| 	author		| 	reason for change
+ *****************************************************************************************************
+ *	01.08.2007			calproj			transfer out of the calendarium project
+ *
+ */
 package swtkal.exceptions;
 
-/**
+/*****************************************************************************************************
  * Common superclass for all application-oriented exceptions.
- * @author bernd
- *
+ * 
+ * @author 
  */
 public class SWTKalException extends Exception
 {

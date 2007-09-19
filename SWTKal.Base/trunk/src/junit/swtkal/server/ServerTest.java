@@ -1,9 +1,27 @@
+/*****************************************************************************************************
+ * 	Project:			SWTKal.Base
+ * 	
+ *  creation date:		01.08.2007
+ *
+ * 
+ *****************************************************************************************************
+ *	date			| 	author		| 	reason for change
+ *****************************************************************************************************
+ *	01.08.2007			calproj			transfer out of the calendarium project
+ *
+ */
 package junit.swtkal.server;
 
 import junit.framework.*;
 
 import swtkal.server.Server;
 
+
+/*****************************************************************************************************
+ * This ServerTest ......
+ * 
+ * @author calendarium project.
+ */
 public class ServerTest extends TestCase
 {
 

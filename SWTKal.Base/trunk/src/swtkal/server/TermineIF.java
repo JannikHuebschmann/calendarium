@@ -1,3 +1,15 @@
+/*****************************************************************************************************
+ * 	Project:			SWTKal.Base
+ * 	
+ *  creation date:		01.08.2007
+ *
+ * 
+ *****************************************************************************************************
+ *	date			| 	author		| 	reason for change
+ *****************************************************************************************************
+ *	01.08.2007			calproj			transfer out of the calendarium project
+ *
+ */
 package swtkal.server;
 
 import swtkal.domain.Datum;
@@ -7,10 +19,11 @@ import swtkal.exceptions.TerminException;
 
 import java.util.Vector;
 
-/**
+/******************************************************************************************************
  * Interface TermineIF specifies those services of the server interface that
  * deal with Termin objects.
  *
+ * @author	calendarium project
  */
 public interface TermineIF
 {
@@ -30,19 +43,19 @@ public interface TermineIF
 
 	/**
 	 * Finds all appointments of a person as a participant for a given day.
-	 * @param dat Datum 
-	 * @param teilnehmer Person 
-	 * @return Vector<Termin>
+	 * @param dat the date of the appointments
+	 * @param teilnehmer the Person for which are the appointments 
+	 * @return Vector<Termin> - a list of appointments
 	 * @throws TerminException
 	 */
 	public Vector<Termin> getTermineVom(Datum dat, Person teilnehmer) throws TerminException;
 
 	/**
 	 * Finds all appointments of a person as a participant for a given period of time.
-	 * @param vonDat Datum 
-	 * @param bisDat Datum 
-	 * @param teilnehmer 
-	 * @return Vector<Termin>
+	 * @param vonDat the start date of the period
+	 * @param bisDat the end date of the period
+	 * @param teilnehmer the Person for which are the appointments
+	 * @return Vector<Termin> - a list of appointments
 	 * @throws TerminException
 	 */
 	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person teilnehmer) throws TerminException;

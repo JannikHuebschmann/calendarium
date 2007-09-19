@@ -1,3 +1,15 @@
+/*****************************************************************************************************
+ * 	Project:			SWTKal.Base
+ * 	
+ *  creation date:		01.08.2007
+ *
+ * 
+ *****************************************************************************************************
+ *	date			| 	author		| 	reason for change
+ *****************************************************************************************************
+ *	01.08.2007			calproj			transfer out of the calendarium project
+ *
+ */
 package swtkal.monitor;
 
 import java.io.IOException;
@@ -10,6 +22,13 @@ import swtkal.exceptions.PersonException;
  * Class SimpleMonitor is a single-user-ASCII-Monitor that can be
  * used to test the SimpleServer implementation.
  *
+ */
+
+/*****************************************************************************************************
+ * Class SimpleMonitor is a single-user-ASCII-Monitor that can be
+ * used to test the SimpleServer implementation.
+ * 
+ * @author calendarium project
  */
 public class SimpleMonitor extends Monitor
 {

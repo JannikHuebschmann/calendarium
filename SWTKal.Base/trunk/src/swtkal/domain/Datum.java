@@ -1,3 +1,15 @@
+/*****************************************************************************************************
+ * 	Project:			SWTKal.Base
+ * 	
+ *  creation date:		01.08.2007
+ *
+ * 
+ *****************************************************************************************************
+ *	date			| 	author		| 	reason for change
+ *****************************************************************************************************
+ *	01.08.2007			calproj			transfer out of the calendarium project
+ *
+ */
 package swtkal.domain;
 
 // diese Klasse wurde im Wesentlichen unverändert aus dem Calendarium-Projekt übernommen
@@ -11,6 +23,12 @@ import java.text.*;
 // Datum // Datum // Datum // Datum // Datum // Datum // Datum // Datum // Datum // Datum // Datum //
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+/*****************************************************************************************************
+ * This Datum ......
+ * 
+ * @author calendarium project
+ */
 public class Datum implements Serializable
 {
    private static final long serialVersionUID = -8731434115896598180L;
