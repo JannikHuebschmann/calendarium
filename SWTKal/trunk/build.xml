@@ -14,7 +14,7 @@
 	<property name="javadoc.dir" 					value="documentation/javadoc"/>
 	<property name="javadoc.data.dir"				value="documentation/javadocdata"/>
 	<property name="javadoc.swtkal.base.dir" 		value="${javadoc.dir}/swtkal.base"/>
-	<property name="javadoc.swtkkal.stylesheet" 	value="${javadoc.data.dir}/stylesheet.css"/>
+	<property name="javadoc.swtkal.stylesheet" 		value="${javadoc.data.dir}/stylesheet.css"/>
 	<property name="javadoc.swtkal.base.overview" 	value="${javadoc.data.dir}/SWTKalBase.html"/>
 	<property name="proj.swtkal.base.bin" 			value="../SWTKal.Base/bin"/>
 	<property name="proj.swtkal.base.src" 			value="../SWTKal.Base/src"/>
@@ -27,7 +27,7 @@
 	<!-- ================================= 
           target: default              
          ================================= -->
-    <target name="default" depends="info, collect.jars, collect.javadoc">
+    <target name="default" depends="info, collect.jars">
     </target>
 
     <!-- ================================= 
@@ -131,7 +131,7 @@
 	        	source="1.6" 
 	          	sourcepath="${proj.swtkal.base.src}" 
 	        	splitindex="true" 
-	        	stylesheetfile="${javadoc.swtkkal.stylesheet}" 
+	        	stylesheetfile="${javadoc.swtkal.stylesheet}" 
 	        	use="true" 
 	        	version="true"
 	        	>	    		
