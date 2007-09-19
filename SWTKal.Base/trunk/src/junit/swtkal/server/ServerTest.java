@@ -4,7 +4,6 @@ import junit.framework.*;
 
 import swtkal.server.Server;
 
-// TODO JUnit-Tests zum Server realisieren
 public class ServerTest extends TestCase
 {
 
