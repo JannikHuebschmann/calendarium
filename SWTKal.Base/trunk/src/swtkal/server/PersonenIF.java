@@ -12,7 +12,7 @@ import java.util.Vector;
  */
 public interface PersonenIF
 {
-// TODO alle Methoden per Javadoc dokumentieren	
+// TODO alle Methoden aus PersonenIF per Javadoc dokumentieren	
 	public void insert(Person p, String passwort) throws PersonException;
 	public void delete(Person p) throws PersonException;
 	public void update(Person p) throws PersonException;

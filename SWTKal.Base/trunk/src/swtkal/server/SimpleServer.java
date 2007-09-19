@@ -97,6 +97,7 @@ public class SimpleServer extends Server
 		logger.fine("Update of userid of person " + p);
 		
 		String neuKuerzel = p.getKuerzel();
+		if (neuKuerzel.equals(oldKuerzel)) return;		// nothing to do
 		if (!isPersonKnown(oldKuerzel))
 				throw new PersonException("Userid unknown!");
 		if (isPersonKnown(neuKuerzel))

@@ -3,7 +3,7 @@ package junit.swtkal.domain;
 import junit.framework.*;
 import swtkal.domain.Datum;
 
-// TODO Junit-Test für Datum ergänzen
+// TODO Junit-Test für Datum und weitere Domain-Klassen ergaenzen
 public class DatumTest extends TestCase
 {
 	public DatumTest(String name) { super(name); }
