@@ -116,7 +116,6 @@
     	description="Erzeugt die Javadoc-API-Beschreibungen.">
 	        <javadoc
 	        	author="true" 
-	        	classpath="${proj.swtkal.base.bin}" 
 	        	destdir="${javadoc.swtkal.base.dir}" 
 	        	overview="${javadoc.swtkal.base.overview}"
 	        	header="SWTKal"
@@ -134,8 +133,7 @@
 	        	splitindex="true" 
 	        	stylesheetfile="${javadoc.swtkal.stylesheet}" 
 	        	use="true" 
-	        	version="true">	    		
-	        	<link href="http://java.sun.com/javase/6/docs/api/"/>
+	        	version="true">	  
 	        </javadoc>
 	</target>
 	
