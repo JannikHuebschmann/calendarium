@@ -33,8 +33,8 @@ public class Datum implements Serializable
 {
    private static final long serialVersionUID = -8731434115896598180L;
    
-	public static final String DAYNAMESLONG[] = {"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"};
-	public static final String DAYNAMESSHORT[] = {"Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"};
+   public static final String DAYNAMESLONG[] = {"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"};
+   public static final String DAYNAMESSHORT[] = {"Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"};
    public static final String MONTHNAMESLONG[] = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
    public static final String TIMETOKEN = ":";
    public static final String DATETOKEN = ".";
@@ -48,9 +48,17 @@ public class Datum implements Serializable
 
 	private int TAG = 0, MONAT = 1, JAHR = 2;
 
+	
+	/**
+	 */
 	public Datum()
 	{}
 
+	
+	/** Set the initial time or date
+	 * 
+	 * @param s is a string which contains a date or time
+	 */
 	public Datum(String s)
 	{
 		if (s.indexOf(TIMETOKEN) >= 0)
@@ -63,12 +71,27 @@ public class Datum implements Serializable
 		}
 	}
 
+	
+	/** Set the initial time and date
+	 * 
+	 * No control if d = date or t = time
+	 * 
+	 * @param d	is a string which contains a date
+	 * @param t is a string which contains a time
+	 */
 	public Datum(String d, String t)
 	{
 		date = ensureDateFormat(d);
 		time = ensureTimeFormat(t);
 	}
 
+	
+	/** Set the initial time and date out of a GregorianCalendar
+	 * 
+	 * @param cal is a GregorianCalendar date/time
+	 * 
+	 * @see java.util.GregorianCalendar
+	 */
 	public Datum(GregorianCalendar cal)
 	{
 		date = ensureDateFormat(cal.get(Calendar.DATE) + DATETOKEN
@@ -79,6 +102,11 @@ public class Datum implements Serializable
 				+ cal.get(Calendar.MINUTE));
 	}
 
+	
+	/** Set the initial date and time out of a <code>Date</code>
+	 * 
+	 * @param d is a Date
+	 */
 	public Datum(Date d)
 	{
 		SimpleDateFormat simpleDate = new SimpleDateFormat("dd.MM.yyyy");
@@ -195,6 +223,13 @@ public class Datum implements Serializable
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	// Tage eines Monats
+	
+	/** This function calcMonthDays returns the maximum days of this month in that year.
+	 *
+	 * @param mt 1 for January  till 12 for December
+	 * @param yr for example 1982
+	 * @return - the maximum days of this month in that year
+	 */
 	public static int calcMonthDays(int mt, int yr)
 	{
 		if ((mt == 4) || (mt == 6) || (mt == 9) || (mt == 11))
@@ -210,7 +245,13 @@ public class Datum implements Serializable
 			return (31);
 	}
 
-	// Wochentag
+	/** The function getWeekDay returns the specific Day Mo-So
+	 *
+	 * @param dy The Day of the date
+	 * @param mt The Month of the date
+	 * @param yr The year of the date
+	 * @return - one of <code>DAYNAMESSHORT</code>
+	 */
 	public static int getWeekDay(int dy, int mt, int yr)
 	{
 		return (getDaysSinceUrsprung(dy, mt, yr) - 1) % 7;

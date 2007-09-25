@@ -15,7 +15,7 @@ package swtkal.exceptions;
 /*****************************************************************************************************
  * Common superclass for all application-oriented exceptions.
  * 
- * @author 
+ * @author calendarium project
  */
 public class SWTKalException extends Exception
 {

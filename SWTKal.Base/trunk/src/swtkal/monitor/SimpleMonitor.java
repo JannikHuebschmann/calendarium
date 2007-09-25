@@ -18,12 +18,6 @@ import java.util.Vector;
 import swtkal.domain.Person;
 import swtkal.exceptions.PersonException;
 
-/**
- * Class SimpleMonitor is a single-user-ASCII-Monitor that can be
- * used to test the SimpleServer implementation.
- *
- */
-
 /*****************************************************************************************************
  * Class SimpleMonitor is a single-user-ASCII-Monitor that can be
  * used to test the SimpleServer implementation.
