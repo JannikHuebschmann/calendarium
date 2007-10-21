@@ -10,7 +10,6 @@
             SWT-Kalender als Fallstudie zur SWT I Vorlesung
     </description>
 
-	
 	<property name="javadoc.dir" 					value="documentation/javadoc"/>
 	<property name="javadoc.data.dir"				value="documentation/javadocdata"/>
 	<property name="javadoc.swtkal.base.dir" 		value="${javadoc.dir}/swtkal.base"/>
