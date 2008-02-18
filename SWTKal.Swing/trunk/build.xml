@@ -21,7 +21,12 @@
          ================================= -->
     <target name="deploy.jar" depends="deploy.dirs"
 	        description="stellt die SWTKal.Swing-Klassen als Jar-Datei zur Verfuegung">
-    	<jar destfile="${deploy.dir}/swtkal.swing.jar"><fileset dir="bin" excludes="junit/** *.xml *.log"/></jar>
+    	<jar destfile="${deploy.dir}/swtkal.swing.jar">
+    		<fileset dir="bin" excludes="junit/** *.xml *.log"/>
+    	</jar>
+    	<jar destfile="${deploy.dir}/swtkal.swingclient.jar">
+    		<fileset dir="bin" excludes="junit/** swtkal/swing/monitor/** *.xml *.log"/>
+    	</jar>
     </target>
 
 	<!-- - - - - - - - - - - - - - - - - - 

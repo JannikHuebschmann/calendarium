@@ -358,9 +358,9 @@ bevorzugt.setEnabled(false);
 //		}
 
 		// Passwörter unterschiedlich
-		if (!passwort[0].getPassword().equals(passwort[1].getPassword()))
+		if (!passwort[0].getText().equals(passwort[1].getText()))
 		{
-			String text = "Die Paßwörter sind nicht ident. Bitte tragen Sie das Paßwort nochmals in beide Textfelder ein!\n";
+			String text = "Die Passwörter sind nicht ident. Bitte tragen Sie das Passwort nochmals in beide Textfelder ein!\n";
 			passwort[0].setText("");
 			passwort[1].setText("");
 
