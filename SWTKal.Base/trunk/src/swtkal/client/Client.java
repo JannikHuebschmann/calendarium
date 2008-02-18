@@ -7,7 +7,7 @@
  *****************************************************************************************************
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
- *	01.08.2007			calproj			transfer out of the calendarium project
+ *	01.08.2007			swtUser			initial version
  *
  */
 package swtkal.client;
@@ -20,15 +20,25 @@ import swtkal.server.Server;
 
 /*****************************************************************************************************
  * Abstract class Client specifies the required client interface that each
- * Client subclass is supposed to implement.
+ * Client subclass is supposed to implement. Furthermore it realizes some
+ * base functionality that can be used by each subclass.
  * 
- * @author calendarium project
+ * @author swtUser
  */
 public abstract class Client
 {
-	protected Server server = swtkal.server.Server.getServer();;
+	protected Server server;
 	protected Person user;
 	protected Properties clientProperties;
+	
+	/**
+	 * Constructor
+	 */
+	protected Client()
+	{
+		server = swtkal.server.Server.getServer();	// as specified in swtkalServerProperties.xml
+		clientProperties = getClientProperties();	// as specified in swtkalClientProperties.xml
+	}
 	
 	/**
 	 * @return the server to which the client is connected
@@ -74,6 +84,7 @@ public abstract class Client
 				e.printStackTrace();
 				try
 				{
+					// write the current properties to a file (in case it does not yet exist)
 					FileOutputStream out = new FileOutputStream("swtkalClientProperties.xml");
 					clientProperties.storeToXML(out, "--- SWTKal Client Settings ---");
 					out.close();

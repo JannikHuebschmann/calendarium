@@ -7,7 +7,7 @@
  *****************************************************************************************************
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
- *	01.08.2007			calproj			transfer out of the calendarium project
+ *	01.08.2007			swtUser			initial version
  *
  */
 package swtkal.server;
@@ -23,20 +23,20 @@ import java.util.Vector;
  * Interface TermineIF specifies those services of the server interface that
  * deal with Termin objects.
  *
- * @author	calendarium project
+ * @author	swtUser
  */
 public interface TermineIF
 {
 	/**
 	 * Inserts an appointment into the server.
-	 * @param termin Termin
+	 * @param termin the appointment to be inserted
 	 * @throws TerminException
 	 */
 	public void insert(Termin termin) throws TerminException;
 
 	/**
 	 * Deletes an appointment from the server.
-	 * @param termin
+	 * @param termin the appointment to be deleted
 	 * @throws TerminException
 	 */
 	public void delete(Termin termin) throws TerminException;
@@ -44,8 +44,8 @@ public interface TermineIF
 	/**
 	 * Finds all appointments of a person as a participant for a given day.
 	 * @param dat the date of the appointments
-	 * @param teilnehmer the Person for which are the appointments 
-	 * @return Vector<Termin> - a list of appointments
+	 * @param teilnehmer the Person for whom appointments are retrieved
+	 * @return Vector<Termin> a vector of retrieved appointments
 	 * @throws TerminException
 	 */
 	public Vector<Termin> getTermineVom(Datum dat, Person teilnehmer) throws TerminException;
@@ -54,13 +54,13 @@ public interface TermineIF
 	 * Finds all appointments of a person as a participant for a given period of time.
 	 * @param vonDat the start date of the period
 	 * @param bisDat the end date of the period
-	 * @param teilnehmer the Person for which are the appointments
-	 * @return Vector<Termin> - a list of appointments
+	 * @param teilnehmer the Person for whom appointments are retrieved
+	 * @return Vector<Termin> a vector of retrieved appointments
 	 * @throws TerminException
 	 */
 	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person teilnehmer) throws TerminException;
 
-// weitere Methoden aus Calendarium, die evtl. beim weiteren Ausbau noch benötigt werden	
+// weitere Methoden aus Calendarium, die beim weiteren Ausbau noch benötigt werden	
 //	/** Personen mit Terminen
 //	 * 
 //	 * @param vonDat

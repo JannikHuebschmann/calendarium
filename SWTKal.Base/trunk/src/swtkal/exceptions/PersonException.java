@@ -7,16 +7,17 @@
  *****************************************************************************************************
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
- *	01.08.2007			calproj			transfer out of the calendarium project
+ *	01.08.2007			swtUser			intial version
  *
  */
 package swtkal.exceptions;
 
 
 /*****************************************************************************************************
- * This PersonException ......
+ * This subclass of SWTKalException is used for exceptions in connection
+ * with managing Person objects within the application.
  * 
- * @author calendarium project
+ * @author swtUser
  */
 public class PersonException extends SWTKalException
 {

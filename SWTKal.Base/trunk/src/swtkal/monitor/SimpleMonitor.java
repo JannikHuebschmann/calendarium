@@ -7,7 +7,7 @@
  *****************************************************************************************************
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
- *	01.08.2007			calproj			transfer out of the calendarium project
+ *	01.08.2007			swtUser			initial version
  *
  */
 package swtkal.monitor;
@@ -19,8 +19,9 @@ import swtkal.domain.Person;
 import swtkal.exceptions.PersonException;
 
 /*****************************************************************************************************
- * Class SimpleMonitor is a single-user-ASCII-Monitor that can be
- * used to test the SimpleServer implementation.
+ * Class SimpleMonitor is a simple ASCII monitor that can be
+ * used to test the SimpleServer implementation. It uses the
+ * predefined admin user with kuerzel "ADM".
  * 
  * @author calendarium project
  */

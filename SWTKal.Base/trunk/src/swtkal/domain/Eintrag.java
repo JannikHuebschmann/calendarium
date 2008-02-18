@@ -7,7 +7,7 @@
  *****************************************************************************************************
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
- *	01.08.2007			calproj			transfer out of the calendarium project
+ *	01.08.2007			swtUser			initial version
  *
  */
 package swtkal.domain;
@@ -15,12 +15,13 @@ package swtkal.domain;
 /*****************************************************************************************************
  * Superclass with common properties for Termin and ToDo
  * 
- * @author calendarium project
+ * @author swtUser
  */
 public class Eintrag
 {
-	protected String kurzText = "", langText = "";
-	
+	protected int    id=0;			// internal id to uniquely identify
+	                                // each Eintrag object within the server
+	protected String kurzText = "", langText = "";	
 	protected Person besitzer;
 
 	public Eintrag(Person b, String k, String l)
@@ -35,9 +36,14 @@ public class Eintrag
 		besitzer = b;
 	}
 
-	public Person getBesitzer()
+	public int getId()
 	{
-		return besitzer;
+		return id;
+	}
+
+	public void setId(int id)
+	{
+		this.id = id;
 	}
 
 	public String getKurzText()
@@ -45,23 +51,28 @@ public class Eintrag
 		return kurzText;
 	}
 
-	public String getLangText()
-	{
-		return langText;
-	}
-
-	public void setBesitzer(Person p)
-	{
-		besitzer = p;
-	}
-
 	public void setKurzText(String k)
 	{
 		kurzText = k;
 	}
 
+	public String getLangText()
+	{
+		return langText;
+	}
+
 	public void setLangText(String l)
 	{
 		langText = l;
+	}
+
+	public Person getBesitzer()
+	{
+		return besitzer;
+	}
+
+	public void setBesitzer(Person p)
+	{
+		besitzer = p;
 	}
 }

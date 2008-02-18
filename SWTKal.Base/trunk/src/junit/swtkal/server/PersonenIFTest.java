@@ -58,8 +58,9 @@ public class PersonenIFTest extends TestCase
 
 	protected void tearDown() throws Exception
 	{
-		super.tearDown();
 		server.delete(p);
+		server.stopServer();
+		super.tearDown();
 	}
 
 	public void testInsert() throws Exception

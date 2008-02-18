@@ -47,6 +47,12 @@ public class ServerTest extends TestCase
 		server.startServer();
 	}
 
+	protected void tearDown() throws Exception
+	{
+		server.stopServer();
+		super.tearDown();
+	}
+
 	public void testGetServer() throws Exception
 	{
 		assertTrue(server!=null);

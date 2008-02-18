@@ -50,7 +50,6 @@ public class TermineIFTest extends TestCase
 	
 	protected void setUp() throws Exception
 	{
-		super.setUp();
 		server = Server.getServer();
 		server.startServer();
 		d = new Datum(new Date()).addDauer(7);
@@ -62,9 +61,9 @@ public class TermineIFTest extends TestCase
 
 	protected void tearDown() throws Exception
 	{
-		super.tearDown();
 		server.delete(t);
 		server.delete(p);
+		server.stopServer();
 	}
 
 	public void testInsert() throws Exception
@@ -138,13 +137,13 @@ public class TermineIFTest extends TestCase
 		
 		Datum zwischen = new Datum(von.getDate());
 		zwischen.add(10);
-		Termin termin = new Termin(p, "Neukurz", "Neulang", von, von.addDauer(1));
+		Termin termin = new Termin(p, "Neukurz", "Neulang", zwischen, zwischen.addDauer(1));
 		server.insert(termin);
 		assertTrue(server.getTermineVonBis(von, bis, p).size()==2);
 		server.delete(termin);				// needed for tearDown
 		termin = new Termin(p, "Neukurz", "Neulang", bis, bis.addDauer(1));
 		server.insert(termin);
-		assertTrue(server.getTermineVonBis(von, bis, p).size()==2);
+		assertTrue(server.getTermineVonBis(von, bis, p).size()==1);
 		server.delete(termin);				// needed for tearDown
 
 		try
@@ -164,5 +163,4 @@ public class TermineIFTest extends TestCase
 		catch (TerminException e)
 		{}
 	}
-
 }

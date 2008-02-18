@@ -7,7 +7,7 @@
  *****************************************************************************************************
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
- *	01.08.2007			calproj			transfer out of the calendarium project
+ *	01.08.2007			swtUser			
  *
  */
 package swtkal.client;
@@ -16,9 +16,9 @@ package swtkal.client;
  * Class SimpleClient is a simple ASCII-Client that can be
  * used to test the SimpleServer implementation.
  * 
- * @author calendarium project
+ * @author swtUser
  */
 public class SimpleClient extends Client
 {
-// XXX SimpleClient analog zu SimpleMonitor realisieren?	
+// XXX SimpleClient analog zum SimpleMonitor realisieren?	
 }

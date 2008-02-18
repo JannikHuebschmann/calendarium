@@ -7,7 +7,7 @@
  *****************************************************************************************************
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
- *	01.08.2007			calproj			transfer out of the calendarium project
+ *	01.08.2007			swtUser			initial version
  *
  */
 package swtkal.server;
@@ -22,24 +22,31 @@ import swtkal.exceptions.TerminException;
 import swtkal.server.Server;
 
 /*****************************************************************************************************
- * Class SimpleServer is a single-user, memory-based Server that can be
- * used to easily test the SWTKal application.
+ * Class SimpleServer is a single-user, memory-based server that can be
+ * used to easily test the SWTKal application (especially its graphical
+ * user interfaces for client and monitor!).
  * 
- * @author calendarium project
+ * This simplistic implementation intensively uses Java generic collection
+ * classes to realize server functionality.
+ * 
+ * The server is initialized with a user Admin with kuerzel "ADM" and password "admin".
+ * Furthermore there are two appointments for the current date.
+ * 
+ * @author swtUser
  */
 public class SimpleServer extends Server
 {
 	protected Map<String, Person> personen;
 	protected Map<String, String> passwoerter;
 	protected Map<String, Map<String, Vector<Termin>>> teilnehmerTermine;
-		// verwaltet die Teilnehmer-Termin-Assoziation
+		// verwaltet die Teilnehmer-Termin-Assoziationen
 		// speichert zu jedem Personenkürzel-String eine Map
 		// diese Map liefert zu jedem Datums-String einen Vector
 		// dieser Vector enthaelt alle Termine zur Teilnehmerperson am konkreten Datum
-// TODO analoge Datenstruktur und Interface-Methoden fuer Besitzer-Assoziation einfuegen?	
+//  TODO analoge Datenstruktur und Interface-Methoden fuer Besitzer-Assoziation einfuegen?	
 //	protected Map<String, Map<String, Vector<Termin>>> besitzerTermine;
 
-	/** This Constructor creates a initial default uster "Admin" with the pass "ADM"
+	/** This constructor creates an initial default user and two appointments
 	 */
 	protected SimpleServer()
 	{
@@ -152,7 +159,7 @@ public class SimpleServer extends Server
 
 	public Person findPerson(String kuerzel) throws PersonException
 	{
-		logger.finer("Find person with userid " + kuerzel);
+		logger.fine("Find person with userid " + kuerzel);
 		
 		if (!isPersonKnown(kuerzel))
 			throw new PersonException("Userid unknown!");
@@ -161,7 +168,7 @@ public class SimpleServer extends Server
 
 	public Vector<Person> getPersonVector()
 	{
-		logger.finer("Method getPersonVector called");
+		logger.fine("Method getPersonVector called");
 		
 		return new Vector<Person>(personen.values());
 	}
@@ -210,9 +217,9 @@ public class SimpleServer extends Server
 	}
 
 	public Vector<Termin> getTermineVom(Datum dat, Person tn)
-			throws TerminException
+		throws TerminException
 	{
-		logger.finer("Method getTermineVom called for " + dat);
+		logger.fine("Method getTermineVom called for " + dat);
 				
 		String kuerzel = tn.getKuerzel();
 		if (!isPersonKnown(kuerzel))
@@ -232,11 +239,31 @@ public class SimpleServer extends Server
 	}
 
 	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person tn)
-			throws TerminException
+		throws TerminException
 	{
-		logger.finer("Method getTermineVonBis called from " + vonDat + " to " + bisDat);
-		// TODO getTermineVonBis noch ausprogrammieren
-		return null;
+		logger.fine("Method getTermineVonBis called from " + vonDat + " to " + bisDat);
+
+		String kuerzel = tn.getKuerzel();
+		if (!isPersonKnown(kuerzel))
+			throw new TerminException("Userid unknown!");
+		if (vonDat.isGreater(bisDat)==1)
+			throw new TerminException("Incorrect date interval!");
+		
+		Vector<Termin> result = new Vector<Termin>();
+
+		Map<String, Vector<Termin>> map = teilnehmerTermine.get(kuerzel);
+		if (map!=null )
+		{
+			Datum d = new Datum(vonDat.getDate());
+			while (bisDat.isGreater(d)==1)
+			{
+				Vector<Termin> vector = map.get(d.getDate());
+				if (vector!=null) result.addAll(vector);
+				
+				d.add(1);	// next day
+			}
+		}
+		return result;
 	}
 
 	public void delete(Termin termin) throws TerminException

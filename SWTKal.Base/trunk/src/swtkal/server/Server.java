@@ -7,7 +7,7 @@
  *****************************************************************************************************
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
- *	01.08.2007			calproj			transfer out of the calendarium project
+ *	01.08.2007			swtUser			initial version
  *
  */
 package swtkal.server;
@@ -17,15 +17,16 @@ import java.util.Properties;
 import java.util.logging.*;
 
 /*****************************************************************************************************
- * Abstract class Server specifies the required server interface.
+ * Abstract class Server specifies the required server interface and realizes
+ * common base functionality.
  * 
- * @author calendarium project
+ * @author swtUser
  */
 public abstract class Server implements PersonenIF, TermineIF
 {
 	protected static Server server;				// Design Pattern Singelton
-	protected static boolean isServerRunning = false;
-	
+	                                            // there is only one server object!
+	protected static boolean isServerRunning;
 	protected static Properties serverProperties;
 	
 	protected static Logger logger;				// for logging important activities
@@ -34,6 +35,7 @@ public abstract class Server implements PersonenIF, TermineIF
 	static 
 	{
 		// initialize serverProperties
+		isServerRunning = false;
 		serverProperties = new Properties();
 
 		// set default properties
@@ -51,7 +53,7 @@ public abstract class Server implements PersonenIF, TermineIF
 		{
 			e.printStackTrace();
 			try
-			{	// write current properties to file swtkalServerProperties.xml
+			{	// write current properties to file (in case it does not yet exist)
 				FileOutputStream out = new FileOutputStream("swtkalServerProperties.xml");
 				serverProperties.storeToXML(out, "--- SWTKal Server Settings ---");
 				out.close();
@@ -76,8 +78,14 @@ public abstract class Server implements PersonenIF, TermineIF
 		}
 	}
 	
-// TODO Javadoc-Kommentare für die Server-Methoden einfügen	
-	public static Server getServer()				// gets the Singelton object
+	/**
+	 * This class method generates the Singelton server object if necessary and
+	 * returns it. The specific class for the server is specified in the server
+	 * properties.
+	 * 
+	 * @return the Singelton server object  
+	 */
+	public static Server getServer()
 	{
 		if (server==null)
 		{
@@ -85,6 +93,7 @@ public abstract class Server implements PersonenIF, TermineIF
 			try
 			{
 				server = (Server) Class.forName(serverProperties.getProperty("ServerClass")).newInstance();
+				logger.info("Genutzte Server-Klasse: " + serverProperties.getProperty("ServerClass"));
 			}
 				catch (Exception e)
 			{
@@ -94,22 +103,37 @@ public abstract class Server implements PersonenIF, TermineIF
 		}
 		return server;
 	}
-	
+		
+	/**
+	 *
+	 * @return boolean value that indicates whether the server is running or not
+	 */
 	public boolean isServerRunning()
 	{
 		return isServerRunning;
 	}
-
+	
+	/** 
+	 *
+	 * @return the current server properties as specified in the file swtkalServerProperties.xml
+	 */
 	public Properties getServerProperties()
 	{
 		return serverProperties;
 	}
-
+	
+	/** 
+	 *
+	 * @return the default logger object for server activities
+	 */
 	public Logger getLogger()
 	{
 		return logger;
 	}
 
+	/** 
+	 * This function starts the server if necessary and logs this.
+	 */
 	public void startServer()
 	{
 		if (!isServerRunning)
@@ -117,9 +141,11 @@ public abstract class Server implements PersonenIF, TermineIF
 			logger.info("Server gestartet");
 			isServerRunning = true;
 		}
-		isServerRunning = true;
 	}
 
+	/**
+	 * This function stops the server if necessary and logs this.
+	 */
 	public void stopServer()
 	{
 		if (isServerRunning)

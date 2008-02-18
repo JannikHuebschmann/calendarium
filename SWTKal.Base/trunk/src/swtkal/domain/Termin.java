@@ -7,7 +7,7 @@
  *****************************************************************************************************
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
- *	01.08.2007			calproj			transfer out of the calendarium project
+ *	01.08.2007			swtUser			initial version
  *
  */
 package swtkal.domain;
@@ -15,9 +15,9 @@ package swtkal.domain;
 import java.util.Vector;
 
 /*****************************************************************************************************
- * Class Termin represents appointments that are managed by the calendar server.
+ * Class Termin represents appointments that are managed by the swtKal server.
  * 
- * @author calendarium project
+ * @author swtUser
  */
 public class Termin extends Eintrag
 {

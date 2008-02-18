@@ -7,16 +7,17 @@
  *****************************************************************************************************
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
- *	01.08.2007			calproj			transfer out of the calendarium project
+ *	01.08.2007			swtUser			initial version
  *
  */
 package swtkal.exceptions;
 
 
 /*****************************************************************************************************
- * This TerminException ......
+ * This subclass of SWTKalException is used for exceptions in connection
+ * with managing Termin objects within the application.
  * 
- * @author calendarium project
+ * @author swtUser
  */
 public class TerminException extends SWTKalException
 {
