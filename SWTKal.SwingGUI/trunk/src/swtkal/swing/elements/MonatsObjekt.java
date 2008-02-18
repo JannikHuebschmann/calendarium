@@ -1,7 +1,6 @@
 package swtkal.swing.elements;
 //Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 // FIXME Klasse MonatsObjekt enthaelt noch kleinere Fehler und muss ueberarbeitet werden
-// FIXME die Februar-Darstellung in Schaltjahren erfolgt fehlerhaft ohne den 29. Februar
 // insbesondere type casting Probleme in der local class CenteredEditor
 
 import java.awt.*;
@@ -333,7 +332,7 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 			return (30);
 		else if (month == 1)
 		{
-			if (cal.isLeapYear(cal.get(Calendar.YEAR)))
+			if (day.isLeapYear(day.get(Calendar.YEAR)))
 				return (29);
 			else
 				return (28);
