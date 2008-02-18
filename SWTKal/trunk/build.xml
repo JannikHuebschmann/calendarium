@@ -36,7 +36,7 @@
 	        description="Startet den Swing-basierten Client.">
     	
 		<!-- wird unnoetig, wenn Zugriff auf Image-Ressourcen aus Jar-Dateien realisiert wurde -->
-    	<copy todir="${run.dir}"><fileset dir="../SWTKal.Swing/src/" includes="images/**"/></copy>
+    	<copy todir="${run.dir}"><fileset dir="../SWTKal.SwingGUI/src/" includes="images/**"/></copy>
 
     	<java  dir="${run.dir}" classname="swtkal.swing.client.SwingClient" fork="true">
     		<classpath>
@@ -54,7 +54,7 @@
 	        description="Startet den Swing-basierten Monitor.">
     	
 		<!-- wird unnoetig, wenn Zugriff auf Image-Ressourcen aus Jar-Dateien realisiert wurde -->
-    	<copy todir="${run.dir}"><fileset dir="../SWTKal.Swing/src/" includes="images/**"/></copy>
+    	<copy todir="${run.dir}"><fileset dir="../SWTKal.SwingGUI/src/" includes="images/**"/></copy>
 
     	<java  dir="${run.dir}" classname="swtkal.swing.monitor.SwingMonitor" fork="true">
     		<classpath>
@@ -73,26 +73,13 @@
     	
     	<!-- alle jar-Dateien in den Teilprojekten aktualisieren -->
     	<ant dir="../SWTKal.Base" inheritall="false"></ant>
-    	<ant dir="../SWTKal.Swing" inheritall="false"></ant>
-    	<ant dir="../SWTKal.Swing.Client" inheritall="false"></ant>
-    	<ant dir="../SWTKal.Swing.Monitor" inheritall="false"></ant>
+    	<ant dir="../SWTKal.SwingGUI" inheritall="false"></ant>
 		<!-- Client-Deployment -->
     	<copy todir="${deploy.client}"><fileset dir="../SWTKal.Base/deploy/jars"/></copy>
-    	<copy todir="${deploy.client}"><fileset dir="../SWTKal.Swing/deploy/jars"/></copy>
-    	<copy todir="${deploy.client}"><fileset dir="../SWTKal.Swing.Client/deploy/jars"/></copy>
+    	<copy todir="${deploy.client}"><fileset file="../SWTKal.SwingGUI/deploy/jars/swtkal.swingclient.jar"/></copy>
     	<!-- Monitor-Deployment -->
     	<copy todir="${deploy.monitor}"><fileset dir="../SWTKal.Base/deploy/jars"/></copy>
-    	<copy todir="${deploy.monitor}"><fileset dir="../SWTKal.Swing/deploy/jars"/></copy>
-    	<copy todir="${deploy.monitor}"><fileset dir="../SWTKal.Swing.Monitor/deploy/jars"/></copy>
-    </target>
-
-	<!-- ================================= 
-          target: collect.javadoc              
-         ================================= -->
-    <target name="collect.javadoc" depends="create.dirs"
-	        description="Fasst die API-Beschreibungen zusammen">
-    	<ant dir="../SWTKal.Base" inheritall="false"></ant>
-    	<copy todir="${javadoc.dir}/base"><fileset dir="../SWTKal.Base/deploy/javadoc"/></copy>
+    	<copy todir="${deploy.monitor}"><fileset file="../SWTKal.SwingGUI/deploy/jars/swtkal.swing.jar"/></copy>
     </target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
@@ -100,7 +87,7 @@
          - - - - - - - - - - - - - - - - - -->
     <target name="create.dirs">
     	<mkdir dir="${javadoc.dir}"/>
-    	<mkdir dir="${javadoc.dir}/swtkal.base"/>
+    	<mkdir dir="${javadoc.swtkal.base.dir}"/>
     	<mkdir dir="${deploy.client}"/>
     	<mkdir dir="${deploy.monitor}"/>
     	<mkdir dir="${run.dir}"/>
