@@ -12,20 +12,16 @@
  */
 package swtkal.domain;
 
-import javax.persistence.*;
-
 /*****************************************************************************************************
  * Class Person represents users of SWTKal
  * 
  * @author swtUser
  */
-@Entity
 public class Person
 {
-	@Id							// kuerzel is used to uniquely identify
-	protected String kuerzel;	// each Person object within the server
-	protected String vorname;
-	protected String nachname;
+	protected String vorname, nachname, kuerzel;
+									// kuerzel is used to uniquely identify
+    								// each Person object within the server
 
 	public Person(String v, String n, String k)
 	{
