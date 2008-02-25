@@ -14,14 +14,8 @@ package swtkal.server.javapersistence;
 
 import java.util.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-
-import swtkal.domain.Datum;
-import swtkal.domain.Person;
-import swtkal.domain.Termin;
+import javax.persistence.*;
+import swtkal.domain.*;
 import swtkal.exceptions.PersonException;
 import swtkal.exceptions.TerminException;
 import swtkal.server.Server;
@@ -43,8 +37,6 @@ import swtkal.server.Server;
 
 public class JPAServer extends Server
 {
-	protected Map<String, Person> personen;
-	protected Map<String, String> passwoerter;
 	protected Map<String, Map<String, Vector<Termin>>> teilnehmerTermine;
 		// verwaltet die Teilnehmer-Termin-Assoziationen
 		// speichert zu jedem Personenkürzel-String eine Map
@@ -52,30 +44,27 @@ public class JPAServer extends Server
 		// dieser Vector enthaelt alle Termine zur Teilnehmerperson am konkreten Datum
 //  TODO analoge Datenstruktur und Interface-Methoden fuer Besitzer-Assoziation einfuegen?	
 //	protected Map<String, Map<String, Vector<Termin>>> besitzerTermine;
+	
+	protected EntityManager manager;
+	protected EntityTransaction tx;
 
 	/** This constructor creates an initial default user and two appointments
 	 */
 	public JPAServer()
 	{
-		
-EntityManagerFactory factory =
-	Persistence.createEntityManagerFactory("swtkal.mysql");
-EntityManager manager = factory.createEntityManager();
-
-		personen = new HashMap<String, Person>();
-		passwoerter = new HashMap<String,String>();
 		teilnehmerTermine = new HashMap<String, Map<String, Vector<Termin>>>();
+		
+		EntityManagerFactory factory =
+			Persistence.createEntityManagerFactory("swtkal.mysql");
+		manager = factory.createEntityManager();
+		tx = manager.getTransaction();
+		
 		try
 		{
 			// administrator as initial default user 
 			Person p = new Person("SWTKal", "Admin", "ADM");
 			insert(p, "admin");
-			
-  EntityTransaction transaction = manager.getTransaction();
-  transaction.begin();
-  manager.persist(p);
-  transaction.commit();
-			
+						
 			//	two simple test dates for today
 			insert(new Termin(p, "1. Testtermin", "Dies ist der Langtext zum 1. Testtermin",
 					new Datum(new Date()), new Datum(new Date()).addDauer(1)));
@@ -96,8 +85,11 @@ EntityManager manager = factory.createEntityManager();
 		
 		if (isPersonKnown(kuerzel))
 				throw new PersonException("Userid is already used!");
-		passwoerter.put(kuerzel, passwort);
-		personen.put(kuerzel, p);
+		
+		tx.begin();
+			manager.persist(new Passwort(kuerzel,passwort));
+			manager.persist(p);
+		tx.commit();
 	}
 
 	public void delete(Person p) throws PersonException
@@ -108,8 +100,11 @@ EntityManager manager = factory.createEntityManager();
 		if (!isPersonKnown(kuerzel))
 				throw new PersonException("Userid unknown!");
 		teilnehmerTermine.remove(kuerzel);
-		personen.remove(kuerzel);
-		passwoerter.remove(kuerzel);
+		
+		tx.begin();
+			manager.remove(new Passwort(kuerzel, ""));
+			manager.remove(p);
+		tx.commit();
 	}
 
 	public void update(Person p) throws PersonException
@@ -119,7 +114,10 @@ EntityManager manager = factory.createEntityManager();
 		String kuerzel = p.getKuerzel();
 		if (!isPersonKnown(kuerzel))
 				throw new PersonException("Userid unknown!");
-		personen.put(kuerzel, p);
+		
+		tx.begin();
+			manager.merge(p);
+		tx.commit();
 	}
 
 	public void updatePasswort(Person p, String passwort) throws PersonException
@@ -129,7 +127,10 @@ EntityManager manager = factory.createEntityManager();
 		String kuerzel = p.getKuerzel();
 		if (!isPersonKnown(kuerzel))
 				throw new PersonException("Userid unknown!");
-		passwoerter.put(kuerzel, passwort);
+		
+		tx.begin();
+			manager.merge(new Passwort(kuerzel, passwort));
+		tx.commit();
 	}
 
 	public void updateKuerzel(Person p, String oldKuerzel) throws PersonException
@@ -143,11 +144,14 @@ EntityManager manager = factory.createEntityManager();
 		if (isPersonKnown(neuKuerzel))
 			throw new PersonException("Userid is already used!");
 		
-		personen.remove(oldKuerzel);
-		personen.put(neuKuerzel, p);
-		
-		passwoerter.put(neuKuerzel, passwoerter.get(oldKuerzel));
-		passwoerter.remove(oldKuerzel);
+		tx.begin();
+			p.setKuerzel(oldKuerzel); manager.remove(p);
+			p.setKuerzel(neuKuerzel); manager.persist(p);
+			Passwort pass = manager.find(Passwort.class, oldKuerzel);
+			manager.remove(pass);
+			pass.setKuerzel(neuKuerzel);
+			manager.persist(pass);
+		tx.commit();
 	}
 
 	public Person authenticatePerson(String kuerzel, String passwort)
@@ -160,9 +164,10 @@ EntityManager manager = factory.createEntityManager();
 			logger.warning("Failed authentication for userid " + kuerzel);
 			throw new PersonException("Userid unknown!");
 		}
-		Person p = personen.get(kuerzel);
-		if (passwort.equals(passwoerter.get(kuerzel)))
-			return p;
+		
+		Passwort pass = manager.find(Passwort.class, kuerzel);
+		if (passwort.equals(pass.getPasswort()))
+			return manager.find(Person.class, kuerzel);
 		else
 		{
 			logger.warning("Wrong password for userid " + kuerzel);
@@ -172,23 +177,31 @@ EntityManager manager = factory.createEntityManager();
 
 	public boolean isPersonKnown(String kuerzel)
 	{
-		return passwoerter.containsKey(kuerzel);
+		Person p = manager.find(Person.class, kuerzel);
+		return p!=null;
 	}
 
 	public Person findPerson(String kuerzel) throws PersonException
 	{
 		logger.fine("Find person with userid " + kuerzel);
 		
-		if (!isPersonKnown(kuerzel))
+		Person p = manager.find(Person.class, kuerzel);
+		if (p==null)
 			throw new PersonException("Userid unknown!");
-		return personen.get(kuerzel);
+		return p;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Vector<Person> getPersonVector()
 	{
 		logger.fine("Method getPersonVector called");
 		
-		return new Vector<Person>(personen.values());
+		tx.begin();
+			Query query = manager.createQuery("select p from Person p");
+			List<Person>  results = (List<Person>) query.getResultList();
+		tx.commit();
+		
+		return new Vector<Person>(results);
 	}
 
 	public void insert(Termin termin) throws TerminException

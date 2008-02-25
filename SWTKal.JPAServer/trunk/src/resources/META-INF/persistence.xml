@@ -16,7 +16,7 @@
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.connection.password" value="nimdabd"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/middleware"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://192.168.1.57/swtkal"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>
             <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>
