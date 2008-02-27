@@ -26,15 +26,15 @@
 		<inheritance/>
 		<attributes>
 			<id name="id">
-				<generated-value strategy="AUTO"/>
+				<generated-value strategy="IDENTITY"/>
 			</id>
-			<transient name="besitzer"/>
+			<many-to-one name="besitzer"/>
 		</attributes>
 	</entity>
 	
 	<entity class="swtkal.domain.Termin" access="FIELD">
 		<attributes>
-			<transient name="teilnehmer"/>
+			<many-to-many name="teilnehmer" fetch="EAGER"/>
 		</attributes>
 	</entity>	
 </entity-mappings>

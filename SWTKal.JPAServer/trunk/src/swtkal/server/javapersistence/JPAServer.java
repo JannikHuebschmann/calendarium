@@ -36,15 +36,7 @@ import swtkal.server.Server;
 // TODO javadoc Kommentar erneuern
 
 public class JPAServer extends Server
-{
-	protected Map<String, Map<String, Vector<Termin>>> teilnehmerTermine;
-		// verwaltet die Teilnehmer-Termin-Assoziationen
-		// speichert zu jedem Personenkürzel-String eine Map
-		// diese Map liefert zu jedem Datums-String einen Vector
-		// dieser Vector enthaelt alle Termine zur Teilnehmerperson am konkreten Datum
-//  TODO analoge Datenstruktur und Interface-Methoden fuer Besitzer-Assoziation einfuegen?	
-//	protected Map<String, Map<String, Vector<Termin>>> besitzerTermine;
-	
+{	
 	protected EntityManager manager;
 	protected EntityTransaction tx;
 
@@ -52,8 +44,6 @@ public class JPAServer extends Server
 	 */
 	public JPAServer()
 	{
-		teilnehmerTermine = new HashMap<String, Map<String, Vector<Termin>>>();
-		
 		EntityManagerFactory factory =
 			Persistence.createEntityManagerFactory("swtkal.mysql");
 		manager = factory.createEntityManager();
@@ -99,11 +89,11 @@ public class JPAServer extends Server
 		String kuerzel = p.getKuerzel();
 		if (!isPersonKnown(kuerzel))
 				throw new PersonException("Userid unknown!");
-		teilnehmerTermine.remove(kuerzel);
+		// FIXME die Person müsste auch als Teilnehmer in allen Terminen gelöscht werden!
 		
 		tx.begin();
-			manager.remove(new Passwort(kuerzel, ""));
-			manager.remove(p);
+			manager.remove(manager.find(Passwort.class, kuerzel));
+			manager.remove(manager.find(Person.class, kuerzel));
 		tx.commit();
 	}
 
@@ -116,7 +106,7 @@ public class JPAServer extends Server
 				throw new PersonException("Userid unknown!");
 		
 		tx.begin();
-			manager.merge(p);
+			p = manager.merge(p);
 		tx.commit();
 	}
 
@@ -145,10 +135,10 @@ public class JPAServer extends Server
 			throw new PersonException("Userid is already used!");
 		
 		tx.begin();
-			p.setKuerzel(oldKuerzel); manager.remove(p);
-			p.setKuerzel(neuKuerzel); manager.persist(p);
+			manager.remove(manager.find(Person.class, oldKuerzel));
 			Passwort pass = manager.find(Passwort.class, oldKuerzel);
 			manager.remove(pass);
+			manager.persist(p);
 			pass.setKuerzel(neuKuerzel);
 			manager.persist(pass);
 		tx.commit();
@@ -175,6 +165,7 @@ public class JPAServer extends Server
 		}
 	}
 
+// TODO hier noch eine andere überladene Version als Hilfsmethode mit Person als Parametertyp???
 	public boolean isPersonKnown(String kuerzel)
 	{
 		Person p = manager.find(Person.class, kuerzel);
@@ -208,45 +199,25 @@ public class JPAServer extends Server
 	{
 		logger.fine("Insertion of date " + termin);
 		
-		// insert into teilnehmerTermine
-		Vector<Person> teilnehmer = termin.getTeilnehmer();
+		// check whether besitzer is known
+		String kuerzel = termin.getBesitzer().getKuerzel();
+		if (!isPersonKnown(kuerzel))
+			throw new TerminException("Userid unknown!");
+
+		// check whether teilnehmer are known
+		Collection<Person> teilnehmer = termin.getTeilnehmer();
 		for (Person p : teilnehmer)
 		{
 			if (!isPersonKnown(p.getKuerzel()))
 				throw new TerminException("Userid unknown!");
-			insert(termin, p, teilnehmerTermine);
 		}
-
-//		// insert into besitzerTermine
-//		String kuerzel = termin.getBesitzer().getKuerzel();
-//		if (!isPersonKnown(kuerzel))
-//			throw new TerminException("Userid unknown!");
-//		insert(termin, termin.getBesitzer(), besitzerTermine);
+		
+		tx.begin();
+			manager.persist(termin);
+		tx.commit();
 	}
 
-	private void insert(Termin termin, Person p, Map<String, Map<String, Vector<Termin>>> map)
-	{
-		if (!map.containsKey(p.getKuerzel()))
-		{	// first appointment for this person
-			Vector<Termin> vector = new Vector<Termin>();
-			vector.add(termin);									// only one appointment
-			Map<String, Vector<Termin>> dayMap = new HashMap<String, Vector<Termin>>();
-			dayMap.put(termin.getBeginn().getDate(), vector);
-			map.put(p.getKuerzel(), dayMap);
-		}
-		else if (!map.get(p.getKuerzel()).containsKey(termin.getBeginn().getDate()))
-		{	// first appointment for this date
-			Vector<Termin> vector = new Vector<Termin>();
-			vector.add(termin);									// only one appointment
-			map.get(p.getKuerzel()).put(termin.getBeginn().getDate(), vector);
-		}
-		else
-		{	// additional appointment for this person and this date
-			assert map.get(p.getKuerzel()).get(termin.getBeginn().getDate())!=null;
-			map.get(p.getKuerzel()).get(termin.getBeginn().getDate()).add(termin);
-		}
-	}
-
+	@SuppressWarnings("unchecked")
 	public Vector<Termin> getTermineVom(Datum dat, Person tn)
 		throws TerminException
 	{
@@ -255,18 +226,15 @@ public class JPAServer extends Server
 		String kuerzel = tn.getKuerzel();
 		if (!isPersonKnown(kuerzel))
 			throw new TerminException("Userid unknown!");
-				
-		Vector<Termin> result = new Vector<Termin>();
-				
-		Map<String, Vector<Termin>> map = teilnehmerTermine.get(kuerzel);
-		if (map!=null )
-		{
-			Vector<Termin> vector = map.get(dat.getDate());
-			if (vector!=null)
-				result = vector;
-		}
+
+		tx.begin();
+			Query query = manager.createQuery("select t from Termin t where (:tn member of t.teilnehmer)");
+			// FIXME es fehlt die Selektion auf teilnehmer!
+			query.setParameter("tn", tn);
+			List<Termin>  results = (List<Termin>) query.getResultList();
+		tx.commit();
 	
-		return result;
+		return new Vector<Termin>(results);
 	}
 
 	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person tn)
@@ -280,51 +248,29 @@ public class JPAServer extends Server
 		if (vonDat.isGreater(bisDat)==1)
 			throw new TerminException("Incorrect date interval!");
 		
-		Vector<Termin> result = new Vector<Termin>();
-
-		Map<String, Vector<Termin>> map = teilnehmerTermine.get(kuerzel);
-		if (map!=null )
-		{
-			Datum d = new Datum(vonDat.getDate());
-			while (bisDat.isGreater(d)==1)
-			{
-				Vector<Termin> vector = map.get(d.getDate());
-				if (vector!=null) result.addAll(vector);
-				
-				d.add(1);	// next day
-			}
-		}
-		return result;
+		// FIXME Intervallsuche muss noch implementiert werden
+		return getTermineVom(vonDat, tn);		
 	}
 
 	public void delete(Termin termin) throws TerminException
 	{
 		logger.fine("Deletion of date " + termin);
 		
-		// delete from teilnehmerTermine
-		Vector<Person> teilnehmer = termin.getTeilnehmer();
+		// XXX diesen Test könnte man evtl. als Hilfsfunktion extrahieren
+		// check whether besitzer is known
+		String kuerzel = termin.getBesitzer().getKuerzel();
+		if (!isPersonKnown(kuerzel))
+			throw new TerminException("Userid unknown!");
+
+		// check whether teilnehmer are known
+		Collection<Person> teilnehmer = termin.getTeilnehmer();
 		for (Person p : teilnehmer)
 		{
 			if (!isPersonKnown(p.getKuerzel()))
 				throw new TerminException("Userid unknown!");
-			delete(termin, p, teilnehmerTermine);
 		}
-
-//		// delete from besitzerTermine
-//		String kuerzel = termin.getBesitzer().getKuerzel();
-//		if (!personen.containsKey(kuerzel))
-//			throw new TerminException("Userid unknown!");
-//		delete(termin, termin.getBesitzer(), besitzerTermine);
-	}
-
-	private void delete(Termin termin, Person p, Map<String, Map<String, Vector<Termin>>> map)
-	{
-		Map<String, Vector<Termin>> dayMap = map.get(p.getKuerzel());
-		if (dayMap!=null)
-		{
-			Vector<Termin> vector = dayMap.get(termin.getBeginn().getDate());
-			if (vector!=null)
-				vector.remove(termin);
-		}
+		tx.begin();
+			manager.remove(termin);
+		tx.commit();
 	}
 }

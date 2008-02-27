@@ -10,7 +10,7 @@
  *	01.03.2008			ejbUser			initial version
  *
  */
-package swtkal.domain;
+package swtkal.server.javapersistence;
 
 import javax.persistence.*;
 
