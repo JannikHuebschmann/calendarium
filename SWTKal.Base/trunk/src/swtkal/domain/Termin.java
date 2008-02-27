@@ -8,10 +8,12 @@
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
  *	01.08.2007			swtUser			initial version
+ *  01.03.2008			ejbUser			using Collection<E> for teilnehmer association
  *
  */
 package swtkal.domain;
 
+import java.util.Collection;
 import java.util.Vector;
 
 /*****************************************************************************************************
@@ -25,7 +27,7 @@ public class Termin extends Eintrag
 	protected Datum ende;
 	protected boolean verschiebbar;
 	
-	protected Vector<Person> teilnehmer = new Vector<Person>();
+	protected Collection<Person> teilnehmer = new Vector<Person>();
 
 	public Termin(Person besitzer, String kurzText, String langText,
 			 Datum b, Datum e, boolean v)
@@ -75,9 +77,9 @@ public class Termin extends Eintrag
 		return verschiebbar;
 	}
 
-	public Vector<Person> getTeilnehmer()
+	public Collection<Person> getTeilnehmer()
 	{
-		return teilnehmer;
+		return (Vector<Person>) teilnehmer;
 	}
 
 	public void setBeginn(Datum d)

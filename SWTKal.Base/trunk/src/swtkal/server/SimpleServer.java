@@ -178,7 +178,7 @@ public class SimpleServer extends Server
 		logger.fine("Insertion of date " + termin);
 		
 		// insert into teilnehmerTermine
-		Vector<Person> teilnehmer = termin.getTeilnehmer();
+		Collection<Person> teilnehmer = termin.getTeilnehmer();
 		for (Person p : teilnehmer)
 		{
 			if (!isPersonKnown(p.getKuerzel()))
@@ -271,7 +271,7 @@ public class SimpleServer extends Server
 		logger.fine("Deletion of date " + termin);
 		
 		// delete from teilnehmerTermine
-		Vector<Person> teilnehmer = termin.getTeilnehmer();
+		Collection<Person> teilnehmer = termin.getTeilnehmer();
 		for (Person p : teilnehmer)
 		{
 			if (!isPersonKnown(p.getKuerzel()))
