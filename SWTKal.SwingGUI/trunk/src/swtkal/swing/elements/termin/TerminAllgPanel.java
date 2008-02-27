@@ -155,7 +155,7 @@ class TerminAllgPanel extends AllgemeinPanel implements FocusListener
 
 			if (termin.getBeginn().isCorrectTime())
 			{
-				timePanel[0].getZeitfeld().setTime(termin.getBeginn().getTime());
+				timePanel[0].getZeitfeld().setTime(termin.getBeginn().getTimeStr());
 			}
 		}
 
@@ -166,7 +166,7 @@ class TerminAllgPanel extends AllgemeinPanel implements FocusListener
 
 			if (termin.getEnde().isCorrectTime())
 			{
-				timePanel[1].getZeitfeld().setTime(termin.getEnde().getTime());
+				timePanel[1].getZeitfeld().setTime(termin.getEnde().getTimeStr());
 
 				if (termin.getBeginn().isCorrect())
 				{ // Dauer
