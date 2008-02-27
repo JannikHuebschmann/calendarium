@@ -254,7 +254,7 @@ public class SimpleServer extends Server
 		Map<String, Vector<Termin>> map = teilnehmerTermine.get(kuerzel);
 		if (map!=null )
 		{
-			Datum d = new Datum(vonDat.getDate());
+			Datum d = new Datum(vonDat);
 			while (bisDat.isGreater(d)==1)
 			{
 				Vector<Termin> vector = map.get(d.getDate());

@@ -40,7 +40,7 @@ public class DatumTest extends TestCase
 	}
 	
 	protected Datum datum;
-	protected void setUp()
+	protected void setUp() throws Exception
 	{
 		datum = new Datum("12.06.2007");
 	}
