@@ -27,6 +27,10 @@ public class Passwort
 	protected String kuerzel;
 	protected String passwort;
 	
+	public Passwort()
+	{
+	}
+	
 	public Passwort(String k, String p)
 	{
 		kuerzel  = k;
