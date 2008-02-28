@@ -103,7 +103,7 @@ class TerminListeObjekt extends ListeObjekt
 			bgnMin = 0;
 		}
 
-		if (termin.getEnde().isGreater(date) <= 0)
+		if (termin.getEnde().isGreater(nextDate) <= 0)
 		{
 			endHour = termin.getEnde().getHour();
 			endMin = termin.getEnde().getMin();

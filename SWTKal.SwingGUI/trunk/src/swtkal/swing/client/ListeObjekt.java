@@ -19,12 +19,14 @@ class ListeObjekt
 	JPanel gui = new JPanel();
 
 	// Date
-	Datum date;
+	Datum date, nextDate;
 
 	ListeObjekt(Ansicht s, Datum d)
 	{
 		sicht = s;
 		date = new Datum(d.getDateStr());
+		nextDate = new Datum(d.getDateStr());
+		nextDate.add(1);
 
 		gui.setLayout(new BorderLayout());
 	}
