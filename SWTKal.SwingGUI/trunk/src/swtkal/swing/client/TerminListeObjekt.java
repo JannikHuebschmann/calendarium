@@ -564,7 +564,7 @@ class TerminListeObjekt extends ListeObjekt
 
 	private void setDateForPane(LeerObjekt pane, int j)
 	{
-		String dateText = date.getDate();
+		String dateText = date.getDateStr();
 
 		String timeText = String.valueOf(j / 2);
 		if (j % 2 == 0)

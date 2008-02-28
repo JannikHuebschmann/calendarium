@@ -24,7 +24,7 @@ class ListeObjekt
 	ListeObjekt(Ansicht s, Datum d)
 	{
 		sicht = s;
-		date = new Datum(d.getDate());
+		date = new Datum(d.getDateStr());
 
 		gui.setLayout(new BorderLayout());
 	}
