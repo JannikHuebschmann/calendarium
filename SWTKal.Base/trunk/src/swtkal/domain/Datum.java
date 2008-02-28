@@ -68,13 +68,14 @@ public class Datum extends GregorianCalendar
 	public static int getWeekDay(int dy, int mt, int yr)
 	{
 		GregorianCalendar cal = new GregorianCalendar(yr, mt, dy);
-		return cal.get(GregorianCalendar.DAY_OF_WEEK);
+		return (cal.get(GregorianCalendar.DAY_OF_WEEK)+5)%7;
 	}
 
 	/**
 	 */
 	public Datum()
 	{
+		super();
 	}
 
 	/** Set the initial time or date
@@ -127,8 +128,7 @@ public class Datum extends GregorianCalendar
 	 */
 	public Datum(GregorianCalendar cal)
 	{
-		super();
-		this.setTime(cal.getTime());
+		this(cal.getTime());
 	}
 
 	/** Set the initial date and time out of a <code>Date</code>
@@ -218,7 +218,7 @@ public class Datum extends GregorianCalendar
 
 	public int getWeekDay()
 	{
-		return this.get(GregorianCalendar.DAY_OF_WEEK);
+		return (this.get(GregorianCalendar.DAY_OF_WEEK)+5)%7;
 	}
 
 	public int getWeek()
@@ -250,16 +250,12 @@ public class Datum extends GregorianCalendar
 
 	public double getHoursBetween(Datum d)
 	{
-		Date d1 = this.getTime();
-		Date d2 = d.getTime();
-		return Math.abs((d1.getTime() - d2.getTime()) / 1000 / 60);
+		return Math.abs((this.getTime().getTime()-d.getTime().getTime()) / 1000 / 60 / 60);
 	}
 
 	public int getDaysBetween(Datum d)
 	{
-		Date d1 = super.getTime();
-		Date d2 = super.getTime();
-		return Math.abs((int) Math.floor(d1.getTime() - d2.getTime()) / 1000 / 60 / 24);
+		return (int) Math.floor(Math.abs((this.getTime().getTime()-d.getTime().getTime()) / 1000 / 60 / 60 / 24));
 	}
 
 	public Datum addDauer(double dauer) // dauer in Stunden
