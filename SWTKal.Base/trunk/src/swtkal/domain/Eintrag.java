@@ -24,6 +24,10 @@ public class Eintrag
 	protected String kurzText = "", langText = "";	
 	protected Person besitzer;
 
+	public Eintrag()
+	{
+	}
+	
 	public Eintrag(Person b, String k, String l)
 	{
 		besitzer = b;

@@ -85,14 +85,24 @@ public class Datum extends GregorianCalendar
 	public Datum(String s)
 	{
 		super();
-		try
+		
+		try // DateFormat dd.MM.yyyy HH:mm
 		{
 			this.setTime(dateFormat.parse(s));
+			return;
 		} 
 		catch (ParseException e)
 		{
-			// TODO Eingabefehler muesste eigentlich weiter oben abgefangen werden
-			e.printStackTrace();
+		}
+		try // DateFormat dd.MM.yyyy
+		{
+			this.setTime(dateFormat.parse(s + " 00:00"));
+			return;
+		} 
+		catch (ParseException e)
+		{
+			// XXX eigentlich sollte eine checked exception geworfen werden
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -133,14 +143,22 @@ public class Datum extends GregorianCalendar
 
 	public void setDatum(String date)
 	{
-		try
+		try // DateFormat dd.MM.yyyy HH:mm
 		{
 			this.setTime(dateFormat.parse(date));
+			return;
 		} 
 		catch (ParseException e)
 		{
-			// TODO Eingabefehler muesste eigentlich weiter oben abgefangen werden
-			e.printStackTrace();
+		}
+		try // DateFormat dd.MM.yyyy
+		{
+			this.setTime(dateFormat.parse(date + " 00:00"));
+		} 
+		catch (ParseException e)
+		{
+			// XXX eigentlich sollte eine checked exception geworfen werden
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -210,7 +228,7 @@ public class Datum extends GregorianCalendar
 
 	public int getMonth()
 	{
-		return this.get(GregorianCalendar.MONTH);
+		return this.get(GregorianCalendar.MONTH)+1;
 	}
 
 	public int getYear()
@@ -218,7 +236,7 @@ public class Datum extends GregorianCalendar
 		return this.get(GregorianCalendar.YEAR);
 	}
 
-	public String getDate()
+	public String getDateStr()
 	{
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		return df.format(this.getTime());
@@ -279,7 +297,7 @@ public class Datum extends GregorianCalendar
 
 	public String toString()
 	{
-		return getDate() + " " + getTimeStr();
+		return getDateStr() + " " + getTimeStr();
 	}
 
 	public boolean equals(Datum d)
@@ -292,13 +310,13 @@ public class Datum extends GregorianCalendar
 		return isCorrectDate() && isCorrectTime();
 	}
 
-	// nichts mehr zu tun
+	// nichts mehr zu tun!
 	public boolean isCorrectDate()
 	{
 		return true;
 	}
 
-	// nichts mehr zu tun
+	// nichts mehr zu tun!
 	public boolean isCorrectTime()
 	{
 			return true;

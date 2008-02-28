@@ -23,6 +23,10 @@ public class Person
 									// kuerzel is used to uniquely identify
     								// each Person object within the server
 
+	public Person()
+	{
+	}
+	
 	public Person(String v, String n, String k)
 	{
 		vorname = v;

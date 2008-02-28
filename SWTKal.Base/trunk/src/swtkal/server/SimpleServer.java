@@ -200,19 +200,19 @@ public class SimpleServer extends Server
 			Vector<Termin> vector = new Vector<Termin>();
 			vector.add(termin);									// only one appointment
 			Map<String, Vector<Termin>> dayMap = new HashMap<String, Vector<Termin>>();
-			dayMap.put(termin.getBeginn().getDate(), vector);
+			dayMap.put(termin.getBeginn().getDateStr(), vector);
 			map.put(p.getKuerzel(), dayMap);
 		}
-		else if (!map.get(p.getKuerzel()).containsKey(termin.getBeginn().getDate()))
+		else if (!map.get(p.getKuerzel()).containsKey(termin.getBeginn().getDateStr()))
 		{	// first appointment for this date
 			Vector<Termin> vector = new Vector<Termin>();
 			vector.add(termin);									// only one appointment
-			map.get(p.getKuerzel()).put(termin.getBeginn().getDate(), vector);
+			map.get(p.getKuerzel()).put(termin.getBeginn().getDateStr(), vector);
 		}
 		else
 		{	// additional appointment for this person and this date
-			assert map.get(p.getKuerzel()).get(termin.getBeginn().getDate())!=null;
-			map.get(p.getKuerzel()).get(termin.getBeginn().getDate()).add(termin);
+			assert map.get(p.getKuerzel()).get(termin.getBeginn().getDateStr())!=null;
+			map.get(p.getKuerzel()).get(termin.getBeginn().getDateStr()).add(termin);
 		}
 	}
 
@@ -230,7 +230,7 @@ public class SimpleServer extends Server
 		Map<String, Vector<Termin>> map = teilnehmerTermine.get(kuerzel);
 		if (map!=null )
 		{
-			Vector<Termin> vector = map.get(dat.getDate());
+			Vector<Termin> vector = map.get(dat.getDateStr());
 			if (vector!=null)
 				result = vector;
 		}
@@ -257,7 +257,7 @@ public class SimpleServer extends Server
 			Datum d = new Datum(vonDat);
 			while (bisDat.isGreater(d)==1)
 			{
-				Vector<Termin> vector = map.get(d.getDate());
+				Vector<Termin> vector = map.get(d.getDateStr());
 				if (vector!=null) result.addAll(vector);
 				
 				d.add(1);	// next day
@@ -291,7 +291,7 @@ public class SimpleServer extends Server
 		Map<String, Vector<Termin>> dayMap = map.get(p.getKuerzel());
 		if (dayMap!=null)
 		{
-			Vector<Termin> vector = dayMap.get(termin.getBeginn().getDate());
+			Vector<Termin> vector = dayMap.get(termin.getBeginn().getDateStr());
 			if (vector!=null)
 				vector.remove(termin);
 		}

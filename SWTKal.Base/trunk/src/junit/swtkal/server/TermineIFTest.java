@@ -114,7 +114,7 @@ public class TermineIFTest extends TestCase
 
 	public void testGetTermineVom() throws Exception
 	{
-		Datum datum = new Datum(d.getDate());
+		Datum datum = new Datum(d.getDateStr());
 		datum.add(1);					// no appointment for this datum
 		assertTrue(server.getTermineVom(datum, p).size()==0);
 		
@@ -131,11 +131,11 @@ public class TermineIFTest extends TestCase
 	public void testGetTermineVonBis() throws Exception
 	{
 		Datum von = d;
-		Datum bis = new Datum(von.getDate());
+		Datum bis = new Datum(von.getDateStr());
 		bis.add(20);
 		assertTrue(server.getTermineVonBis(von, bis, p).size()==1);
 		
-		Datum zwischen = new Datum(von.getDate());
+		Datum zwischen = new Datum(von.getDateStr());
 		zwischen.add(10);
 		Termin termin = new Termin(p, "Neukurz", "Neulang", zwischen, zwischen.addDauer(1));
 		server.insert(termin);
