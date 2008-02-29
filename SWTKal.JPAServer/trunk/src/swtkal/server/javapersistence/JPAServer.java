@@ -13,28 +13,21 @@
 package swtkal.server.javapersistence;
 
 import java.util.*;
-
 import javax.persistence.*;
+
 import swtkal.domain.*;
 import swtkal.exceptions.PersonException;
 import swtkal.exceptions.TerminException;
 import swtkal.server.Server;
 
 /*****************************************************************************************************
- * Class SimpleServer is a single-user, memory-based server that can be
- * used to easily test the SWTKal application (especially its graphical
- * user interfaces for client and monitor!).
+ * Class JPAServer realizes is a multi-user JPA-based server.
  * 
- * This simplistic implementation intensively uses Java generic collection
- * classes to realize server functionality.
- * 
- * The server is initialized with a user Admin with kuerzel "ADM" and password "admin".
- * Furthermore there are two appointments for the current date.
+ * This server accesses a relational database according to the specifications in
+ * persistence.xml and orm.xml.
  * 
  * @author ejbUser
  */
-// TODO javadoc Kommentar erneuern
-
 public class JPAServer extends Server
 {	
 	protected EntityManager manager;
@@ -51,16 +44,17 @@ public class JPAServer extends Server
 		
 		try
 		{
-			// administrator as initial default user 
+			// administrator as initial default user
 			Person p = new Person("SWTKal", "Admin", "ADM");
 			insert(p, "admin");
 						
-			//	two simple test dates for today
+			//two simple test dates for today
 			insert(new Termin(p, "1. Testtermin", "Dies ist der Langtext zum 1. Testtermin",
 					new Datum(new Date()), new Datum(new Date()).addDauer(1)));
 			insert(new Termin(p, "2. Testtermin", "Dies ist der Langtext zum 2. Testtermin",
 						new Datum(new Date()).addDauer(1.5), new Datum(new Date()).addDauer(2.5)));
 		}
+		catch (PersonException e) {}	// ADM is already known - nothing to do
 		catch (Exception e)
 		{
 			e.printStackTrace();
@@ -72,7 +66,6 @@ public class JPAServer extends Server
 		logger.fine("Insertion of person " + p + " with a password");
 		
 		String kuerzel = p.getKuerzel();
-		
 		if (isPersonKnown(kuerzel))
 				throw new PersonException("Userid is already used!");
 		
@@ -89,11 +82,24 @@ public class JPAServer extends Server
 		String kuerzel = p.getKuerzel();
 		if (!isPersonKnown(kuerzel))
 				throw new PersonException("Userid unknown!");
-		// FIXME die Person müsste auch als Teilnehmer in allen Terminen gelöscht werden!
 		
 		tx.begin();
+			// delete Person object from all Termin objects where it is in teilnehmer
+			Query deleteSQLStatement = manager.createNativeQuery("delete from eintrag_person " +
+					                                             "where teilnehmer_kuerzel=:k");
+			deleteSQLStatement.setParameter("k", kuerzel);
+			deleteSQLStatement.executeUpdate();
+
+			// delete all Termin objects owned by this person
+			manager.refresh(p);
+			Query deleteStatement = manager.createQuery("delete from Termin t where t.besitzer=:p");
+			deleteStatement.setParameter("p", p);
+			deleteStatement.executeUpdate();
+
+			// delete Passwort and Person objects
 			manager.remove(manager.find(Passwort.class, kuerzel));
-			manager.remove(manager.find(Person.class, kuerzel));
+			manager.remove(p);
+			// TODO kann man hier nicht cascading rules im DB Schema nutzen?
 		tx.commit();
 	}
 
@@ -130,17 +136,21 @@ public class JPAServer extends Server
 		String neuKuerzel = p.getKuerzel();
 		if (neuKuerzel.equals(oldKuerzel)) return;		// nothing to do
 		if (!isPersonKnown(oldKuerzel))
-				throw new PersonException("Userid unknown!");
+			throw new PersonException("Userid unknown!");
 		if (isPersonKnown(neuKuerzel))
 			throw new PersonException("Userid is already used!");
 		
 		tx.begin();
-			manager.remove(manager.find(Person.class, oldKuerzel));
+			manager.clear();							// changing entity ids is dangerous
+			
 			Passwort pass = manager.find(Passwort.class, oldKuerzel);
 			manager.remove(pass);
-			manager.persist(p);
-			pass.setKuerzel(neuKuerzel);
-			manager.persist(pass);
+			manager.persist(new Passwort(neuKuerzel, pass.getPasswort()));
+			
+			Query update = manager.createNativeQuery("update person set kuerzel=:neuKuerzel where kuerzel=:oldKuerzel");
+			update.setParameter("neuKuerzel", neuKuerzel);
+			update.setParameter("oldKuerzel", oldKuerzel);
+			update.executeUpdate();
 		tx.commit();
 	}
 
@@ -179,7 +189,8 @@ public class JPAServer extends Server
 		Person p = manager.find(Person.class, kuerzel);
 		if (p==null)
 			throw new PersonException("Userid unknown!");
-		return p;
+		else
+			return p;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -203,7 +214,6 @@ public class JPAServer extends Server
 		String kuerzel = termin.getBesitzer().getKuerzel();
 		if (!isPersonKnown(kuerzel))
 			throw new TerminException("Userid unknown!");
-
 		// check whether teilnehmer are known
 		Collection<Person> teilnehmer = termin.getTeilnehmer();
 		for (Person p : teilnehmer)
@@ -217,26 +227,17 @@ public class JPAServer extends Server
 		tx.commit();
 	}
 
-	@SuppressWarnings("unchecked")
 	public Vector<Termin> getTermineVom(Datum dat, Person tn)
 		throws TerminException
 	{
-		logger.fine("Method getTermineVom called for " + dat);
-				
-		String kuerzel = tn.getKuerzel();
-		if (!isPersonKnown(kuerzel))
-			throw new TerminException("Userid unknown!");
+		// truncate vonDat and bisDat
+		Datum tagesAnfang = new Datum(dat.getDateStr());
+		Datum tagesEnde   = new Datum(dat.getDateStr() + " 23:59");
 
-		tx.begin();
-			Query query = manager.createQuery("select t from Termin t where (:tn member of t.teilnehmer)");
-			// FIXME es fehlt die Selektion auf teilnehmer!
-			query.setParameter("tn", tn);
-			List<Termin>  results = (List<Termin>) query.getResultList();
-		tx.commit();
-	
-		return new Vector<Termin>(results);
+		return getTermineVonBis(tagesAnfang, tagesEnde, tn);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person tn)
 		throws TerminException
 	{
@@ -247,16 +248,25 @@ public class JPAServer extends Server
 			throw new TerminException("Userid unknown!");
 		if (vonDat.isGreater(bisDat)==1)
 			throw new TerminException("Incorrect date interval!");
-		
-		// FIXME Intervallsuche muss noch implementiert werden
-		return getTermineVom(vonDat, tn);		
+
+		tx.begin();
+			Query query = manager.createQuery("select t from Termin t " +
+					                          "where t.ende>=:vonDat and :bisDat>=t.beginn " +
+					                                 "and (:tn member of t.teilnehmer)");
+			query.setParameter("vonDat", (Calendar) vonDat);
+			query.setParameter("bisDat", (Calendar) bisDat);
+			query.setParameter("tn", tn);
+			List<Termin>  results = (List<Termin>) query.getResultList();
+		tx.commit();
+
+		return new Vector<Termin>(results);
 	}
 
 	public void delete(Termin termin) throws TerminException
 	{
 		logger.fine("Deletion of date " + termin);
 		
-		// XXX diesen Test könnte man evtl. als Hilfsfunktion extrahieren
+		// XXX diese Tests könnte man evtl. als Hilfsfunktion extrahieren
 		// check whether besitzer is known
 		String kuerzel = termin.getBesitzer().getKuerzel();
 		if (!isPersonKnown(kuerzel))
@@ -269,8 +279,11 @@ public class JPAServer extends Server
 			if (!isPersonKnown(p.getKuerzel()))
 				throw new TerminException("Userid unknown!");
 		}
+		
 		tx.begin();
 			manager.remove(termin);
 		tx.commit();
 	}
+	
+	// TODO cascading noch beim mapping direkt einstellen (für update und delete!)
 }
