@@ -20,5 +20,5 @@ package swtkal.client;
  */
 public class SimpleClient extends Client
 {
-// XXX SimpleClient analog zum SimpleMonitor realisieren?	
+// TODO SimpleClient analog zum SimpleMonitor realisieren?	
 }
