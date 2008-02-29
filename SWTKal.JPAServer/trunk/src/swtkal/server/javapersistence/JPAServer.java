@@ -65,12 +65,11 @@ public class JPAServer extends Server
 	{
 		logger.fine("Insertion of person " + p + " with a password");
 		
-		String kuerzel = p.getKuerzel();
-		if (isPersonKnown(kuerzel))
+		if (isPersonKnown(p))
 				throw new PersonException("Userid is already used!");
 		
 		tx.begin();
-			manager.persist(new Passwort(kuerzel,passwort));
+			manager.persist(new Passwort(p.getKuerzel(),passwort));
 			manager.persist(p);
 		tx.commit();
 	}
@@ -79,27 +78,15 @@ public class JPAServer extends Server
 	{
 		logger.fine("Deletion of person " + p);
 		
-		String kuerzel = p.getKuerzel();
-		if (!isPersonKnown(kuerzel))
+		if (!isPersonKnown(p))
 				throw new PersonException("Userid unknown!");
 		
 		tx.begin();
-			// delete Person object from all Termin objects where it is in teilnehmer
-			Query deleteSQLStatement = manager.createNativeQuery("delete from eintrag_person " +
-					                                             "where teilnehmer_kuerzel=:k");
-			deleteSQLStatement.setParameter("k", kuerzel);
-			deleteSQLStatement.executeUpdate();
-
-			// delete all Termin objects owned by this person
-			manager.refresh(p);
-			Query deleteStatement = manager.createQuery("delete from Termin t where t.besitzer=:p");
-			deleteStatement.setParameter("p", p);
-			deleteStatement.executeUpdate();
-
 			// delete Passwort and Person objects
-			manager.remove(manager.find(Passwort.class, kuerzel));
+			manager.remove(manager.find(Passwort.class, p.getKuerzel()));
 			manager.remove(p);
-			// TODO kann man hier nicht cascading rules im DB Schema nutzen?
+			// deletes in associations besitzer and teilnehmer
+			// are automatically propagated by cascading rules within the DB schema
 		tx.commit();
 	}
 
@@ -107,8 +94,7 @@ public class JPAServer extends Server
 	{
 		logger.fine("Update of person " + p);
 		
-		String kuerzel = p.getKuerzel();
-		if (!isPersonKnown(kuerzel))
+		if (!isPersonKnown(p))
 				throw new PersonException("Userid unknown!");
 		
 		tx.begin();
@@ -120,12 +106,11 @@ public class JPAServer extends Server
 	{
 		logger.fine("Update of password of person " + p);
 		
-		String kuerzel = p.getKuerzel();
-		if (!isPersonKnown(kuerzel))
+		if (!isPersonKnown(p))
 				throw new PersonException("Userid unknown!");
 		
 		tx.begin();
-			manager.merge(new Passwort(kuerzel, passwort));
+			manager.merge(new Passwort(p.getKuerzel(), passwort));
 		tx.commit();
 	}
 
@@ -141,8 +126,8 @@ public class JPAServer extends Server
 			throw new PersonException("Userid is already used!");
 		
 		tx.begin();
-			manager.clear();							// changing entity ids is dangerous
-			
+			manager.clear();							// clear persistence context since
+			                                            // changing entity ids is dangerous
 			Passwort pass = manager.find(Passwort.class, oldKuerzel);
 			manager.remove(pass);
 			manager.persist(new Passwort(neuKuerzel, pass.getPasswort()));
@@ -151,6 +136,8 @@ public class JPAServer extends Server
 			update.setParameter("neuKuerzel", neuKuerzel);
 			update.setParameter("oldKuerzel", oldKuerzel);
 			update.executeUpdate();
+			// updates in associations besitzer and teilnehmer
+			// are automatically propagated by cascading rules within the DB schema
 		tx.commit();
 	}
 
@@ -175,13 +162,17 @@ public class JPAServer extends Server
 		}
 	}
 
-// TODO hier noch eine andere überladene Version als Hilfsmethode mit Person als Parametertyp???
 	public boolean isPersonKnown(String kuerzel)
 	{
-		Person p = manager.find(Person.class, kuerzel);
-		return p!=null;
+		Passwort pass = manager.find(Passwort.class, kuerzel);
+		return pass!=null;
 	}
 
+	protected boolean isPersonKnown(Person p)
+	{
+		return isPersonKnown(p.getKuerzel());
+	}
+	
 	public Person findPerson(String kuerzel) throws PersonException
 	{
 		logger.fine("Find person with userid " + kuerzel);
@@ -211,14 +202,13 @@ public class JPAServer extends Server
 		logger.fine("Insertion of date " + termin);
 		
 		// check whether besitzer is known
-		String kuerzel = termin.getBesitzer().getKuerzel();
-		if (!isPersonKnown(kuerzel))
+		if (!isPersonKnown(termin.getBesitzer()))
 			throw new TerminException("Userid unknown!");
 		// check whether teilnehmer are known
 		Collection<Person> teilnehmer = termin.getTeilnehmer();
 		for (Person p : teilnehmer)
 		{
-			if (!isPersonKnown(p.getKuerzel()))
+			if (!isPersonKnown(p))
 				throw new TerminException("Userid unknown!");
 		}
 		
@@ -243,8 +233,7 @@ public class JPAServer extends Server
 	{
 		logger.fine("Method getTermineVonBis called from " + vonDat + " to " + bisDat);
 
-		String kuerzel = tn.getKuerzel();
-		if (!isPersonKnown(kuerzel))
+		if (!isPersonKnown(tn))
 			throw new TerminException("Userid unknown!");
 		if (vonDat.isGreater(bisDat)==1)
 			throw new TerminException("Incorrect date interval!");
@@ -266,17 +255,15 @@ public class JPAServer extends Server
 	{
 		logger.fine("Deletion of date " + termin);
 		
-		// XXX diese Tests könnte man evtl. als Hilfsfunktion extrahieren
 		// check whether besitzer is known
-		String kuerzel = termin.getBesitzer().getKuerzel();
-		if (!isPersonKnown(kuerzel))
+		if (!isPersonKnown(termin.getBesitzer()))
 			throw new TerminException("Userid unknown!");
 
 		// check whether teilnehmer are known
 		Collection<Person> teilnehmer = termin.getTeilnehmer();
 		for (Person p : teilnehmer)
 		{
-			if (!isPersonKnown(p.getKuerzel()))
+			if (!isPersonKnown(p))
 				throw new TerminException("Userid unknown!");
 		}
 		
@@ -284,6 +271,4 @@ public class JPAServer extends Server
 			manager.remove(termin);
 		tx.commit();
 	}
-	
-	// TODO cascading noch beim mapping direkt einstellen (für update und delete!)
 }

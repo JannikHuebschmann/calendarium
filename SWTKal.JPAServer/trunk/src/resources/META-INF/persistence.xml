@@ -17,7 +17,7 @@
             <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.connection.password" value="nimdabd"/>
             <property name="hibernate.connection.url" value="jdbc:mysql://x300bc/swtkal"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+	        <property name="hibernate.hbm2ddl.auto" value="validate"/>
             <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>
        </properties>
