@@ -100,7 +100,10 @@ public class Termin extends Eintrag
 
 	public Collection<Person> getTeilnehmer()
 	{
-		return (Vector<Person>) teilnehmer;
+		if (teilnehmer instanceof Vector)
+			return teilnehmer;
+		else
+			return new Vector<Person>(teilnehmer);
 	}
 
 	public void setBeginn(Datum d)
