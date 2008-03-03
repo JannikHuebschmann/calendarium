@@ -84,7 +84,7 @@ public class JPAServer extends Server
 		tx.begin();
 			// delete Passwort and Person objects
 			manager.remove(manager.find(Passwort.class, p.getKuerzel()));
-			manager.remove(p);
+			manager.remove(manager.find(Person.class, p.getKuerzel()));
 			// deletes in associations besitzer and teilnehmer
 			// are automatically propagated by cascading rules within the DB schema
 		tx.commit();
@@ -268,7 +268,14 @@ public class JPAServer extends Server
 		}
 		
 		tx.begin();
-			manager.remove(termin);
+			try
+			{
+				manager.remove(manager.find(Termin.class, termin.getId()));
+			}
+			catch (IllegalArgumentException exp)
+			{
+				// Termin does not exist - nothing to do!
+			}
 		tx.commit();
 	}
 }
