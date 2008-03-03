@@ -71,10 +71,15 @@ public class TermineIFTest extends TestCase
 		assertTrue(server.getTermineVom(d, p).size()==1);
 		assertTrue(server.getTermineVom(d, p).contains(t));
 		
-		server.insert(t);					// additional insert
+		Termin neuTermin = new Termin(t.getBesitzer(),
+                				      t.getKurzText(),
+                                      t.getLangText(),
+					                  t.getBeginn(),
+					                  t.getEnde());
+		server.insert(neuTermin);						// additional insert
 		assertTrue(server.getTermineVom(d, p).size()==2);
 		assertTrue(server.getTermineVom(d, p).contains(t));
-		server.delete(t);
+		server.delete(neuTermin);
 		
 		Person person = new Person("Frieda", "Fraumuster", "FF");
 		Termin termin = new Termin(person, "Kurztext", "Langtext", d, d.addDauer(1));
@@ -96,6 +101,7 @@ public class TermineIFTest extends TestCase
 		assertTrue(server.getTermineVom(d, p).size()==0);
 		server.delete(t);				// nothing to do
 		assertTrue(server.getTermineVom(d, p).size()==0);
+		t = new Termin(p, "Testtermin", "Dies ist der Langtext zum Testtermin", d, d.addDauer(1));
 		server.insert(t);				// needed for tearDown
 		
 		Termin termin = new Termin(p, "Neukurz", "Neulang", d, d.addDauer(1));
@@ -131,20 +137,26 @@ public class TermineIFTest extends TestCase
 	public void testGetTermineVonBis() throws Exception
 	{
 		Datum von = d;
-		Datum bis = new Datum(von.getDateStr());
+		Datum bis = new Datum(von.getDateStr(), von.getTimeStr());
 		bis.add(20);
 		assertTrue(server.getTermineVonBis(von, bis, p).size()==1);
 		
-		Datum zwischen = new Datum(von.getDateStr());
+		Datum zwischen = new Datum(von.getDateStr(), von.getTimeStr());
 		zwischen.add(10);
-		Termin termin = new Termin(p, "Neukurz", "Neulang", zwischen, zwischen.addDauer(1));
-		server.insert(termin);
+		Termin zwTermin = new Termin(p, "Neukurz", "Neulang", zwischen, zwischen.addDauer(1));
+		server.insert(zwTermin);
 		assertTrue(server.getTermineVonBis(von, bis, p).size()==2);
-		server.delete(termin);				// needed for tearDown
-		termin = new Termin(p, "Neukurz", "Neulang", bis, bis.addDauer(1));
-		server.insert(termin);
+		server.delete(zwTermin);				// needed for tearDown
 		assertTrue(server.getTermineVonBis(von, bis, p).size()==1);
-		server.delete(termin);				// needed for tearDown
+
+		Datum nach1 = new Datum(bis.getDateStr(), bis.getTimeStr());
+		nach1 = nach1.addDauer(1);
+		Datum nach2 = new Datum(bis.getDateStr(), bis.getTimeStr());
+		nach2.add(1);
+		Termin nachTermin = new Termin(p, "Neukurz", "Neulang", nach1, nach2);
+		server.insert(nachTermin);
+		assertTrue(server.getTermineVonBis(von, bis, p).size()==1);
+		server.delete(nachTermin);				// needed for tearDown
 
 		try
 		{	// no correct period of time

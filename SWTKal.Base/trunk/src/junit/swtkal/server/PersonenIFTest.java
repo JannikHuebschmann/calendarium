@@ -98,7 +98,7 @@ public class PersonenIFTest extends TestCase
 		Person person = new Person("Max", "Musterfrau", "MM");
 		server.update(person);
 		assertTrue(server.isPersonKnown("MM"));
-		assertEquals(person, server.findPerson("MM"));
+		assertEquals(person.getName(), server.findPerson("MM").getName());
 		
 		person.setKuerzel("XX");
 		try
@@ -140,7 +140,7 @@ public class PersonenIFTest extends TestCase
 		server.updateKuerzel(p, "MM");
 		assertTrue(!server.isPersonKnown("MM"));
 		assertTrue(server.isPersonKnown("XX"));
-		assertEquals(p, server.authenticatePerson("XX", "pass"));
+		assertEquals(p.getName(), server.authenticatePerson("XX", "pass").getName());
 		
 		try
 		{
