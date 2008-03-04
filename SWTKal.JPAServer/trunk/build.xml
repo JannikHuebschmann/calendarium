@@ -8,7 +8,7 @@
 <project name="SWTKal.JPAServer" default="default">
 	
 	<property name="deploy.dir"    value="deploy/jars"/>
-	<property name="deploy.server" value="../SWTKal/deploy.server"/>
+	<property name="deploy.server" value="../SWTKal/deploy/server"/>
 	<property name="run.dir" 	   value="../SWTKal/run.dir"/>
 
     <!-- ================================= 
@@ -25,10 +25,11 @@
 	        description="stellt die SWTKal-JPAServer-Klassen als Jar-Datei zur Verfuegung">
     	<jar destfile="${deploy.dir}/swtkal.jpaserver.jar">
     		<fileset dir="bin" excludes="junit/** *.xml resources/**"/>
-    	    <fileset dir="src/resources"/>
+    	    <fileset dir="src/resources" excludes="*.xml"/>
     	</jar>
     	<copy todir="${deploy.server}"><fileset dir="${deploy.dir}"/></copy>
-    	<copy todir="${run.dir}" file="src/swtkalServerProperties.xml" overwrite="true" />
+    	<copy todir="${run.dir}" file="src/resources/swtkalServerProperties.xml" overwrite="true" />
+    	<copy todir="${run.dir}" file="src/resources/log4j.xml" overwrite="true" />
     </target>
 
 	<!-- - - - - - - - - - - - - - - - - - 

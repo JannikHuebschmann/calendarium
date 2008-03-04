@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence>
+   <!-- use this persistence unit during development and when MySQL is not available                   -->
+   <!-- see corresponding property in the constructor of class swtkal.server.javapersistence.JPAServer -->
    <persistence-unit name="swtkal.hypersonic">
        <properties>
             <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
