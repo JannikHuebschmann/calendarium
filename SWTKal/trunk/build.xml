@@ -18,10 +18,10 @@
 	<property name="proj.swtkal.base.bin" 			value="../SWTKal.Base/bin"/>
 	<property name="proj.swtkal.base.src" 			value="../SWTKal.Base/src"/>
 	
-	<property name="deploy.client" 					value="deploy.client"/>
-	<property name="deploy.monitor" 				value="deploy.monitor"/>
-	<property name="deploy.server" 					value="deploy.server"/>
-	<property name="deploy.base" 					value="deploy.base"/>
+	<property name="deploy.client" 					value="deploy/client"/>
+	<property name="deploy.monitor" 				value="deploy/monitor"/>
+	<property name="deploy.server" 					value="deploy/server"/>
+	<property name="deploy.base" 					value="deploy/base"/>
 	<property name="run.dir" 						value="run.dir"/>
 
 
@@ -36,18 +36,12 @@
          ================================= -->
     <target name="start.swing.client" depends="collect.jars"
 	        description="Startet den Swing-basierten Client.">
-    	
-<!-- wird unnoetig, wenn Zugriff auf Image-Ressourcen aus Jar-Dateien realisiert wurde -->
-    	<copy todir="${run.dir}"><fileset dir="../SWTKal.SwingGUI/src/" includes="images/**"/></copy>
-
     	<java  dir="${run.dir}" classname="swtkal.swing.client.SwingClient" fork="true">
     		<classpath>
     			<fileset dir="${deploy.client}"  />
     			<fileset dir="${deploy.server}" />
     			<fileset dir="${deploy.base}" />
-
-<!-- wird das benoetigt oder muss es verschoben werden etwa zum persistence server -->
-    			<pathelement location="${basedir}/client-config"/>
+    			<pathelement location="${run.dir}"/>
     		</classpath>
     	</java>
     </target>
@@ -57,18 +51,12 @@
          ================================= -->
     <target name="start.swing.monitor" depends="collect.jars"
 	        description="Startet den Swing-basierten Monitor.">
-    	
-<!-- wird unnoetig, wenn Zugriff auf Image-Ressourcen aus Jar-Dateien realisiert wurde -->
-    	<copy todir="${run.dir}"><fileset dir="../SWTKal.SwingGUI/src/" includes="images/**"/></copy>
-
     	<java  dir="${run.dir}" classname="swtkal.swing.monitor.SwingMonitor" fork="true">
     		<classpath>
     			<fileset dir="${deploy.monitor}"  />
     			<fileset dir="${deploy.server}" />
     			<fileset dir="${deploy.base}" />
-
-<!-- wird das benoetigt oder muss es verschoben werden etwa zum persistence server -->
-    			<pathelement location="${basedir}/client-config"/>
+    			<pathelement location="${run.dir}"/>
     		</classpath>
     	</java>
     </target>
@@ -82,14 +70,17 @@
     	<!-- alle jar-Dateien in den Teilprojekten aktualisieren -->
     	<ant dir="../SWTKal.Base" inheritall="false"></ant>
     	<ant dir="../SWTKal.SwingGUI" inheritall="false"></ant>
+    	
 		<!-- Client-Deployment -->
     	<copy todir="${deploy.client}"><fileset file="../SWTKal.SwingGUI/deploy/jars/swtkal.swingclient.jar"/></copy>
     	<!-- Monitor-Deployment -->
     	<copy todir="${deploy.monitor}"><fileset file="../SWTKal.SwingGUI/deploy/jars/swtkal.swing.jar"/></copy>
     	<!-- Server-Deployment -->
-    	<!-- SimpleServer ist in Base enthalten - wird evtl. durch Teilprojekte ueberschrieben! -->
+    	<!-- SimpleServer ist in Base enthalten - wird evtl. durch Teilprojekte gefuellt! -->
 		<!-- Base-Deployment -->
-		<copy todir="${deploy.base}"><fileset file="../SWTKal.Base/deploy/jars/swtkal.base.jar"/></copy>    	
+		<copy todir="${deploy.base}"><fileset file="../SWTKal.Base/deploy/jars/swtkal.base.jar"/></copy>
+<!-- wird unnoetig, wenn Zugriff auf Image-Ressourcen aus Jar-Dateien realisiert wurde -->
+    	<copy todir="${run.dir}"><fileset dir="../SWTKal.SwingGUI/src/" includes="images/**"/></copy>
     </target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
@@ -140,8 +131,7 @@
          - - - - - - - - - - - - - - - - - -->
     <target name="clean">
     	<delete dir="${javadoc.dir}/"/>
-    	<delete dir="${deploy.client}/"/>
-    	<delete dir="${deploy.monitor}/"/>
+    	<delete dir="${deploy.client}/.."/>					<!-- deletes all deploy directories -->
     	<delete dir="${run.dir}/"/>
     </target>
 
