@@ -51,7 +51,7 @@ public abstract class Server implements PersonenIF, TermineIF
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			System.err.println("File swtkalServerProperties.xml not found. Default generated!");
 			try
 			{	// write current properties to file (in case it does not yet exist)
 				FileOutputStream out = new FileOutputStream("swtkalServerProperties.xml");

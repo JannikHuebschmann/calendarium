@@ -81,7 +81,7 @@ public abstract class Client
 			}
 			catch (IOException e)
 			{
-				e.printStackTrace();
+				System.err.println("File swtkalClientProperties.xml not found. Default generated!");
 				try
 				{
 					// write the current properties to a file (in case it does not yet exist)
