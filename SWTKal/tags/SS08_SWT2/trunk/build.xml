@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+
+     Buildfile SWT-Kalender-Fallstudie zur SWT I Vorlesung
+                   
+     ====================================================================== -->
+
+<project name="SWTKal" default="default" basedir=".">
+    <description>
+            SWT-Kalender als Fallstudie zur SWT I Vorlesung
+    </description>
+
+	<property name="javadoc.dir" 					value="documentation/javadoc"/>
+	<property name="javadoc.data.dir"				value="documentation/javadocdata"/>
+	<property name="javadoc.swtkal.base.dir" 		value="${javadoc.dir}/swtkal.base"/>
+	<property name="javadoc.swtkal.stylesheet" 		value="${javadoc.data.dir}/stylesheet.css"/>
+	<property name="javadoc.swtkal.base.overview" 	value="${javadoc.data.dir}/SWTKalBase.html"/>
+	<property name="proj.swtkal.base.bin" 			value="../SWTKal.Base/bin"/>
+	<property name="proj.swtkal.base.src" 			value="../SWTKal.Base/src"/>
+	
+	<property name="deploy.client" 					value="deploy/client"/>
+	<property name="deploy.monitor" 				value="deploy/monitor"/>
+	<property name="deploy.server" 					value="deploy/server"/>
+	<property name="deploy.base" 					value="deploy/base"/>
+	<property name="run.dir" 						value="run.dir"/>
+
+
+	<!-- ================================= 
+          target: default              
+         ================================= -->
+    <target name="default" depends="info, collect.jars">
+    </target>
+
+    <!-- ================================= 
+          target: start.swing.client              
+         ================================= -->
+    <target name="start.swing.client" depends="collect.jars"
+	        description="Startet den Swing-basierten Client.">
+    	<java  dir="${run.dir}" classname="swtkal.swing.client.SwingClient" fork="true">
+    		<classpath>
+    			<fileset dir="${deploy.client}"  />
+    			<fileset dir="${deploy.server}" />
+    			<fileset dir="${deploy.base}" />
+    			<pathelement location="${run.dir}"/>
+    		</classpath>
+    	</java>
+    </target>
+
+    <!-- ================================= 
+          target: start.swing.monitor              
+         ================================= -->
+    <target name="start.swing.monitor" depends="collect.jars"
+	        description="Startet den Swing-basierten Monitor.">
+    	<java  dir="${run.dir}" classname="swtkal.swing.monitor.SwingMonitor" fork="true">
+    		<classpath>
+    			<fileset dir="${deploy.monitor}"  />
+    			<fileset dir="${deploy.server}" />
+    			<fileset dir="${deploy.base}" />
+    			<pathelement location="${run.dir}"/>
+    		</classpath>
+    	</java>
+    </target>
+
+	<!-- ================================= 
+          target: collect.jars              
+         ================================= -->
+    <target name="collect.jars" depends="create.dirs"
+	        description="Sammelt die jar-Dateien auf.">
+    	
+    	<!-- alle jar-Dateien in den Teilprojekten aktualisieren -->
+    	<ant dir="../SWTKal.Base" inheritall="false"></ant>
+    	<ant dir="../SWTKal.SwingGUI" inheritall="false"></ant>
+    	
+		<!-- Client-Deployment -->
+    	<copy todir="${deploy.client}"><fileset file="../SWTKal.SwingGUI/deploy/jars/swtkal.swingclient.jar"/></copy>
+    	<!-- Monitor-Deployment -->
+    	<copy todir="${deploy.monitor}"><fileset file="../SWTKal.SwingGUI/deploy/jars/swtkal.swing.jar"/></copy>
+    	<!-- Server-Deployment -->
+    	<!-- SimpleServer ist in Base enthalten - wird evtl. durch Teilprojekte gefuellt! -->
+		<!-- Base-Deployment -->
+		<copy todir="${deploy.base}"><fileset file="../SWTKal.Base/deploy/jars/swtkal.base.jar"/></copy>
+<!-- wird unnoetig, wenn Zugriff auf Image-Ressourcen aus Jar-Dateien realisiert wurde -->
+    	<copy todir="${run.dir}"><fileset dir="../SWTKal.SwingGUI/src/" includes="images/**"/></copy>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: create.dirs                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="create.dirs">
+    	<mkdir dir="${javadoc.dir}"/>
+    	<mkdir dir="${javadoc.swtkal.base.dir}"/>
+    	<mkdir dir="${deploy.client}"/>
+    	<mkdir dir="${deploy.monitor}"/>
+    	<mkdir dir="${deploy.server}"/>
+    	<mkdir dir="${deploy.base}"/>
+    	<mkdir dir="${run.dir}"/>
+    </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: create javadoc for swtkal.base                   
+         - - - - - - - - - - - - - - - - - -->	
+	<!-- To run javadoc, please change in the "projekt" -> "properties" -> "Java Build path" 
+			-> "Libraries" -> JRE System Library to "JDK 1.6.0_02" -->		
+    <target name="javadoc.SWTKal.Base"
+    	description="Erzeugt die Javadoc-API-Beschreibungen.">
+	        <javadoc
+	        	author="true" 
+	        	destdir="${javadoc.swtkal.base.dir}" 
+	        	overview="${javadoc.swtkal.base.overview}"
+	        	header="SWTKal"
+	        	doctitle="SWTKal - Fallstudie SWT-Vorlesung" 
+	        	windowtitle="SWTKal"
+	        	footer="SWTKal - Fallstudie SWT-Vorlesung"
+	          	nodeprecated="false" 
+	        	nodeprecatedlist="false" 
+	        	noindex="false" 
+	        	nonavbar="false" 
+	          	notree="false" 
+	        	packagenames="swtkal.server,swtkal.domain,swtkal.monitor,swtkal.exceptions,swtkal.client" 
+	        	source="1.6" 
+	          	sourcepath="${proj.swtkal.base.src}" 
+	        	splitindex="true" 
+	        	stylesheetfile="${javadoc.swtkal.stylesheet}" 
+	        	use="true" 
+	        	version="true">	  
+	        </javadoc>
+	</target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: clean                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="clean">
+    	<delete dir="${javadoc.dir}/"/>
+    	<delete dir="${deploy.client}/.."/>					<!-- deletes all deploy directories -->
+    	<delete dir="${run.dir}/"/>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: info                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="info">
+    	<echo>Buildfile zur SWT-Kalender-Fallstudie</echo>
+    	<echo>${ant.version}</echo>
+    	<echo>Java Version ${java.version}</echo>
+    </target>
+
+</project>
