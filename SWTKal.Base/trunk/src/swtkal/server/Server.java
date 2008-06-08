@@ -24,7 +24,7 @@ import java.util.logging.*;
  */
 public abstract class Server implements PersonenIF, TermineIF
 {
-	protected static Server server;				// Design Pattern Singelton
+	protected static Server server;				// Design Pattern Singleton
 	                                            // there is only one server object!
 	protected static boolean isServerRunning;
 	protected static Properties serverProperties;
@@ -79,11 +79,11 @@ public abstract class Server implements PersonenIF, TermineIF
 	}
 	
 	/**
-	 * This class method generates the Singelton server object if necessary and
+	 * This class method generates the Singleton server object if necessary and
 	 * returns it. The specific class for the server is specified in the server
 	 * properties.
 	 * 
-	 * @return the Singelton server object  
+	 * @return the Singleton server object  
 	 */
 	public static Server getServer()
 	{
