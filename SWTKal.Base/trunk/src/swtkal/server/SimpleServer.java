@@ -215,6 +215,10 @@ public class SimpleServer extends Server
 			map.get(p.getKuerzel()).get(termin.getBeginn().getDateStr()).add(termin);
 		}
 	}
+	
+	public Termin getTermin(int id) throws TerminException {
+		return null;
+	}
 
 	public Vector<Termin> getTermineVom(Datum dat, Person tn)
 		throws TerminException
@@ -264,6 +268,10 @@ public class SimpleServer extends Server
 			}
 		}
 		return result;
+	}
+	
+	public Vector<Termin> getTermineVom(Datum dat, Vector<Person> teilnehmer) throws TerminException {
+		return null;
 	}
 
 	public void delete(Termin termin) throws TerminException
