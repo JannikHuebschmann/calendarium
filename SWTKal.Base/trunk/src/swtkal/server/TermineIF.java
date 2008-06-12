@@ -8,6 +8,7 @@
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
  *	01.08.2007			swtUser			initial version
+ *	01.06.2008			swtUser			new update method and extended search functionality
  *
  */
 package swtkal.server;
@@ -16,10 +17,11 @@ import swtkal.domain.Datum;
 import swtkal.domain.Person;
 import swtkal.domain.Termin;
 import swtkal.exceptions.TerminException;
+import swtkal.exceptions.PersonException;
 
 import java.util.Vector;
 
-/******************************************************************************************************
+/*****************************************************************************************************
  * Interface TermineIF specifies those services of the server interface that
  * deal with Termin objects.
  *
@@ -42,6 +44,21 @@ public interface TermineIF
 	public void delete(Termin termin) throws TerminException;
 
 	/**
+	 * Updates an appointment on the server.
+	 * @param termin the appointment to be updated
+	 * @throws TerminException
+	 */
+	public void update(Termin termin) throws TerminException;
+
+	/**
+	 * Finds an appointment with a given internal id.
+	 * @param id the internal id of the appointment
+	 * @return Termin the retrieved appointment
+	 * @throws TerminException
+	 */
+	public Termin getTermin(int id) throws TerminException;
+
+	/**
 	 * Finds all appointments of a person as a participant for a given day.
 	 * @param dat the date of the appointments
 	 * @param teilnehmer the Person for whom appointments are retrieved
@@ -60,77 +77,99 @@ public interface TermineIF
 	 */
 	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Person teilnehmer) throws TerminException;
 
-// weitere Methoden aus Calendarium, die beim weiteren Ausbau noch benötigt werden	
-//	/** Personen mit Terminen
-//	 * 
-//	 * @param vonDat
-//	 * @param bisDat
-//	 * @param personenListe
-//	 * @return Vector[]
-//	 * @throws RemoteException
+	/**
+	 * Finds all appointments for a given day such that at least one person of the given group is participating.
+	 * @param dat the date of the appointments
+	 * @param teilnehmer the Person for whom appointments are retrieved
+	 * @return Vector<Termin> a vector of retrieved appointments
+	 * @throws TerminException
+	 */
+	public Vector<Termin> getTermineVom(Datum dat, Vector<Person> teilnehmer) throws TerminException;
+
+	/**
+	 * Finds all appointments for a given period of time such that at least one person of the given group is participating.
+	 * @param vonDat the start date of the period
+	 * @param bisDat the end date of the period
+	 * @param teilnehmer the Person for whom appointments are retrieved
+	 * @return Vector<Termin> a vector of retrieved appointments
+	 * @throws TerminException
+	 */
+	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Vector<Person> teilnehmer) throws TerminException;
+
+	/**
+	 * Finds all appointments for a given day and a given owner.
+	 * @param dat the date of the appointments
+	 * @param besitzer the Person who owns the appointments
+	 * @return Vector<Termin> a vector of retrieved appointments
+	 * @throws TerminException
+	 */
+	public Vector<Termin> getBesitzerTermineVom(Datum dat, Person besitzer) throws TerminException;
+
+	/**
+	 * Finds all appointments for a given period of time and a given owner.
+	 * @param vonDat the start date of the period
+	 * @param bisDat the end date of the period
+	 * @param besitzer the Person who owns the appointments
+	 * @return Vector<Termin> a vector of retrieved appointments
+	 * @throws TerminException
+	 */
+	public Vector<Termin> getBesitzerTermineVonBis(Datum vonDat, Datum bisDat, Person besitzer) throws TerminException;
+
+	/**
+	 * Checks if person is available for given appointment
+	 * @param dat the date of the appointment
+	 * @param teilnehmer the Person for whom appointment are retrieved
+	 * @return boolean a boolean if person is available for appointment
+	 */
+	public boolean isPersonAvailable(Datum vondat, Datum bisDat, Person teilnehmer) throws PersonException;
+
+//	/**
+//	 * Finds all common appointments of persons
+//	 * @author tuncay
+//	 * @param teilnehmer persons with common appointments
+//	 * @return Vector<Termin> a vector of retrieved appointments
+//	 * @throws TerminException
 //	 */
-//	public Vector[] getPersonsWithTermin(Datum vonDat, Datum bisDat,
-//			Vector personenListe) throws RemoteException;
+//	public Vector<Termin> getGemeinsameTermine(Vector<Person> teilnehmer) throws TerminException;
 //
-//	/** Termine an einem Tag ausgeben
-//	 * 
-//	 * @param vomDat
-//	 * @param personenListe
-//	 * @return Vector
-//	 * @throws RemoteException
+//	/**
+//	 * Finds all common appointments of persons for a given period of time
+//	 * @author tuncay
+//	 * @param vonDat the start date of the period
+//	 * @param bisDat the end date of the period
+//	 * @param teilnehmer the persons for whom appointments are retrieved
+//	 * @return Vector<Termin> a vector of retrieved appointments
 //	 */
-//	public Vector getTermineVom(Datum vomDat, Vector personenListe)
-//			throws RemoteException;
+//	public Vector<Termin> getGemeinsameTerminVonBis(Datum vonDat, Datum bisDat, Vector<Person> teilnehmer);
 //
-//	/** einen bestimmten Termin ausgeben
-//	 * 
-//	 * @param id
-//	 * @return Termin
-//	 * @throws RemoteException
+//	/**
+//	 * Finds all free appointments of persons for a given period of time
+//	 * @author tuncay
+//	 * @param vonDat the start date of the period
+//	 * @param bisDat the end date of the period
+//	 * @param teilnehmer the persons for whom appointments are retrieved
+//	 * @return Vector<Termin> a vector of retrieved appointments
 //	 */
-//	public Termin getTerminByID(long id) throws RemoteException;
-//
-//	/** Konflikte ausgeben
-//	 * 
-//	 * @param termin
-//	 * @return Vector
-//	 * @throws RemoteException
-//	 */
-//	public Vector getKonflikte(Termin termin) throws RemoteException;
-//
+//	public Vector<Termin> getFreieTermineVonBis(Datum vonDat, Datum bisDat, Vector<Person> teilnehmer);
+
+//	weitere Methoden aus Calendarium, die beim weiteren Ausbau noch benötigt werden könnten	
 //	/** konfliktfreie Intervalle ausgeben
-//	 * 
-//	 * @param persons
-//	 * @param bgn
-//	 * @param end
-//	 * @param wk
-//	 * @return Vector
-//	 * @throws RemoteException
-//	 */
+//	* 
+//	* @param persons
+//	* @param bgn
+//	* @param end
+//	* @param wk
+//	* @return Vector
+//	* @throws RemoteException
+//	*/
 //	public Vector getFreeOfKonflikte(Hashtable persons, Datum bgn, Datum end,
-//			boolean wk) throws RemoteException;
-//
+//	boolean wk) throws RemoteException;
+
 //	/** Daten säubern
-//	 * 
-//	 * @param person
-//	 * @param bis
-//	 * @throws RemoteException
-//	 */
+//	* 
+//	* @param person
+//	* @param bis
+//	* @throws RemoteException
+//	*/
 //	public void deleteUntilDate(Person person, Datum bis) throws RemoteException;
-//	/** Termin ändern
-//	 * 
-//	 * @param kuerzel
-//	 * @param termin
-//	 * @throws RemoteException
-//	 */
-//	public void update(String kuerzel, Termin termin) throws RemoteException;
-//
-//	/** Fehlendes Eintragsrecht
-//	 * 
-//	 * @param termin
-//	 * @param persons
-//	 * @throws RemoteException
-//	 */
-//	public void sendMissingRight(Termin termin, Vector persons)
-//			throws RemoteException;
 }
