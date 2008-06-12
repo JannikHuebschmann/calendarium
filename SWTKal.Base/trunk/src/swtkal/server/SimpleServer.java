@@ -94,6 +94,12 @@ public class SimpleServer extends Server
 		passwoerter.remove(kuerzel);
 	}
 
+	public void update(Termin termin) throws TerminException 
+	{
+		// TODO Auto-generated method stub
+		throw new TerminException("Not yet implemented!");
+	}
+	
 	public void update(Person p) throws PersonException
 	{
 		logger.fine("Update of person " + p);
@@ -270,8 +276,39 @@ public class SimpleServer extends Server
 		return result;
 	}
 	
-	public Vector<Termin> getTermineVom(Datum dat, Vector<Person> teilnehmer) throws TerminException {
-		return null;
+	public Vector<Termin> getTermineVom(Datum dat, Vector<Person> teilnehmer) 
+			throws TerminException 
+	{
+		throw new TerminException("Not yet implemented!");
+		// TODO Auto-generated method stub
+	}
+
+	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat,
+			Vector<Person> teilnehmer) throws TerminException 
+	{
+		// TODO Auto-generated method stub
+		throw new TerminException("Not yet implemented!");
+	}
+	
+	public Vector<Termin> getBesitzerTermineVom(Datum dat, Person besitzer)
+	throws TerminException
+	{
+		// TODO Auto-generated method stub
+		throw new TerminException("Not yet implemented!");
+	}
+
+	public Vector<Termin> getBesitzerTermineVonBis(Datum vonDat, Datum bisDat,
+			Person besitzer) throws TerminException 
+	{
+		// TODO Auto-generated method stub
+		throw new TerminException("Not yet implemented!");
+	}
+	
+	public boolean isPersonAvailable(Datum vondat, Datum bisDat, Person teilnehmer) 
+			throws PersonException
+	{
+		// TODO Auto-generated method stub
+		throw new PersonException("Not yet implemented!");
 	}
 
 	public void delete(Termin termin) throws TerminException
