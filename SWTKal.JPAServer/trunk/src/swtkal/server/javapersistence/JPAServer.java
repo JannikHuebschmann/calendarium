@@ -91,6 +91,11 @@ public class JPAServer extends Server
 		tx.commit();
 	}
 
+	public void update(Termin termin) throws TerminException 
+	{
+		throw new TerminException("Not yet implemented!");
+	}
+	
 	public void update(Person p) throws PersonException
 	{
 		logger.fine("Update of person " + p);
@@ -223,10 +228,11 @@ public class JPAServer extends Server
 		logger.fine("Method getTermin called for ID " + id);
 
 		tx.begin();
-			Query getTerminId = manager.createQuery("SELECT t from Termin t " +
-													"WHERE t.id = :searchID");
-			getTerminId.setParameter("searchID", id);
-			Termin result = (Termin)getTerminId.getSingleResult();
+			Termin result = manager.find(Termin.class, id);
+//			Query getTerminId = manager.createQuery("SELECT t from Termin t " +
+//													"WHERE t.id = :searchID");
+//			getTerminId.setParameter("searchID", id);
+//			Termin result = (Termin)getTerminId.getSingleResult();
 		tx.commit();
 		
 		return result;
@@ -277,6 +283,7 @@ public class JPAServer extends Server
 		return getTermineVonBis(tagesAnfang, tagesEnde, teilnehmer);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Vector<Person> teilnehmer) throws TerminException {
 
 		logger.fine("Method getTermineVonBis called from " + vonDat + " to " + bisDat);
@@ -300,14 +307,31 @@ public class JPAServer extends Server
 				termineVonBis.setParameter("bisDat", (Calendar) bisDat);
 				termineVonBis.setParameter("tn", p);
 				
-				results = (List<Termin>) termineVonBis.getResultList();
-				results.addAll(results);
+				results.addAll((List<Termin>) termineVonBis.getResultList());
 			}
 		tx.commit();
 		
 		return new Vector<Termin>(results);
 	}
+	
+	public Vector<Termin> getBesitzerTermineVom(Datum dat, Person besitzer)
+			throws TerminException 
+	{
+		throw new TerminException("Not yet implemented!");
+	}
 
+	public Vector<Termin> getBesitzerTermineVonBis(Datum vonDat, Datum bisDat,
+			Person besitzer) throws TerminException 
+	{
+		throw new TerminException("Not yet implemented!");
+	}
+
+	public boolean isPersonAvailable(Datum vondat, Datum bisDat,
+			Person teilnehmer) throws PersonException 
+	{
+		throw new PersonException("Not yet implemented!");
+	}
+	
 	public void delete(Termin termin) throws TerminException
 	{
 		logger.fine("Deletion of date " + termin);
