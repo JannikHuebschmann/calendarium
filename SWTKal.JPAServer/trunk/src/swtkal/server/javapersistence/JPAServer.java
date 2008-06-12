@@ -13,6 +13,7 @@
 package swtkal.server.javapersistence;
 
 import java.util.*;
+
 import javax.persistence.*;
 
 import swtkal.domain.*;
@@ -176,7 +177,7 @@ public class JPAServer extends Server
 	public Person findPerson(String kuerzel) throws PersonException
 	{
 		logger.fine("Find person with userid " + kuerzel);
-		
+
 		Person p = manager.find(Person.class, kuerzel);
 		if (p==null)
 			throw new PersonException("Userid unknown!");
@@ -216,9 +217,23 @@ public class JPAServer extends Server
 			manager.persist(termin);
 		tx.commit();
 	}
+	
+	public Termin getTermin(int id) throws TerminException {
+		//TODO TE Funktion testen
+		logger.fine("Method getTermin called for ID " + id);
+
+		tx.begin();
+			Query getTerminId = manager.createQuery("SELECT t from Termin t " +
+													"WHERE t.id = :searchID");
+			getTerminId.setParameter("searchID", id);
+			Termin result = (Termin)getTerminId.getSingleResult();
+		tx.commit();
+		
+		return result;
+	}
 
 	public Vector<Termin> getTermineVom(Datum dat, Person tn)
-		throws TerminException
+		throws TerminException														// TE - logger fehlt
 	{
 		// truncate vonDat and bisDat
 		Datum tagesAnfang = new Datum(dat.getDateStr());
@@ -248,6 +263,48 @@ public class JPAServer extends Server
 			List<Termin>  results = (List<Termin>) query.getResultList();
 		tx.commit();
 
+		return new Vector<Termin>(results);
+	}
+	
+	public Vector<Termin> getTermineVom(Datum dat, Vector<Person> teilnehmer) throws TerminException {
+		
+		logger.fine("Method getTermineVonBis calle ");
+		
+		// truncate vonDat and bisDat
+		Datum tagesAnfang = new Datum(dat.getDateStr());
+		Datum tagesEnde   = new Datum(dat.getDateStr() + " 23:59");
+
+		return getTermineVonBis(tagesAnfang, tagesEnde, teilnehmer);
+	}
+	
+	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Vector<Person> teilnehmer) throws TerminException {
+
+		logger.fine("Method getTermineVonBis called from " + vonDat + " to " + bisDat);
+		
+		for(Person p : teilnehmer) {
+			if (!isPersonKnown(p)) {
+				throw new TerminException("Userid unknown!");
+			}
+		}
+		if (vonDat.isGreater(bisDat)==1)
+			throw new TerminException("Incorrect date interval!");
+		
+		tx.begin();
+			List<Termin> results = null;
+			for(Person p : teilnehmer) {
+				Query termineVonBis = manager.createQuery("SELECT t FROM Termin t " +
+														  "WHERE t.ende>=:vonDat and :bisDat>=t.beginn " +
+														  "AND (:tn member of t.teilnehmer)");
+	
+				termineVonBis.setParameter("vonDat", (Calendar) vonDat);
+				termineVonBis.setParameter("bisDat", (Calendar) bisDat);
+				termineVonBis.setParameter("tn", p);
+				
+				results = (List<Termin>) termineVonBis.getResultList();
+				results.addAll(results);
+			}
+		tx.commit();
+		
 		return new Vector<Termin>(results);
 	}
 
