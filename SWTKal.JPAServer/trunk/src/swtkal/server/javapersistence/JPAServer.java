@@ -254,7 +254,6 @@ public class JPAServer extends Server
 
 	public Termin getTermin(int id) throws TerminException
 	{
-		//TODO TE Funktion testen
 		logger.fine("Method getTermin called for ID " + id);
 
 		tx.begin();
@@ -359,9 +358,9 @@ public class JPAServer extends Server
 	}
 
 	public boolean isPersonAvailable(Datum vondat, Datum bisDat, Person teilnehmer)
-		throws PersonException 
+		throws TerminException 
 	{
-		throw new PersonException("Not yet implemented!");
+		throw new TerminException("Not yet implemented!");
 	}
 	
 }
