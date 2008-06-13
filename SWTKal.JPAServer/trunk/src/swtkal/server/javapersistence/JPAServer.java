@@ -8,6 +8,7 @@
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
  *	01.03.2008			ejbUser			initial version
+ *	01.06.2008			ejbUser			new update method and extended search functionality
  *
  */
 package swtkal.server.javapersistence;
@@ -89,11 +90,6 @@ public class JPAServer extends Server
 			// deletes in associations besitzer and teilnehmer
 			// are automatically propagated by cascading rules within the DB schema
 		tx.commit();
-	}
-
-	public void update(Termin termin) throws TerminException 
-	{
-		throw new TerminException("Not yet implemented!");
 	}
 	
 	public void update(Person p) throws PersonException
@@ -223,7 +219,41 @@ public class JPAServer extends Server
 		tx.commit();
 	}
 	
-	public Termin getTermin(int id) throws TerminException {
+	public void delete(Termin termin) throws TerminException
+	{
+		logger.fine("Deletion of date " + termin);
+		
+		// check whether besitzer is known
+		if (!isPersonKnown(termin.getBesitzer()))
+			throw new TerminException("Userid unknown!");
+
+		// check whether teilnehmer are known
+		Collection<Person> teilnehmer = termin.getTeilnehmer();
+		for (Person p : teilnehmer)
+		{
+			if (!isPersonKnown(p))
+				throw new TerminException("Userid unknown!");
+		}
+		
+		tx.begin();
+			try
+			{
+				manager.remove(manager.find(Termin.class, termin.getId()));
+			}
+			catch (IllegalArgumentException exp)
+			{
+				// Termin does not exist - nothing to do!
+			}
+		tx.commit();
+	}
+
+	public void update(Termin termin) throws TerminException 
+	{
+		throw new TerminException("Not yet implemented!");
+	}
+
+	public Termin getTermin(int id) throws TerminException
+	{
 		//TODO TE Funktion testen
 		logger.fine("Method getTermin called for ID " + id);
 
@@ -272,10 +302,9 @@ public class JPAServer extends Server
 		return new Vector<Termin>(results);
 	}
 	
-	public Vector<Termin> getTermineVom(Datum dat, Vector<Person> teilnehmer) throws TerminException {
-		
-		logger.fine("Method getTermineVonBis calle ");
-		
+	public Vector<Termin> getTermineVom(Datum dat, Vector<Person> teilnehmer)
+		throws TerminException
+	{
 		// truncate vonDat and bisDat
 		Datum tagesAnfang = new Datum(dat.getDateStr());
 		Datum tagesEnde   = new Datum(dat.getDateStr() + " 23:59");
@@ -284,12 +313,15 @@ public class JPAServer extends Server
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Vector<Person> teilnehmer) throws TerminException {
-
+	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Vector<Person> teilnehmer)
+		throws TerminException
+	{
 		logger.fine("Method getTermineVonBis called from " + vonDat + " to " + bisDat);
 		
-		for(Person p : teilnehmer) {
-			if (!isPersonKnown(p)) {
+		for(Person p : teilnehmer)
+		{
+			if (!isPersonKnown(p))
+			{
 				throw new TerminException("Userid unknown!");
 			}
 		}
@@ -315,48 +347,21 @@ public class JPAServer extends Server
 	}
 	
 	public Vector<Termin> getBesitzerTermineVom(Datum dat, Person besitzer)
-			throws TerminException 
+		throws TerminException 
 	{
 		throw new TerminException("Not yet implemented!");
 	}
 
-	public Vector<Termin> getBesitzerTermineVonBis(Datum vonDat, Datum bisDat,
-			Person besitzer) throws TerminException 
+	public Vector<Termin> getBesitzerTermineVonBis(Datum vonDat, Datum bisDat, Person besitzer)
+		throws TerminException 
 	{
 		throw new TerminException("Not yet implemented!");
 	}
 
-	public boolean isPersonAvailable(Datum vondat, Datum bisDat,
-			Person teilnehmer) throws PersonException 
+	public boolean isPersonAvailable(Datum vondat, Datum bisDat, Person teilnehmer)
+		throws PersonException 
 	{
 		throw new PersonException("Not yet implemented!");
 	}
 	
-	public void delete(Termin termin) throws TerminException
-	{
-		logger.fine("Deletion of date " + termin);
-		
-		// check whether besitzer is known
-		if (!isPersonKnown(termin.getBesitzer()))
-			throw new TerminException("Userid unknown!");
-
-		// check whether teilnehmer are known
-		Collection<Person> teilnehmer = termin.getTeilnehmer();
-		for (Person p : teilnehmer)
-		{
-			if (!isPersonKnown(p))
-				throw new TerminException("Userid unknown!");
-		}
-		
-		tx.begin();
-			try
-			{
-				manager.remove(manager.find(Termin.class, termin.getId()));
-			}
-			catch (IllegalArgumentException exp)
-			{
-				// Termin does not exist - nothing to do!
-			}
-		tx.commit();
-	}
 }
