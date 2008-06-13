@@ -116,10 +116,11 @@ public interface TermineIF
 	public Vector<Termin> getBesitzerTermineVonBis(Datum vonDat, Datum bisDat, Person besitzer) throws TerminException;
 
 	/**
-	 * Checks if person is available for given appointment
-	 * @param dat the date of the appointment
+	 * Checks if person is available for a given period of time.
+	 * @param vonDat the start date of the period
+	 * @param bisDat the end date of the period
 	 * @param teilnehmer the Person for whom appointment are retrieved
-	 * @return boolean a boolean if person is available for appointment
+	 * @return boolean a boolean if person is available
 	 */
 	public boolean isPersonAvailable(Datum vondat, Datum bisDat, Person teilnehmer) throws PersonException;
 
@@ -131,7 +132,7 @@ public interface TermineIF
 //	 * @throws TerminException
 //	 */
 //	public Vector<Termin> getGemeinsameTermine(Vector<Person> teilnehmer) throws TerminException;
-//
+
 //	/**
 //	 * Finds all common appointments of persons for a given period of time
 //	 * @author tuncay
@@ -141,7 +142,7 @@ public interface TermineIF
 //	 * @return Vector<Termin> a vector of retrieved appointments
 //	 */
 //	public Vector<Termin> getGemeinsameTerminVonBis(Datum vonDat, Datum bisDat, Vector<Person> teilnehmer);
-//
+
 //	/**
 //	 * Finds all free appointments of persons for a given period of time
 //	 * @author tuncay
