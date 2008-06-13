@@ -17,7 +17,6 @@ import swtkal.domain.Datum;
 import swtkal.domain.Person;
 import swtkal.domain.Termin;
 import swtkal.exceptions.TerminException;
-import swtkal.exceptions.PersonException;
 
 import java.util.Vector;
 
@@ -121,8 +120,9 @@ public interface TermineIF
 	 * @param bisDat the end date of the period
 	 * @param teilnehmer the Person for whom appointment are retrieved
 	 * @return boolean a boolean if person is available
+	 * @throws TerminException
 	 */
-	public boolean isPersonAvailable(Datum vondat, Datum bisDat, Person teilnehmer) throws PersonException;
+	public boolean isPersonAvailable(Datum vondat, Datum bisDat, Person teilnehmer) throws TerminException;
 
 //	/**
 //	 * Finds all common appointments of persons
