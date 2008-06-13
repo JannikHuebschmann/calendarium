@@ -94,12 +94,6 @@ public class SimpleServer extends Server
 		passwoerter.remove(kuerzel);
 	}
 
-	public void update(Termin termin) throws TerminException 
-	{
-		// TODO Auto-generated method stub
-		throw new TerminException("Not yet implemented!");
-	}
-	
 	public void update(Person p) throws PersonException
 	{
 		logger.fine("Update of person " + p);
@@ -222,8 +216,47 @@ public class SimpleServer extends Server
 		}
 	}
 	
-	public Termin getTermin(int id) throws TerminException {
-		return null;
+	public void delete(Termin termin) throws TerminException
+	{
+		logger.fine("Deletion of date " + termin);
+		
+		// delete from teilnehmerTermine
+		Collection<Person> teilnehmer = termin.getTeilnehmer();
+		for (Person p : teilnehmer)
+		{
+			if (!isPersonKnown(p.getKuerzel()))
+				throw new TerminException("Userid unknown!");
+			delete(termin, p, teilnehmerTermine);
+		}
+
+//		// delete from besitzerTermine
+//		String kuerzel = termin.getBesitzer().getKuerzel();
+//		if (!personen.containsKey(kuerzel))
+//			throw new TerminException("Userid unknown!");
+//		delete(termin, termin.getBesitzer(), besitzerTermine);
+	}
+
+	private void delete(Termin termin, Person p, Map<String, Map<String, Vector<Termin>>> map)
+	{
+		Map<String, Vector<Termin>> dayMap = map.get(p.getKuerzel());
+		if (dayMap!=null)
+		{
+			Vector<Termin> vector = dayMap.get(termin.getBeginn().getDateStr());
+			if (vector!=null)
+				vector.remove(termin);
+		}
+	}
+
+	public void update(Termin termin) throws TerminException 
+	{
+		// TODO Auto-generated method stub
+		throw new TerminException("Not yet implemented!");
+	}
+
+	public Termin getTermin(int id) throws TerminException
+	{
+		throw new TerminException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	public Vector<Termin> getTermineVom(Datum dat, Person tn)
@@ -283,62 +316,32 @@ public class SimpleServer extends Server
 		// TODO Auto-generated method stub
 	}
 
-	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat,
-			Vector<Person> teilnehmer) throws TerminException 
+	public Vector<Termin> getTermineVonBis(Datum vonDat, Datum bisDat, Vector<Person> teilnehmer)
+		throws TerminException 
 	{
 		// TODO Auto-generated method stub
 		throw new TerminException("Not yet implemented!");
 	}
 	
 	public Vector<Termin> getBesitzerTermineVom(Datum dat, Person besitzer)
-	throws TerminException
+		throws TerminException
 	{
 		// TODO Auto-generated method stub
 		throw new TerminException("Not yet implemented!");
 	}
 
-	public Vector<Termin> getBesitzerTermineVonBis(Datum vonDat, Datum bisDat,
-			Person besitzer) throws TerminException 
+	public Vector<Termin> getBesitzerTermineVonBis(Datum vonDat, Datum bisDat, Person besitzer)
+		throws TerminException 
 	{
 		// TODO Auto-generated method stub
 		throw new TerminException("Not yet implemented!");
 	}
 	
 	public boolean isPersonAvailable(Datum vondat, Datum bisDat, Person teilnehmer) 
-			throws PersonException
+		throws PersonException
 	{
 		// TODO Auto-generated method stub
 		throw new PersonException("Not yet implemented!");
 	}
-
-	public void delete(Termin termin) throws TerminException
-	{
-		logger.fine("Deletion of date " + termin);
 		
-		// delete from teilnehmerTermine
-		Collection<Person> teilnehmer = termin.getTeilnehmer();
-		for (Person p : teilnehmer)
-		{
-			if (!isPersonKnown(p.getKuerzel()))
-				throw new TerminException("Userid unknown!");
-			delete(termin, p, teilnehmerTermine);
-		}
-
-//		// delete from besitzerTermine
-//		String kuerzel = termin.getBesitzer().getKuerzel();
-//		if (!personen.containsKey(kuerzel))
-//			throw new TerminException("Userid unknown!");
-//		delete(termin, termin.getBesitzer(), besitzerTermine);
-	}
-
-	private void delete(Termin termin, Person p, Map<String, Map<String, Vector<Termin>>> map)
-	{
-		Map<String, Vector<Termin>> dayMap = map.get(p.getKuerzel());
-		if (dayMap!=null)
-		{
-			Vector<Termin> vector = dayMap.get(termin.getBeginn().getDateStr());
-			if (vector!=null)
-				vector.remove(termin);
-		}
-	}
 }
