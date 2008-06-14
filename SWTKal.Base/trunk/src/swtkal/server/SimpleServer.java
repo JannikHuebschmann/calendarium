@@ -337,7 +337,7 @@ public class SimpleServer extends Server
 		throw new TerminException("Not yet implemented!");
 	}
 	
-	public boolean isPersonAvailable(Datum vondat, Datum bisDat, Person teilnehmer) 
+	public boolean isPersonAvailable(Datum vonDat, Datum bisDat, Person teilnehmer) 
 		throws TerminException
 	{
 		// TODO Auto-generated method stub
