@@ -249,7 +249,11 @@ public class JPAServer extends Server
 
 	public void update(Termin termin) throws TerminException 
 	{
-		throw new TerminException("Not yet implemented!");
+		logger.fine("Update of apointment " + termin);
+
+		tx.begin();
+			manager.merge(termin);
+		tx.commit();
 	}
 
 	public Termin getTermin(int id) throws TerminException
@@ -258,17 +262,13 @@ public class JPAServer extends Server
 
 		tx.begin();
 			Termin result = manager.find(Termin.class, id);
-//			Query getTerminId = manager.createQuery("SELECT t from Termin t " +
-//													"WHERE t.id = :searchID");
-//			getTerminId.setParameter("searchID", id);
-//			Termin result = (Termin)getTerminId.getSingleResult();
 		tx.commit();
 		
 		return result;
 	}
 
 	public Vector<Termin> getTermineVom(Datum dat, Person tn)
-		throws TerminException														// TE - logger fehlt
+		throws TerminException
 	{
 		// truncate vonDat and bisDat
 		Datum tagesAnfang = new Datum(dat.getDateStr());
