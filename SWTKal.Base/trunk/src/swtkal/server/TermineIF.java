@@ -122,7 +122,7 @@ public interface TermineIF
 	 * @return boolean a boolean if person is available
 	 * @throws TerminException
 	 */
-	public boolean isPersonAvailable(Datum vondat, Datum bisDat, Person teilnehmer) throws TerminException;
+	public boolean isPersonAvailable(Datum vonDat, Datum bisDat, Person teilnehmer) throws TerminException;
 
 //	/**
 //	 * Finds all common appointments of persons
