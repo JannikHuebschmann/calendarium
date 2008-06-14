@@ -348,19 +348,63 @@ public class JPAServer extends Server
 	public Vector<Termin> getBesitzerTermineVom(Datum dat, Person besitzer)
 		throws TerminException 
 	{
-		throw new TerminException("Not yet implemented!");
+		Datum tagesAnfang = new Datum(dat.getDateStr());
+		Datum tagesEnde   = new Datum(dat.getDateStr() + " 23:59");
+
+		return getBesitzerTermineVonBis(tagesAnfang, tagesEnde, besitzer);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Vector<Termin> getBesitzerTermineVonBis(Datum vonDat, Datum bisDat, Person besitzer)
 		throws TerminException 
 	{
-		throw new TerminException("Not yet implemented!");
+		logger.fine("Method getBesitzerTermineVonBis called from " + vonDat + " to " + bisDat);
+		
+		if (!isPersonKnown(besitzer))
+			throw new TerminException("Userid unknown!");
+		if (vonDat.isGreater(bisDat)==1)
+			throw new TerminException("Incorrect date interval!");
+		
+		tx.begin();
+					
+			Query termineVonBis = manager.createQuery("SELECT t FROM Termin t " +
+													  "WHERE t.ende>=:vonDat and :bisDat>=t.beginn " +
+													  "AND :bz = t.besitzer");
+			
+			termineVonBis.setParameter("vonDat", (Calendar) vonDat);
+			termineVonBis.setParameter("bisDat", (Calendar) bisDat);
+			termineVonBis.setParameter("bz", besitzer);
+			
+			List<Termin>  results = (List<Termin>) termineVonBis.getResultList();
+
+		tx.commit();		
+		
+		return new Vector<Termin>(results);
 	}
 
-	public boolean isPersonAvailable(Datum vondat, Datum bisDat, Person teilnehmer)
+	public boolean isPersonAvailable(Datum vonDat, Datum bisDat, Person teilnehmer)
 		throws TerminException 
 	{
-		throw new TerminException("Not yet implemented!");
+		logger.fine("Method isPersonAvailable called from " + vonDat + " to " + bisDat);
+		
+		if (!isPersonKnown(teilnehmer))
+			throw new TerminException("Userid unknown!");
+		if (vonDat.isGreater(bisDat)==1)
+			throw new TerminException("Incorrect date interval!");
+		
+		tx.begin();
+
+			Query isPersonAvailable = manager.createQuery("SELECT t FROM Termin t " +
+														  "WHERE t.ende>=:vonDat AND :bisDat>=t.beginn " +
+														  "AND (:tn = t.besitzer OR :tn MEMBER OF t.teilnehmer)");
+
+			isPersonAvailable.setParameter("vonDat", vonDat);
+			isPersonAvailable.setParameter("bisDat", bisDat);
+			isPersonAvailable.setParameter("tn", teilnehmer);
+
+		tx.commit();
+		
+		return isPersonAvailable.getResultList().isEmpty();
 	}
 	
 }
