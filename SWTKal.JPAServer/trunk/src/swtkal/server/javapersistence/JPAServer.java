@@ -249,10 +249,10 @@ public class JPAServer extends Server
 
 	public void update(Termin termin) throws TerminException 
 	{
-		logger.fine("Update of apointment " + termin);
+		logger.fine("Update of appointment " + termin);
 
 		tx.begin();
-			manager.merge(termin);
+			termin = manager.merge(termin);
 		tx.commit();
 	}
 
@@ -291,7 +291,7 @@ public class JPAServer extends Server
 		tx.begin();
 			Query query = manager.createQuery("select t from Termin t " +
 					                          "where t.ende>=:vonDat and :bisDat>=t.beginn " +
-					                                 "and (:tn member of t.teilnehmer)");
+					                                 "and (:tn MEMBER OF t.teilnehmer)");
 			query.setParameter("vonDat", (Calendar) vonDat);
 			query.setParameter("bisDat", (Calendar) bisDat);
 			query.setParameter("tn", tn);
@@ -330,15 +330,15 @@ public class JPAServer extends Server
 		tx.begin();
 			List<Termin> results = null;
 			for(Person p : teilnehmer) {
-				Query termineVonBis = manager.createQuery("SELECT t FROM Termin t " +
-														  "WHERE t.ende>=:vonDat and :bisDat>=t.beginn " +
-														  "AND (:tn member of t.teilnehmer)");
+				Query query = manager.createQuery("SELECT t FROM Termin t " +
+												  "WHERE t.ende>=:vonDat and :bisDat>=t.beginn " +
+														 "AND (:tn MEMBER OF t.teilnehmer)");
 	
-				termineVonBis.setParameter("vonDat", (Calendar) vonDat);
-				termineVonBis.setParameter("bisDat", (Calendar) bisDat);
-				termineVonBis.setParameter("tn", p);
+				query.setParameter("vonDat", (Calendar) vonDat);
+				query.setParameter("bisDat", (Calendar) bisDat);
+				query.setParameter("tn", p);
 				
-				results.addAll((List<Termin>) termineVonBis.getResultList());
+				results.addAll((List<Termin>) query.getResultList());
 			}
 		tx.commit();
 		
@@ -366,17 +366,15 @@ public class JPAServer extends Server
 			throw new TerminException("Incorrect date interval!");
 		
 		tx.begin();
-					
-			Query termineVonBis = manager.createQuery("SELECT t FROM Termin t " +
-													  "WHERE t.ende>=:vonDat and :bisDat>=t.beginn " +
-													  "AND :bz = t.besitzer");
+			Query query = manager.createQuery("SELECT t FROM Termin t " +
+											  "WHERE t.ende>=:vonDat and :bisDat>=t.beginn " +
+													 "AND :bz = t.besitzer");
 			
-			termineVonBis.setParameter("vonDat", (Calendar) vonDat);
-			termineVonBis.setParameter("bisDat", (Calendar) bisDat);
-			termineVonBis.setParameter("bz", besitzer);
+			query.setParameter("vonDat", (Calendar) vonDat);
+			query.setParameter("bisDat", (Calendar) bisDat);
+			query.setParameter("bz", besitzer);
 			
-			List<Termin>  results = (List<Termin>) termineVonBis.getResultList();
-
+			List<Termin>  results = (List<Termin>) query.getResultList();
 		tx.commit();		
 		
 		return new Vector<Termin>(results);
@@ -393,18 +391,15 @@ public class JPAServer extends Server
 			throw new TerminException("Incorrect date interval!");
 		
 		tx.begin();
+			Query query = manager.createQuery("SELECT t FROM Termin t " +
+											  "WHERE t.ende>=:vonDat AND :bisDat>=t.beginn " +
+													 "AND (:tn MEMBER OF t.teilnehmer)");
 
-			Query isPersonAvailable = manager.createQuery("SELECT t FROM Termin t " +
-														  "WHERE t.ende>=:vonDat AND :bisDat>=t.beginn " +
-														  "AND (:tn = t.besitzer OR :tn MEMBER OF t.teilnehmer)");
-
-			isPersonAvailable.setParameter("vonDat", vonDat);
-			isPersonAvailable.setParameter("bisDat", bisDat);
-			isPersonAvailable.setParameter("tn", teilnehmer);
-
+			query.setParameter("vonDat", vonDat);
+			query.setParameter("bisDat", bisDat);
+			query.setParameter("tn", teilnehmer);
 		tx.commit();
 		
-		return isPersonAvailable.getResultList().isEmpty();
+		return query.getResultList().isEmpty();
 	}
-	
 }
