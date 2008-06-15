@@ -328,7 +328,7 @@ public class JPAServer extends Server
 			throw new TerminException("Incorrect date interval!");
 		
 		tx.begin();
-			List<Termin> results = null;
+			Set<Termin> results = new HashSet<Termin>();
 			for(Person p : teilnehmer) {
 				Query query = manager.createQuery("SELECT t FROM Termin t " +
 												  "WHERE t.ende>=:vonDat and :bisDat>=t.beginn " +
