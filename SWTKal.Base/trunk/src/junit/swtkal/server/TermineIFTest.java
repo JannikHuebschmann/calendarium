@@ -13,6 +13,7 @@
 package junit.swtkal.server;
 
 import java.util.Date;
+import java.util.Vector;
 
 import junit.framework.*;
 
@@ -38,6 +39,13 @@ public class TermineIFTest extends TestCase
 		testSuite.addTest(new TermineIFTest("testDelete"));
 		testSuite.addTest(new TermineIFTest("testGetTermineVom"));
 		testSuite.addTest(new TermineIFTest("testGetTermineVonBis"));		
+		testSuite.addTest(new TermineIFTest("testGetTerminByID"));
+		testSuite.addTest(new TermineIFTest("testGetTermineVomForPersons"));
+		testSuite.addTest(new TermineIFTest("testGetTermineVonBisForPersons"));
+		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVom"));
+		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVonBis"));
+		testSuite.addTest(new TermineIFTest("testUpdateTermin"));
+		testSuite.addTest(new TermineIFTest("testIsPersonAvailable"));
 		return testSuite;
 	}
 
@@ -174,5 +182,94 @@ public class TermineIFTest extends TestCase
 		}
 		catch (TerminException e)
 		{}
+	}
+	
+	public void testGetTerminByID() throws Exception
+	{
+		assertTrue(server.getTermineVom(d, p).size()==1);
+		assertTrue(server.getTermineVom(d, p).contains(t));
+
+		int id = server.getTermineVom(d, p).firstElement().getId();
+
+		assertTrue(server.getTermin(id).getId() == id);
+	}
+	
+	@SuppressWarnings({ "unchecked", "unchecked" })
+	public void testGetTermineVomForPersons() throws Exception
+	{
+		Datum datum = new Datum(d.getDateStr());
+		datum.add(1);
+		
+		Person p2 = new Person("Frieda", "Fraumuster", "FF");
+		server.insert(p2, "abc");
+		
+		Vector teilnehmer = new Vector();
+		teilnehmer.add(p);
+		teilnehmer.add(p2);
+		
+		assertTrue(server.getTermineVom(datum, teilnehmer).size() == 0);
+		
+		server.delete(p2);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void testGetTermineVonBisForPersons() throws Exception
+	{
+		Datum von = d;
+		Datum bis = new Datum(von.getDateStr(), von.getTimeStr());
+		bis.add(20);
+		
+		Person p2 = new Person("Frieda", "Fraumuster", "FF");
+		server.insert(p2, "abc");
+		
+		Vector teilnehmer = new Vector();
+		teilnehmer.add(p);
+		teilnehmer.add(p2);
+		
+		assertTrue(server.getTermineVonBis(von, bis, p).size()==1);
+		
+		server.delete(p2);
+	}
+	
+	public void testGetBesitzerTermineVom() throws Exception
+	{
+		Person teilnehmer = new Person("Frieda", "Fraumuster", "FF");
+		server.insert(teilnehmer, "ffff");
+		
+		assertTrue(server.getBesitzerTermineVom(d, p).size() == 1);
+		assertTrue(server.getBesitzerTermineVom(d, teilnehmer).size() == 0);
+		
+		server.delete(teilnehmer);
+	}
+	
+	public void testGetBesitzerTermineVonBis() throws Exception
+	{
+		Person teilnehmer = new Person("Frieda", "Fraumuster", "FF");
+		server.insert(teilnehmer, "ffff");
+		
+		assertTrue(server.getBesitzerTermineVonBis(d, d.addDauer(1), p).size() == 1);
+		assertTrue(server.getBesitzerTermineVonBis(d, d.addDauer(1), teilnehmer).size() == 0);
+		
+		server.delete(teilnehmer);
+	}
+	
+	public void testUpdateTermin() throws Exception
+	{
+		t.setKurzText("ge-updated Kurztext");
+		server.update(t);
+		assertTrue(server.getTermin(t.getId()).getKurzText() == "ge-updated Kurztext");
+	}
+	
+	public void testIsPersonAvailable() throws Exception
+	{
+		Datum vonDat = new Datum("15.01.2020");
+		Datum bisDat = new Datum("16.01.2020");
+		
+		Person teilnehmer = new Person("Frieda", "Fraumuster", "FF");
+		server.insert(teilnehmer, "ffff");
+		
+		assertTrue(server.isPersonAvailable(vonDat, bisDat, teilnehmer));
+		
+		server.delete(teilnehmer);
 	}
 }
