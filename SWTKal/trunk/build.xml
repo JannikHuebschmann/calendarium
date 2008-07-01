@@ -18,17 +18,69 @@
 	<property name="proj.swtkal.base.bin" 			value="../SWTKal.Base/bin"/>
 	<property name="proj.swtkal.base.src" 			value="../SWTKal.Base/src"/>
 	
+	<property name="junit.jar" 						value="C:/Programme/eclipse/eclipse.3.3/plugins/org.junit_3.8.2.v200706111738/junit.jar"/>
+	
 	<property name="deploy.client" 					value="deploy/client"/>
 	<property name="deploy.monitor" 				value="deploy/monitor"/>
 	<property name="deploy.server" 					value="deploy/server"/>
 	<property name="deploy.base" 					value="deploy/base"/>
 	<property name="run.dir" 						value="run.dir"/>
 
-
 	<!-- ================================= 
           target: default              
          ================================= -->
     <target name="default" depends="info, collect.jars">
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: info                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="info">
+    	<echo>Buildfile zur SWT-Kalender-Fallstudie</echo>
+    	<echo>${ant.version}</echo>
+    	<echo>Java Version ${java.version}</echo>
+    </target>
+
+	<!-- ================================= 
+          target: collect.jars              
+         ================================= -->
+    <target name="collect.jars" depends="create.dirs"
+	        description="Sammelt die jar-Dateien auf.">
+    	
+    	<!-- alle jar-Dateien in den Teilprojekten aktualisieren -->
+    	<ant dir="../SWTKal.Base" inheritall="false"></ant>
+    	<ant dir="../SWTKal.SwingGUI" inheritall="false"></ant>
+    	
+		<!-- Client-Deployment -->
+    	<copy todir="${deploy.client}"><fileset file="../SWTKal.SwingGUI/deploy/jars/swtkal.swingclient.jar"/></copy>
+    	
+    	<!-- Monitor-Deployment -->
+    	<copy todir="${deploy.monitor}"><fileset file="../SWTKal.SwingGUI/deploy/jars/swtkal.swing.jar"/></copy>
+    	
+    	<!-- Server-Deployment -->
+    	<!-- SimpleServer ist in Base enthalten - wird evtl. durch Teilprojekte gefuellt! -->
+    	
+		<!-- Base-Deployment -->
+		<copy todir="${deploy.base}"><fileset file="../SWTKal.Base/deploy/jars/swtkal.base.jar"/></copy>
+    	<copy todir="${deploy.base}"><fileset file="../SWTKal.Base/deploy/jars/swtkal.junittests.jar"/></copy>
+    	<copy todir="${deploy.base}"><fileset file="${junit.jar}"/></copy>
+		<!-- wird unnoetig, wenn Zugriff auf Image-Ressourcen aus Jar-Dateien realisiert wurde -->
+    	<copy todir="${run.dir}"><fileset dir="../SWTKal.SwingGUI/src/" includes="images/**"/></copy>
+    </target>
+
+    <!-- ================================= 
+          target: junit.test              
+         ================================= -->
+    <target name="junit.test" depends="collect.jars"
+	        description="Fuehrt die verfuegbaren JUnit-Tests aus.">
+    	<java  dir="${run.dir}" classname="junit.swingui.TestRunner" fork="true">
+    		<arg value="junit.swtkal.server.TermineIFTest"/>
+    		<classpath>
+    			<fileset dir="${deploy.server}" />
+    			<fileset dir="${deploy.base}"/>
+    			<pathelement location="${run.dir}"/>
+    		</classpath>
+    	</java>
     </target>
 
     <!-- ================================= 
@@ -60,41 +112,6 @@
     		</classpath>
     	</java>
     </target>
-
-	<!-- ================================= 
-          target: collect.jars              
-         ================================= -->
-    <target name="collect.jars" depends="create.dirs"
-	        description="Sammelt die jar-Dateien auf.">
-    	
-    	<!-- alle jar-Dateien in den Teilprojekten aktualisieren -->
-    	<ant dir="../SWTKal.Base" inheritall="false"></ant>
-    	<ant dir="../SWTKal.SwingGUI" inheritall="false"></ant>
-    	
-		<!-- Client-Deployment -->
-    	<copy todir="${deploy.client}"><fileset file="../SWTKal.SwingGUI/deploy/jars/swtkal.swingclient.jar"/></copy>
-    	<!-- Monitor-Deployment -->
-    	<copy todir="${deploy.monitor}"><fileset file="../SWTKal.SwingGUI/deploy/jars/swtkal.swing.jar"/></copy>
-    	<!-- Server-Deployment -->
-    	<!-- SimpleServer ist in Base enthalten - wird evtl. durch Teilprojekte gefuellt! -->
-		<!-- Base-Deployment -->
-		<copy todir="${deploy.base}"><fileset file="../SWTKal.Base/deploy/jars/swtkal.base.jar"/></copy>
-<!-- wird unnoetig, wenn Zugriff auf Image-Ressourcen aus Jar-Dateien realisiert wurde -->
-    	<copy todir="${run.dir}"><fileset dir="../SWTKal.SwingGUI/src/" includes="images/**"/></copy>
-    </target>
-
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: create.dirs                      
-         - - - - - - - - - - - - - - - - - -->
-    <target name="create.dirs">
-    	<mkdir dir="${javadoc.dir}"/>
-    	<mkdir dir="${javadoc.swtkal.base.dir}"/>
-    	<mkdir dir="${deploy.client}"/>
-    	<mkdir dir="${deploy.monitor}"/>
-    	<mkdir dir="${deploy.server}"/>
-    	<mkdir dir="${deploy.base}"/>
-    	<mkdir dir="${run.dir}"/>
-    </target>
 	
 	<!-- - - - - - - - - - - - - - - - - - 
           target: create javadoc for swtkal.base                   
@@ -125,6 +142,19 @@
 	        	version="true">	  
 	        </javadoc>
 	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: create.dirs                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="create.dirs">
+    	<mkdir dir="${javadoc.dir}"/>
+    	<mkdir dir="${javadoc.swtkal.base.dir}"/>
+    	<mkdir dir="${deploy.client}"/>
+    	<mkdir dir="${deploy.monitor}"/>
+    	<mkdir dir="${deploy.server}"/>
+    	<mkdir dir="${deploy.base}"/>
+    	<mkdir dir="${run.dir}"/>
+    </target>
 	
 	<!-- - - - - - - - - - - - - - - - - - 
           target: clean                      
@@ -133,15 +163,6 @@
     	<delete dir="${javadoc.dir}/"/>
     	<delete dir="${deploy.client}/.."/>					<!-- deletes all deploy directories -->
     	<delete dir="${run.dir}/"/>
-    </target>
-
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: info                      
-         - - - - - - - - - - - - - - - - - -->
-    <target name="info">
-    	<echo>Buildfile zur SWT-Kalender-Fallstudie</echo>
-    	<echo>${ant.version}</echo>
-    	<echo>Java Version ${java.version}</echo>
     </target>
 
 </project>
