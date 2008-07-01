@@ -14,16 +14,17 @@
     <!-- ================================= 
           target: default              
          ================================= -->
-    <target name="default" depends="deploy.jar">
+    <target name="default" depends="deploy.base">
     	<echo>Buildfile SWTKal.Base-Teilprojekt</echo>
     </target>
 
     <!-- ================================= 
-          target: deploy.jar              
+          target: deploy.base              
          ================================= -->
-    <target name="deploy.jar" depends="deploy.dirs"
-	        description="stellt die SWTKal-Basisklassen als Jar-Datei zur Verfuegung">
-    	<jar destfile="${deploy.dir}/swtkal.base.jar"><fileset dir="bin" excludes="junit/** *.xml"/></jar>
+    <target name="deploy.base" depends="deploy.dirs"
+	        description="stellt die SWTKal-Basisklassen als Jar-Dateien zur Verfuegung">
+    	<jar destfile="${deploy.dir}/swtkal.base.jar">      <fileset dir="bin" excludes="junit/** *.xml"/></jar>
+    	<jar destfile="${deploy.dir}/swtkal.junittests.jar"><fileset dir="bin" includes="junit/**"/>      </jar>
     </target>
 
     <!-- ================================= 
@@ -38,8 +39,8 @@
 				"swtkal.client*:swtkal.domain*:swtkal.exceptions*:swtkal.monitor*:swtkal.server*" />
 			
 			<doctitle><![CDATA[<h1>SWTKal API</h1>]]></doctitle>
-			<header>SWTKal Fallstudie SWT-Vorlesung im WS 2007</header>
-			<footer>SWTKal Fallstudie SWT-Vorlesung im WS 2007</footer>
+			<header>SWTKal Fallstudie SWT-Vorlesung im WS 2008</header>
+			<footer>SWTKal Fallstudie SWT-Vorlesung im WS 2008</footer>
 		</javadoc>
     </target>
 
