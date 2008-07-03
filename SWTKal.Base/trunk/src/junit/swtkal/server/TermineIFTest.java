@@ -8,6 +8,7 @@
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
  *	01.08.2007			calproj			transfer out of the calendarium project
+ *	01.07.2008			swtUser			new testcases for extended search functionality
  *
  */
 package junit.swtkal.server;
@@ -25,7 +26,7 @@ import swtkal.server.Server;
 /*****************************************************************************************************
  * This TermineIFTest ......
  * 
- * @author calendarium project
+ * @author calproj
  */
 public class TermineIFTest extends TestCase
 {
@@ -113,7 +114,7 @@ public class TermineIFTest extends TestCase
 		server.insert(t);				// needed for tearDown
 		
 		Termin termin = new Termin(p, "Neukurz", "Neulang", d, d.addDauer(1));
-		server.delete(termin);		// nothing to do		
+		server.delete(termin);			// nothing to do		
 		
 		Person person = new Person("Frieda", "Fraumuster", "FF");
 		termin = new Termin(person, "Neukurz", "Neulang", d, d.addDauer(1));
@@ -189,12 +190,11 @@ public class TermineIFTest extends TestCase
 		assertTrue(server.getTermineVom(d, p).size()==1);
 		assertTrue(server.getTermineVom(d, p).contains(t));
 
-		int id = server.getTermineVom(d, p).firstElement().getId();
-
-		assertTrue(server.getTermin(id).getId() == id);
+		int id = t.getId();
+		assertEquals(t, server.getTermin(id));
 	}
 	
-	@SuppressWarnings({ "unchecked", "unchecked" })
+	@SuppressWarnings("unchecked")
 	public void testGetTermineVomForPersons() throws Exception
 	{
 		Datum datum = new Datum(d.getDateStr());

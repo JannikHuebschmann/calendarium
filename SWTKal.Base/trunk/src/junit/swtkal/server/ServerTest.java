@@ -20,7 +20,7 @@ import swtkal.server.Server;
 /*****************************************************************************************************
  * This ServerTest ......
  * 
- * @author calendarium project.
+ * @author calproj
  */
 public class ServerTest extends TestCase
 {

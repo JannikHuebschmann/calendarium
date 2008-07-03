@@ -22,7 +22,7 @@ import swtkal.exceptions.PersonException;
 /*****************************************************************************************************
  * This PersonenIFTest ......
  * 
- * @author calendarium project
+ * @author calproj
  */
 public class PersonenIFTest extends TestCase
 {

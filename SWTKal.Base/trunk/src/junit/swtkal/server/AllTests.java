@@ -18,7 +18,7 @@ import junit.framework.*;
 /*****************************************************************************************************
  * This AllTests ......
  * 
- * @author calendarium project
+ * @author calproj
  */
 public class AllTests
 {
