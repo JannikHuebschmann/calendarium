@@ -8,8 +8,7 @@
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
  *	01.08.2007			calproj			transfer out of the calendarium project
- *	01.07.2008			swtUser			new testcases for extended search functionality
- *
+ *	01.07.2008			swtUser			new testcases for extended search functionality *
  */
 package junit.swtkal.server;
 
@@ -194,7 +193,6 @@ public class TermineIFTest extends TestCase
 		assertEquals(t, server.getTermin(id));
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void testGetTermineVomForPersons() throws Exception
 	{
 		Datum datum = new Datum(d.getDateStr());
@@ -203,13 +201,17 @@ public class TermineIFTest extends TestCase
 		Person p2 = new Person("Frieda", "Fraumuster", "FF");
 		server.insert(p2, "abc");
 		
-		Vector teilnehmer = new Vector();
+		Vector<Person> teilnehmer = new Vector<Person>();
 		teilnehmer.add(p);
 		teilnehmer.add(p2);
 		
 		assertTrue(server.getTermineVom(datum, teilnehmer).size() == 0);
 		
 		server.delete(p2);
+		
+		//mehr Fälle durchtesten?
+		// bspw. beide Personen haben einen Termin
+		// eine Person ist unbekannt
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -229,6 +231,7 @@ public class TermineIFTest extends TestCase
 		assertTrue(server.getTermineVonBis(von, bis, p).size()==1);
 		
 		server.delete(p2);
+		//mehr Fälle durchtesten?
 	}
 	
 	public void testGetBesitzerTermineVom() throws Exception
@@ -240,6 +243,7 @@ public class TermineIFTest extends TestCase
 		assertTrue(server.getBesitzerTermineVom(d, teilnehmer).size() == 0);
 		
 		server.delete(teilnehmer);
+		// was soll passieren, wenn der Besitzer unbekannt ist (a la getTermineVom)
 	}
 	
 	public void testGetBesitzerTermineVonBis() throws Exception
@@ -251,6 +255,7 @@ public class TermineIFTest extends TestCase
 		assertTrue(server.getBesitzerTermineVonBis(d, d.addDauer(1), teilnehmer).size() == 0);
 		
 		server.delete(teilnehmer);
+		// zusätzliche Tests mit einer größeren Zeitspanne (a la getTermineVonBis)
 	}
 	
 	public void testUpdateTermin() throws Exception
@@ -258,6 +263,9 @@ public class TermineIFTest extends TestCase
 		t.setKurzText("ge-updated Kurztext");
 		server.update(t);
 		assertTrue(server.getTermin(t.getId()).getKurzText() == "ge-updated Kurztext");
+		
+		// kann man noch mehr updaten?
+		// gibt es irgendetwas, das man nicht machen darf?
 	}
 	
 	public void testIsPersonAvailable() throws Exception
@@ -271,5 +279,7 @@ public class TermineIFTest extends TestCase
 		assertTrue(server.isPersonAvailable(vonDat, bisDat, teilnehmer));
 		
 		server.delete(teilnehmer);
+		// weitere Testfälle, sodass Person verfügbar und nicht verfügbar ist
+		// wann soll eine Exception geworfen werden?
 	}
 }
