@@ -19,7 +19,7 @@ import junit.framework.TestSuite;
 /*****************************************************************************************************
  * This AllTests ......
  * 
- * @author calendarium project
+ * @author calproj
  */
 public class AllTests
 {
