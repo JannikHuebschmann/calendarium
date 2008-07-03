@@ -20,7 +20,7 @@ import swtkal.domain.Datum;
 /*****************************************************************************************************
  * This DatumTest ......
  * 
- * @author calendarium project
+ * @author calproj
  */
 public class DatumTest extends TestCase
 {
