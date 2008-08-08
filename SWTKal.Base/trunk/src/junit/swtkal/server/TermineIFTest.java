@@ -41,7 +41,7 @@ public class TermineIFTest extends TestCase
 		testSuite.addTest(new TermineIFTest("testGetTermineVonBis"));		
 		testSuite.addTest(new TermineIFTest("testGetTerminByID"));
 		testSuite.addTest(new TermineIFTest("testGetTermineVomForPersons"));
-//		testSuite.addTest(new TermineIFTest("testGetTermineVonBisForPersons"));
+		testSuite.addTest(new TermineIFTest("testGetTermineVonBisForPersons"));
 //		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVom"));
 //		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVonBis"));
 //		testSuite.addTest(new TermineIFTest("testUpdateTermin"));
@@ -232,22 +232,36 @@ public class TermineIFTest extends TestCase
 	
 	@SuppressWarnings("unchecked")
 	public void testGetTermineVonBisForPersons() throws Exception
-	{
-		Datum von = d;
-		Datum bis = new Datum(von.getDateStr(), von.getTimeStr());
-		bis.add(20);
-		
-		Person p2 = new Person("Frieda", "Fraumuster", "FF");
-		server.insert(p2, "abc");
-		
-		Vector teilnehmer = new Vector();
+	{		
+		//persons Vector Mustermann and Musterfrau
+		Vector<Person> teilnehmer = new Vector<Person>();
 		teilnehmer.add(p);
 		teilnehmer.add(p2);
 		
-		assertTrue(server.getTermineVonBis(von, bis, p).size()==1);
+		//test with empty results
+		Datum von = d.addDauer(49);
+		Datum bis = d.addDauer(70);
+		assertTrue(server.getTermineVonBis(von, bis, teilnehmer).size() == 0);
 		
-		server.delete(p2);
-		//mehr Fälle durchtesten?
+		//test with exactly one appointment result
+		von = d.addDauer(25);
+		assertTrue(server.getTermineVonBis(von, bis, teilnehmer).size() == 1);
+		
+		//test with exactly two appointment results
+		von = d;
+		assertTrue(server.getTermineVonBis(von, bis, teilnehmer).size() == 2);
+		
+		//test with TerminException, cause of one unknown person "ptemp"
+		try
+		{
+			Person ptemp = new Person("ich", "bin", "unbekannt");
+			teilnehmer.add(ptemp);
+
+			server.getTermineVom(d, teilnehmer);
+			fail("Should throw TerminException!");
+		}
+		catch (TerminException e)
+		{}
 	}
 	
 	public void testGetBesitzerTermineVom() throws Exception
