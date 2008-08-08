@@ -40,7 +40,7 @@ public class TermineIFTest extends TestCase
 		testSuite.addTest(new TermineIFTest("testGetTermineVom"));
 		testSuite.addTest(new TermineIFTest("testGetTermineVonBis"));		
 		testSuite.addTest(new TermineIFTest("testGetTerminByID"));
-//		testSuite.addTest(new TermineIFTest("testGetTermineVomForPersons"));
+		testSuite.addTest(new TermineIFTest("testGetTermineVomForPersons"));
 //		testSuite.addTest(new TermineIFTest("testGetTermineVonBisForPersons"));
 //		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVom"));
 //		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVonBis"));
@@ -53,8 +53,8 @@ public class TermineIFTest extends TestCase
 
 	Server server;
 	Datum  d;
-	Person p;
-	Termin t;
+	Person p, p2;
+	Termin t, t2;
 	
 	protected void setUp() throws Exception
 	{
@@ -62,15 +62,21 @@ public class TermineIFTest extends TestCase
 		server.startServer();
 		d = new Datum(new Date()).addDauer(7);
 		p = new Person("Max", "Mustermann", "MM");
+		p2 = new Person("Frieda", "Musterfrau", "FM");
 		server.insert(p, "pass");
+		server.insert(p2, "pass");
 		t = new Termin(p, "Testtermin", "Dies ist der Langtext zum Testtermin", d, d.addDauer(1));
+		t2 = new Termin(p2, "Testtermin", "Dies ist der Langtext zum Testtermin", d, d.addDauer(25));
 		server.insert(t);
+		server.insert(t2);
 	}
 
 	protected void tearDown() throws Exception
 	{
 		server.delete(t);
+		server.delete(t2);
 		server.delete(p);
+		server.delete(p2);
 		server.stopServer();
 	}
 
@@ -195,23 +201,33 @@ public class TermineIFTest extends TestCase
 	
 	public void testGetTermineVomForPersons() throws Exception
 	{
-		Datum datum = new Datum(d.getDateStr());
-		datum.add(1);
-		
-		Person p2 = new Person("Frieda", "Fraumuster", "FF");
-		server.insert(p2, "abc");
-		
+		//persons Vector Mustermann and Musterfrau
 		Vector<Person> teilnehmer = new Vector<Person>();
 		teilnehmer.add(p);
 		teilnehmer.add(p2);
 		
-		assertTrue(server.getTermineVom(datum, teilnehmer).size() == 0);
+		//test with empty results
+		Datum dtemp = d.addDauer(50);
+		assertTrue(server.getTermineVom(dtemp, teilnehmer).size() == 0);
 		
-		server.delete(p2);
+		//test with exactly one appointment result
+		dtemp = d.addDauer(25);
+		assertTrue(server.getTermineVom(dtemp, teilnehmer).size() == 1);
 		
-		//mehr Fälle durchtesten?
-		// bspw. beide Personen haben einen Termin
-		// eine Person ist unbekannt
+		//test with exactly two appointment results
+		assertTrue(server.getTermineVom(d, teilnehmer).size() == 2);
+		
+		//test with TerminException, cause of one unknown person "ptemp"
+		try
+		{
+			Person ptemp = new Person("ich", "bin", "unbekannt");
+			teilnehmer.add(ptemp);
+
+			server.getTermineVom(d, teilnehmer);
+			fail("Should throw TerminException!");
+		}
+		catch (TerminException e)
+		{}
 	}
 	
 	@SuppressWarnings("unchecked")
