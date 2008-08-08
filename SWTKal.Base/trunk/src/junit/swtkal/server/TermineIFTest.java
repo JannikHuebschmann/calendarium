@@ -40,12 +40,12 @@ public class TermineIFTest extends TestCase
 		testSuite.addTest(new TermineIFTest("testGetTermineVom"));
 		testSuite.addTest(new TermineIFTest("testGetTermineVonBis"));		
 		testSuite.addTest(new TermineIFTest("testGetTerminByID"));
-		testSuite.addTest(new TermineIFTest("testGetTermineVomForPersons"));
-		testSuite.addTest(new TermineIFTest("testGetTermineVonBisForPersons"));
-		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVom"));
-		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVonBis"));
-		testSuite.addTest(new TermineIFTest("testUpdateTermin"));
-		testSuite.addTest(new TermineIFTest("testIsPersonAvailable"));
+//		testSuite.addTest(new TermineIFTest("testGetTermineVomForPersons"));
+//		testSuite.addTest(new TermineIFTest("testGetTermineVonBisForPersons"));
+//		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVom"));
+//		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVonBis"));
+//		testSuite.addTest(new TermineIFTest("testUpdateTermin"));
+//		testSuite.addTest(new TermineIFTest("testIsPersonAvailable"));
 		return testSuite;
 	}
 
@@ -186,11 +186,11 @@ public class TermineIFTest extends TestCase
 	
 	public void testGetTerminByID() throws Exception
 	{
-		assertTrue(server.getTermineVom(d, p).size()==1);
-		assertTrue(server.getTermineVom(d, p).contains(t));
-
-		int id = t.getId();
-		assertEquals(t, server.getTermin(id));
+		//test with empty result
+		assertNull(server.getTermin(0));
+		
+		//test with exactly one result
+		assertEquals(server.getTermin(t.getId()), t);
 	}
 	
 	public void testGetTermineVomForPersons() throws Exception
