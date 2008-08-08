@@ -42,7 +42,7 @@ public class TermineIFTest extends TestCase
 		testSuite.addTest(new TermineIFTest("testGetTerminByID"));
 		testSuite.addTest(new TermineIFTest("testGetTermineVomForPersons"));
 		testSuite.addTest(new TermineIFTest("testGetTermineVonBisForPersons"));
-//		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVom"));
+		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVom"));
 //		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVonBis"));
 //		testSuite.addTest(new TermineIFTest("testUpdateTermin"));
 //		testSuite.addTest(new TermineIFTest("testIsPersonAvailable"));
@@ -54,7 +54,7 @@ public class TermineIFTest extends TestCase
 	Server server;
 	Datum  d;
 	Person p, p2;
-	Termin t, t2;
+	Termin t, t2, t3, t4;
 	
 	protected void setUp() throws Exception
 	{
@@ -67,14 +67,20 @@ public class TermineIFTest extends TestCase
 		server.insert(p2, "pass");
 		t = new Termin(p, "Testtermin", "Dies ist der Langtext zum Testtermin", d, d.addDauer(1));
 		t2 = new Termin(p2, "Testtermin", "Dies ist der Langtext zum Testtermin", d, d.addDauer(25));
+		t3 = new Termin(p, "Testtermin", "Dies ist der Langtext zum Testtermin", d.addDauer(600), d.addDauer(625));
+		t4 = new Termin(p, "Testtermin", "Dies ist der Langtext zum Testtermin", d.addDauer(600), d.addDauer(626));
 		server.insert(t);
 		server.insert(t2);
+		server.insert(t3);
+		server.insert(t4);
 	}
 
 	protected void tearDown() throws Exception
 	{
 		server.delete(t);
 		server.delete(t2);
+		server.delete(t3);
+		server.delete(t4);
 		server.delete(p);
 		server.delete(p2);
 		server.stopServer();
@@ -153,6 +159,7 @@ public class TermineIFTest extends TestCase
 		Datum von = d;
 		Datum bis = new Datum(von.getDateStr(), von.getTimeStr());
 		bis.add(20);
+		System.out.println(von + "##" + bis);
 		assertTrue(server.getTermineVonBis(von, bis, p).size()==1);
 		
 		Datum zwischen = new Datum(von.getDateStr(), von.getTimeStr());
@@ -257,7 +264,19 @@ public class TermineIFTest extends TestCase
 			Person ptemp = new Person("ich", "bin", "unbekannt");
 			teilnehmer.add(ptemp);
 
-			server.getTermineVom(d, teilnehmer);
+			server.getTermineVonBis(von, bis, teilnehmer);
+			fail("Should throw TerminException!");
+		}
+		catch (TerminException e)
+		{}
+		
+		//test with TerminException, cause of no correct period of time
+		try
+		{
+			Person ptemp = new Person("ich", "bin", "unbekannt");
+			teilnehmer.add(ptemp);
+
+			server.getTermineVonBis(bis, von, teilnehmer);
 			fail("Should throw TerminException!");
 		}
 		catch (TerminException e)
@@ -266,14 +285,25 @@ public class TermineIFTest extends TestCase
 	
 	public void testGetBesitzerTermineVom() throws Exception
 	{
-		Person teilnehmer = new Person("Frieda", "Fraumuster", "FF");
-		server.insert(teilnehmer, "ffff");
+		//test with empty results
+		assertTrue(server.getBesitzerTermineVom(d.addDauer(78), p).size() == 0);
 		
+		//test with exactly one appointment result
 		assertTrue(server.getBesitzerTermineVom(d, p).size() == 1);
-		assertTrue(server.getBesitzerTermineVom(d, teilnehmer).size() == 0);
 		
-		server.delete(teilnehmer);
-		// was soll passieren, wenn der Besitzer unbekannt ist (a la getTermineVom)
+		//test with exactly two appointment result
+		assertTrue(server.getBesitzerTermineVom(d.addDauer(601), p).size() == 2);
+		
+		//test with TerminException, cause of one unknown person "ptemp"
+		try
+		{
+			Person ptemp = new Person("ich", "bin", "unbekannt");
+
+			server.getBesitzerTermineVom(d, ptemp);
+			fail("Should throw TerminException!");
+		}
+		catch (TerminException e)
+		{}
 	}
 	
 	public void testGetBesitzerTermineVonBis() throws Exception
