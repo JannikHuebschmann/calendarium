@@ -43,7 +43,7 @@ public class TermineIFTest extends TestCase
 		testSuite.addTest(new TermineIFTest("testGetTermineVomForPersons"));
 		testSuite.addTest(new TermineIFTest("testGetTermineVonBisForPersons"));
 		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVom"));
-//		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVonBis"));
+		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVonBis"));
 //		testSuite.addTest(new TermineIFTest("testUpdateTermin"));
 //		testSuite.addTest(new TermineIFTest("testIsPersonAvailable"));
 		return testSuite;
@@ -273,9 +273,6 @@ public class TermineIFTest extends TestCase
 		//test with TerminException, cause of no correct period of time
 		try
 		{
-			Person ptemp = new Person("ich", "bin", "unbekannt");
-			teilnehmer.add(ptemp);
-
 			server.getTermineVonBis(bis, von, teilnehmer);
 			fail("Should throw TerminException!");
 		}
@@ -308,14 +305,39 @@ public class TermineIFTest extends TestCase
 	
 	public void testGetBesitzerTermineVonBis() throws Exception
 	{
-		Person teilnehmer = new Person("Frieda", "Fraumuster", "FF");
-		server.insert(teilnehmer, "ffff");
+		//test with empty results
+		Datum von = d.addDauer(75);
+		Datum bis = d.addDauer(79);
+		assertTrue(server.getBesitzerTermineVonBis(von, bis, p).size() == 0);
 		
-		assertTrue(server.getBesitzerTermineVonBis(d, d.addDauer(1), p).size() == 1);
-		assertTrue(server.getBesitzerTermineVonBis(d, d.addDauer(1), teilnehmer).size() == 0);
+		//test with exactly one appointment result
+		von = d.addDauer(24);
+		assertTrue(server.getBesitzerTermineVonBis(von, bis, p2).size() == 1);
 		
-		server.delete(teilnehmer);
-		// zusätzliche Tests mit einer größeren Zeitspanne (a la getTermineVonBis)
+		//test with exactly two appointment results
+		von = d.addDauer(599);
+		bis = d.addDauer(700);
+		assertTrue(server.getBesitzerTermineVonBis(von, bis, p).size() == 2);
+		
+		//test with TerminException, cause of one unknown person "ptemp"
+		try
+		{
+			Person ptemp = new Person("ich", "bin", "unbekannt");
+
+			server.getBesitzerTermineVonBis(von, bis, ptemp);
+			fail("Should throw TerminException!");
+		}
+		catch (TerminException e)
+		{}
+		
+		//test with TerminException, cause of no correct period of time
+		try
+		{
+			server.getBesitzerTermineVonBis(bis, von, p);
+			fail("Should throw TerminException!");
+		}
+		catch (TerminException e)
+		{}
 	}
 	
 	public void testUpdateTermin() throws Exception
