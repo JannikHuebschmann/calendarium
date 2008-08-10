@@ -45,7 +45,7 @@ public class TermineIFTest extends TestCase
 		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVom"));
 		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVonBis"));
 //		testSuite.addTest(new TermineIFTest("testUpdateTermin"));
-//		testSuite.addTest(new TermineIFTest("testIsPersonAvailable"));
+		testSuite.addTest(new TermineIFTest("testIsPersonAvailable"));
 		return testSuite;
 	}
 
@@ -364,16 +364,30 @@ public class TermineIFTest extends TestCase
 	
 	public void testIsPersonAvailable() throws Exception
 	{
-		Datum vonDat = new Datum("15.01.2020");
-		Datum bisDat = new Datum("16.01.2020");
+		//test with available person
+		assertTrue(server.isPersonAvailable(d.addDauer(500), d.addDauer(510), p));
 		
-		Person teilnehmer = new Person("Frieda", "Fraumuster", "FF");
-		server.insert(teilnehmer, "ffff");
+		//test with unavailable person
+		assertFalse(server.isPersonAvailable(d, d.addDauer(10), p2));
 		
-		assertTrue(server.isPersonAvailable(vonDat, bisDat, teilnehmer));
+		//test with TerminException, cause of one unknown person "ptemp"
+		try
+		{
+			Person ptemp = new Person("ich", "bin", "unbekannt");
+
+			server.isPersonAvailable(d, d.addDauer(10), ptemp);
+			fail("Should throw TerminException!");
+		}
+		catch (TerminException e)
+		{}
 		
-		server.delete(teilnehmer);
-		// weitere Testfälle, sodass Person verfügbar und nicht verfügbar ist
-		// wann soll eine Exception geworfen werden?
+		//test with TerminException, cause of no correct period of time
+		try
+		{
+			server.isPersonAvailable(d.addDauer(10), d, p);
+			fail("Should throw TerminException!");
+		}
+		catch (TerminException e)
+		{}
 	}
 }
