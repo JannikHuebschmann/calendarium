@@ -44,7 +44,7 @@ public class TermineIFTest extends TestCase
 		testSuite.addTest(new TermineIFTest("testGetTermineVonBisForPersons"));
 		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVom"));
 		testSuite.addTest(new TermineIFTest("testGetBesitzerTermineVonBis"));
-//		testSuite.addTest(new TermineIFTest("testUpdateTermin"));
+		testSuite.addTest(new TermineIFTest("testUpdateTermin"));
 		testSuite.addTest(new TermineIFTest("testIsPersonAvailable"));
 		return testSuite;
 	}
@@ -354,12 +354,42 @@ public class TermineIFTest extends TestCase
 	
 	public void testUpdateTermin() throws Exception
 	{
-//		t.setKurzText("ge-updated Kurztext");
-//		server.update(t);
-//		assertTrue(server.getTermin(t.getId()).getKurzText() == "ge-updated Kurztext");
+		//test with changed "Kurztext"
+		String neuerKurztext = "neuer Kurztext";
+		t.setKurzText(neuerKurztext);
+		server.update(t);
+		assertTrue(t.getKurzText() == neuerKurztext);
 		
-		// kann man noch mehr updaten?
-		// gibt es irgendetwas, das man nicht machen darf?
+		//test with changed "Teilnehmer"
+		t.setTeilnehmer(teilnehmer);
+		server.update(t);
+		assertTrue(t.getTeilnehmer().equals(teilnehmer));
+		
+		//test with TerminException, cause of no correct period of time
+//		try
+//		{
+//			t.setBeginn(d.addDauer(700));	//appointment begin is d.addDauer(1) < end
+//			server.update(t);
+//			fail("Should throw TerminException!");
+//		}
+//		catch (TerminException e)
+//		{
+//			e.printStackTrace();
+//		}
+		
+		//test with TerminException, cause of one unknown person "ptemp"
+//		try
+//		{
+//			Person ptemp = new Person("ich", "bin", "unbekannt");
+//
+//			t.setBesitzer(ptemp);
+//			server.update(t);
+//			fail("Should throw TerminException!");
+//		}
+//		catch (TerminException e)
+//		{
+//			e.printStackTrace();
+//		}
 	}
 	
 	public void testIsPersonAvailable() throws Exception
