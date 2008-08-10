@@ -223,11 +223,11 @@ public class JPAServer extends Server
 	{
 		logger.fine("Deletion of date " + termin);
 		
-		// check whether besitzer is known
+		// check whether "Besitzer" is known
 		if (!isPersonKnown(termin.getBesitzer()))
 			throw new TerminException("Userid unknown!");
 
-		// check whether teilnehmer are known
+		// check whether "Teilnehmer" are known
 		Collection<Person> teilnehmer = termin.getTeilnehmer();
 		for (Person p : teilnehmer)
 		{
@@ -251,6 +251,22 @@ public class JPAServer extends Server
 	{
 		logger.fine("Update of appointment " + termin);
 
+		// check whether "Besitzer" is known
+		if (!isPersonKnown(termin.getBesitzer()))
+			throw new TerminException("Userid unknown!");
+
+		// check whether "Teilnehmer" are known
+		Collection<Person> teilnehmer = termin.getTeilnehmer();
+		for (Person p : teilnehmer)
+		{
+			if (!isPersonKnown(p))
+				throw new TerminException("Userid unknown!");
+		}
+		
+		// check if date interval is correct 
+		if (termin.getBeginn().isGreater(termin.getEnde())==1)
+			throw new TerminException("Incorrect date interval!");
+		
 		tx.begin();
 			termin = manager.merge(termin);
 		tx.commit();
