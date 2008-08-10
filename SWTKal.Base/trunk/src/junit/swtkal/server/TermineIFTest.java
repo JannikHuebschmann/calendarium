@@ -358,38 +358,36 @@ public class TermineIFTest extends TestCase
 		String neuerKurztext = "neuer Kurztext";
 		t.setKurzText(neuerKurztext);
 		server.update(t);
-		assertTrue(t.getKurzText() == neuerKurztext);
+		assertTrue(server.getTermin(t.getId()).getKurzText() == neuerKurztext);
 		
 		//test with changed "Teilnehmer"
 		t.setTeilnehmer(teilnehmer);
 		server.update(t);
-		assertTrue(t.getTeilnehmer().equals(teilnehmer));
+		assertTrue(server.getTermin(t.getId()).getTeilnehmer().equals(teilnehmer));
 		
 		//test with TerminException, cause of no correct period of time
-//		try
-//		{
-//			t.setBeginn(d.addDauer(700));	//appointment begin is d.addDauer(1) < end
-//			server.update(t);
-//			fail("Should throw TerminException!");
-//		}
-//		catch (TerminException e)
-//		{
-//			e.printStackTrace();
-//		}
+		try
+		{
+			t.setBeginn(d.addDauer(700));	//appointment begin is d.addDauer(1) < end
+			server.update(t);
+			fail("Should throw TerminException!");
+		}
+		catch (TerminException e)
+		{}
 		
 		//test with TerminException, cause of one unknown person "ptemp"
-//		try
-//		{
-//			Person ptemp = new Person("ich", "bin", "unbekannt");
-//
-//			t.setBesitzer(ptemp);
-//			server.update(t);
-//			fail("Should throw TerminException!");
-//		}
-//		catch (TerminException e)
-//		{
-//			e.printStackTrace();
-//		}
+		try
+		{
+			Person ptemp = new Person("ich", "bin", "unbekannt");
+			
+			t.setBesitzer(ptemp);
+			server.update(t);
+			fail("Should throw TerminException!");
+		}
+		catch (TerminException e)
+		{
+			t.setBesitzer(p);	//necessary for tearDown
+		}
 	}
 	
 	public void testIsPersonAvailable() throws Exception
