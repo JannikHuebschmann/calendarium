@@ -258,6 +258,12 @@ public class SimpleServer extends Server
 		throw new TerminException("Not yet implemented!");
 		// TODO Auto-generated method stub
 	}
+	
+	public void deleteTermin(int id) throws TerminException
+	{
+		throw new TerminException("Not yet implemented!");
+		// TODO Auto-generated method stub
+	}
 
 	public Vector<Termin> getTermineVom(Datum dat, Person tn)
 		throws TerminException
