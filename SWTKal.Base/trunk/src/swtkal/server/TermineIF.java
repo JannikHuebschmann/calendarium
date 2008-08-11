@@ -41,6 +41,14 @@ public interface TermineIF
 	 * @throws TerminException
 	 */
 	public void delete(Termin termin) throws TerminException;
+	
+	
+	/**
+	 * Deletes an appointment by ID from the server.
+	 * @param id of the appointment to be deleted
+	 * @throws TerminException
+	 */
+	public void deleteTermin(int id) throws TerminException;
 
 	/**
 	 * Updates an appointment on the server.
