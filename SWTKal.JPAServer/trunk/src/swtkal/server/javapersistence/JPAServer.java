@@ -246,6 +246,22 @@ public class JPAServer extends Server
 			}
 		tx.commit();
 	}
+	
+	public void deleteTermin(int id) throws TerminException
+	{
+		logger.fine("Delete of date with ID: " + id);
+		
+		tx.begin();
+			try
+			{
+				manager.remove(manager.find(Termin.class, id));
+			}
+			catch (IllegalArgumentException exp)
+			{
+				// Termin does not exist - nothing to do!
+			}
+		tx.commit();
+	}
 
 	public void update(Termin termin) throws TerminException 
 	{
