@@ -37,6 +37,7 @@ public class TermineIFTest extends TestCase
 
 		testSuite.addTest(new TermineIFTest("testInsert"));
 		testSuite.addTest(new TermineIFTest("testDelete"));
+		testSuite.addTest(new TermineIFTest("testDeleteTerminByID"));
 		testSuite.addTest(new TermineIFTest("testGetTermineVom"));
 		testSuite.addTest(new TermineIFTest("testGetTermineVonBis"));		
 		testSuite.addTest(new TermineIFTest("testGetTerminByID"));
@@ -148,6 +149,26 @@ public class TermineIFTest extends TestCase
 		catch (TerminException e)
 		{}
 	}
+	
+	public void testDeleteTerminByID() throws Exception
+	{
+		int id = t.getId();
+		
+		//check if appointment t exists
+		assertTrue(server.getTermin(id).equals(t));
+		
+		server.deleteTermin(id);
+		
+		//check if appointment t was deleted
+		assertTrue(server.getTermin(id) == null);
+		
+		//necessary for tearDown
+		t = new Termin(p, "Testtermin", "Dies ist der Langtext zum Testtermin", d, d.addDauer(1));
+		
+		//if deleting appointment with wrong ID, nothing will happen!
+		//ID = 0 doesn't exist because database auto increment starts at 1
+		server.deleteTermin(0);
+	}
 
 	public void testGetTermineVom() throws Exception
 	{
@@ -210,6 +231,7 @@ public class TermineIFTest extends TestCase
 	public void testGetTerminByID() throws Exception
 	{
 		//test with empty result
+		//ID = 0 doesn't exist because database auto increment starts at 1
 		assertNull(server.getTermin(0));
 		
 		//test with exactly one result
