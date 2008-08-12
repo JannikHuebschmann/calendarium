@@ -8,7 +8,7 @@
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
  *	01.08.2007			calproj			transfer out of the calendarium project
- *	01.07.2008			swtUser			new testcases for extended search functionality *
+ *	01.07.2008			swtUser			new testcases for extended search functionality
  */
 package junit.swtkal.server;
 
@@ -56,7 +56,7 @@ public class TermineIFTest extends TestCase
 	Datum  d;
 	Person p, p2;
 	Termin t, t2, t3, t4, t5;
-	Vector<Person> teilnehmer = new Vector<Person>();
+	Vector<Person> bspTeilnehmer = new Vector<Person>();
 	
 	protected void setUp() throws Exception
 	{
@@ -67,8 +67,8 @@ public class TermineIFTest extends TestCase
 		
 		p = new Person("Max", "Mustermann", "MM");
 		p2 = new Person("Frieda", "Musterfrau", "FM");
-		teilnehmer.add(p);
-		teilnehmer.add(p2);
+		bspTeilnehmer.add(p);
+		bspTeilnehmer.add(p2);
 		server.insert(p, "pass");
 		server.insert(p2, "pass");
 		
@@ -77,7 +77,7 @@ public class TermineIFTest extends TestCase
 		t3 = new Termin(p, "Testtermin", "Dies ist der Langtext zum Testtermin", d.addDauer(600), d.addDauer(625));
 		t4 = new Termin(p, "Testtermin", "Dies ist der Langtext zum Testtermin", d.addDauer(600), d.addDauer(626));
 		t5 = new Termin(p, "Testtermin", "Dies ist der Langtext zum Testtermin", d.addDauer(700), d.addDauer(701));
-		t5.setTeilnehmer(teilnehmer);
+		t5.setTeilnehmer(bspTeilnehmer);
 		
 		server.insert(t);
 		server.insert(t2);
@@ -155,7 +155,7 @@ public class TermineIFTest extends TestCase
 		int id = t.getId();
 		
 		//check if appointment t exists
-		assertTrue(server.getTermin(id).equals(t));
+		assertEquals(server.getTermin(id), t);
 		
 		server.deleteTermin(id);
 		
@@ -164,10 +164,11 @@ public class TermineIFTest extends TestCase
 		
 		//necessary for tearDown
 		t = new Termin(p, "Testtermin", "Dies ist der Langtext zum Testtermin", d, d.addDauer(1));
+		server.insert(t);
 		
 		//if deleting appointment with wrong ID, nothing will happen!
-		//ID = 0 doesn't exist because database auto increment starts at 1
-		server.deleteTermin(0);
+		//ID = -999 should not exist
+		server.deleteTermin(-999);
 	}
 
 	public void testGetTermineVom() throws Exception
@@ -231,8 +232,8 @@ public class TermineIFTest extends TestCase
 	public void testGetTerminByID() throws Exception
 	{
 		//test with empty result
-		//ID = 0 doesn't exist because database auto increment starts at 1
-		assertNull(server.getTermin(0));
+		//ID = -999 should not exist
+		assertNull(server.getTermin(-999));
 		
 		//test with exactly one result
 		assertEquals(server.getTermin(t.getId()), t);
@@ -257,7 +258,7 @@ public class TermineIFTest extends TestCase
 		//test with exactly two appointment results
 		assertTrue(server.getTermineVom(d, teilnehmer).size() == 2);
 		
-		//test with TerminException, cause of one unknown person "ptemp"
+		//test for TerminException because of one unknown person "ptemp"
 		try
 		{
 			Person ptemp = new Person("ich", "bin", "unbekannt");
@@ -270,7 +271,6 @@ public class TermineIFTest extends TestCase
 		{}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void testGetTermineVonBisForPersons() throws Exception
 	{		
 		//persons Vector Mustermann and Musterfrau
@@ -292,7 +292,7 @@ public class TermineIFTest extends TestCase
 		von = d;
 		assertTrue(server.getTermineVonBis(von, bis, teilnehmer).size() == 2);
 		
-		//test with TerminException, cause of one unknown person "ptemp"
+		//test for TerminException because of one unknown person "ptemp"
 		try
 		{
 			Person ptemp = new Person("ich", "bin", "unbekannt");
@@ -304,7 +304,7 @@ public class TermineIFTest extends TestCase
 		catch (TerminException e)
 		{}
 		
-		//test with TerminException, cause of no correct period of time
+		//test for TerminException because of no correct period of time
 		try
 		{
 			server.getTermineVonBis(bis, von, teilnehmer);
@@ -325,7 +325,7 @@ public class TermineIFTest extends TestCase
 		//test with exactly two appointment result
 		assertTrue(server.getBesitzerTermineVom(d.addDauer(601), p).size() == 2);
 		
-		//test with TerminException, cause of one unknown person "ptemp"
+		//test for TerminException because of one unknown person "ptemp"
 		try
 		{
 			Person ptemp = new Person("ich", "bin", "unbekannt");
@@ -353,7 +353,7 @@ public class TermineIFTest extends TestCase
 		bis = d.addDauer(699);
 		assertTrue(server.getBesitzerTermineVonBis(von, bis, p).size() == 2);
 		
-		//test with TerminException, cause of one unknown person "ptemp"
+		//test for TerminException because of one unknown person "ptemp"
 		try
 		{
 			Person ptemp = new Person("ich", "bin", "unbekannt");
@@ -364,7 +364,7 @@ public class TermineIFTest extends TestCase
 		catch (TerminException e)
 		{}
 		
-		//test with TerminException, cause of no correct period of time
+		//test for TerminException because of no correct period of time
 		try
 		{
 			server.getBesitzerTermineVonBis(bis, von, p);
@@ -380,14 +380,14 @@ public class TermineIFTest extends TestCase
 		String neuerKurztext = "neuer Kurztext";
 		t.setKurzText(neuerKurztext);
 		server.update(t);
-		assertTrue(server.getTermin(t.getId()).getKurzText() == neuerKurztext);
+		assertEquals(server.getTermin(t.getId()).getKurzText(), neuerKurztext);
 		
 		//test with changed "Teilnehmer"
-		t.setTeilnehmer(teilnehmer);
+		t.setTeilnehmer(bspTeilnehmer);
 		server.update(t);
-		assertTrue(server.getTermin(t.getId()).getTeilnehmer().equals(teilnehmer));
+		assertTrue(server.getTermin(t.getId()).getTeilnehmer().equals(bspTeilnehmer));
 		
-		//test with TerminException, cause of no correct period of time
+		//test for TerminException because of no correct period of time
 		try
 		{
 			t.setBeginn(d.addDauer(700));	//appointment begin is d.addDauer(1) < end
@@ -397,7 +397,7 @@ public class TermineIFTest extends TestCase
 		catch (TerminException e)
 		{}
 		
-		//test with TerminException, cause of one unknown person "ptemp"
+		//test for TerminException because of one unknown person "ptemp"
 		try
 		{
 			Person ptemp = new Person("ich", "bin", "unbekannt");
@@ -420,7 +420,7 @@ public class TermineIFTest extends TestCase
 		//test with unavailable person
 		assertFalse(server.isPersonAvailable(d, d.addDauer(10), p2));
 		
-		//test with TerminException, cause of one unknown person "ptemp"
+		//test for TerminException because of one unknown person "ptemp"
 		try
 		{
 			Person ptemp = new Person("ich", "bin", "unbekannt");
@@ -431,7 +431,7 @@ public class TermineIFTest extends TestCase
 		catch (TerminException e)
 		{}
 		
-		//test with TerminException, cause of no correct period of time
+		//test for TerminException because of no correct period of time
 		try
 		{
 			server.isPersonAvailable(d.addDauer(10), d, p);
