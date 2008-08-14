@@ -259,7 +259,7 @@ public class SimpleServer extends Server
 		// TODO Auto-generated method stub
 	}
 	
-	public void deleteTermin(int id) throws TerminException
+	public void delete(int terminID) throws TerminException
 	{
 		throw new TerminException("Not yet implemented!");
 		// TODO Auto-generated method stub
