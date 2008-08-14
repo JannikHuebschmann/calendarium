@@ -45,10 +45,10 @@ public interface TermineIF
 	
 	/**
 	 * Deletes an appointment by ID from the server.
-	 * @param id of the appointment to be deleted
+	 * @param terminID of the appointment to be deleted
 	 * @throws TerminException
 	 */
-	public void deleteTermin(int id) throws TerminException;
+	public void delete(int terminID) throws TerminException;
 
 	/**
 	 * Updates an appointment on the server.
@@ -68,7 +68,7 @@ public interface TermineIF
 	/**
 	 * Finds all appointments of a person as a participant for a given day.
 	 * @param dat the date of the appointments
-	 * @param teilnehmer the Person for whom appointments are retrieved
+	 * @param teilnehmer the person for whom appointments are retrieved
 	 * @return Vector<Termin> a vector of retrieved appointments
 	 * @throws TerminException
 	 */
@@ -78,7 +78,7 @@ public interface TermineIF
 	 * Finds all appointments of a person as a participant for a given period of time.
 	 * @param vonDat the start date of the period
 	 * @param bisDat the end date of the period
-	 * @param teilnehmer the Person for whom appointments are retrieved
+	 * @param teilnehmer the person for whom appointments are retrieved
 	 * @return Vector<Termin> a vector of retrieved appointments
 	 * @throws TerminException
 	 */
@@ -87,7 +87,7 @@ public interface TermineIF
 	/**
 	 * Finds all appointments for a given day such that at least one person of the given group is participating.
 	 * @param dat the date of the appointments
-	 * @param teilnehmer the Person for whom appointments are retrieved
+	 * @param teilnehmer the persons for whom appointments are retrieved
 	 * @return Vector<Termin> a vector of retrieved appointments
 	 * @throws TerminException
 	 */
@@ -97,7 +97,7 @@ public interface TermineIF
 	 * Finds all appointments for a given period of time such that at least one person of the given group is participating.
 	 * @param vonDat the start date of the period
 	 * @param bisDat the end date of the period
-	 * @param teilnehmer the Person for whom appointments are retrieved
+	 * @param teilnehmer the persons for whom appointments are retrieved
 	 * @return Vector<Termin> a vector of retrieved appointments
 	 * @throws TerminException
 	 */
@@ -106,7 +106,7 @@ public interface TermineIF
 	/**
 	 * Finds all appointments for a given day and a given owner.
 	 * @param dat the date of the appointments
-	 * @param besitzer the Person who owns the appointments
+	 * @param besitzer the person who owns the appointments
 	 * @return Vector<Termin> a vector of retrieved appointments
 	 * @throws TerminException
 	 */
@@ -116,7 +116,7 @@ public interface TermineIF
 	 * Finds all appointments for a given period of time and a given owner.
 	 * @param vonDat the start date of the period
 	 * @param bisDat the end date of the period
-	 * @param besitzer the Person who owns the appointments
+	 * @param besitzer the person who owns the appointments
 	 * @return Vector<Termin> a vector of retrieved appointments
 	 * @throws TerminException
 	 */
@@ -126,7 +126,7 @@ public interface TermineIF
 	 * Checks if person is available for a given period of time.
 	 * @param vonDat the start date of the period
 	 * @param bisDat the end date of the period
-	 * @param teilnehmer the Person for whom appointment are retrieved
+	 * @param teilnehmer the person for whom appointment are retrieved
 	 * @return boolean a boolean if person is available
 	 * @throws TerminException
 	 */
