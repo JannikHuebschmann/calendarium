@@ -222,43 +222,23 @@ public class JPAServer extends Server
 	public void delete(Termin termin) throws TerminException
 	{
 		logger.fine("Deletion of date " + termin);
-		
-		// check whether "Besitzer" is known
-		if (!isPersonKnown(termin.getBesitzer()))
-			throw new TerminException("Userid unknown!");
 
-		// check whether "Teilnehmer" are known
-		Collection<Person> teilnehmer = termin.getTeilnehmer();
-		for (Person p : teilnehmer)
-		{
-			if (!isPersonKnown(p))
-				throw new TerminException("Userid unknown!");
-		}
-		
-		tx.begin();
-			try
-			{
-				manager.remove(manager.find(Termin.class, termin.getId()));
-			}
-			catch (IllegalArgumentException exp)
-			{
-				// Termin does not exist - nothing to do!
-			}
-		tx.commit();
+		delete(termin.getId());
 	}
 	
-	public void deleteTermin(int id) throws TerminException
+	public void delete(int terminID) throws TerminException
 	{
-		logger.fine("Delete of date with ID: " + id);
+		logger.fine("Delete of date with ID: " + terminID);
 		
 		tx.begin();
 			try
 			{
-				manager.remove(manager.find(Termin.class, id));
+				manager.remove(manager.find(Termin.class, terminID));
 			}
 			catch (IllegalArgumentException exp)
-			{
-				// Termin does not exist - nothing to do!
+			{		
+				tx.commit();
+				throw new TerminException("ID of appointment is unknown!");
 			}
 		tx.commit();
 	}
@@ -295,6 +275,9 @@ public class JPAServer extends Server
 		tx.begin();
 			Termin result = manager.find(Termin.class, id);
 		tx.commit();
+		
+		if (result == null) 
+			throw new TerminException("ID of appointment is unknown!");
 		
 		return result;
 	}
