@@ -131,18 +131,14 @@ public class TermineIFTest extends TestCase
 		assertTrue(server.getTermineVom(d, p).size()==1);
 		server.delete(t);
 		assertTrue(server.getTermineVom(d, p).size()==0);
-		server.delete(t);				// nothing to do
-		assertTrue(server.getTermineVom(d, p).size()==0);
 		t = new Termin(p, "Testtermin", "Dies ist der Langtext zum Testtermin", d, d.addDauer(1));
 		server.insert(t);				// needed for tearDown
 		
 		Termin termin = new Termin(p, "Neukurz", "Neulang", d, d.addDauer(1));
-		server.delete(termin);			// nothing to do		
-		
-		Person person = new Person("Frieda", "Fraumuster", "FF");
-		termin = new Termin(person, "Neukurz", "Neulang", d, d.addDauer(1));
+		//test for TerminException because of one unknown appointment termin
 		try
 		{
+			System.out.println(termin.getId());
 			server.delete(termin);
 			fail("Should throw TerminException!");
 		}
@@ -157,24 +153,36 @@ public class TermineIFTest extends TestCase
 		//check if appointment t exists
 		assertEquals(server.getTermin(id), t);
 		
-		server.deleteTermin(id);
+		server.delete(id);
 		
 		//check if appointment t was deleted
-		assertTrue(server.getTermin(id) == null);
+		try
+		{
+			server.getTermin(id);
+			fail("Should throw TerminException!");
+		}
+		catch (TerminException e)
+		{}
 		
 		//necessary for tearDown
 		t = new Termin(p, "Testtermin", "Dies ist der Langtext zum Testtermin", d, d.addDauer(1));
 		server.insert(t);
 		
-		//if deleting appointment with wrong ID, nothing will happen!
+		//if deleting appointment with wrong ID, TerminException will thrown!
 		//ID = -999 should not exist
-		server.deleteTermin(-999);
+		try
+		{
+			server.delete(-999);
+			fail("Should throw TerminException!");
+		}
+		catch (TerminException e)
+		{}
 	}
 
 	public void testGetTermineVom() throws Exception
 	{
 		Datum datum = new Datum(d.getDateStr());
-		datum.add(1);					// no appointment for this datum
+		datum.add(5);					// no appointment for this datum
 		assertTrue(server.getTermineVom(datum, p).size()==0);
 		
 		Person person = new Person("Frieda", "Fraumuster", "FF");
@@ -233,7 +241,13 @@ public class TermineIFTest extends TestCase
 	{
 		//test with empty result
 		//ID = -999 should not exist
-		assertNull(server.getTermin(-999));
+		try
+		{
+			server.getTermin(-999);
+			fail("Should throw TerminException!");
+		}
+		catch (TerminException e)
+		{}
 		
 		//test with exactly one result
 		assertEquals(server.getTermin(t.getId()), t);
