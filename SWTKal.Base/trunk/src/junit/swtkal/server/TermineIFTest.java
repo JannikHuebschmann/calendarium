@@ -138,7 +138,6 @@ public class TermineIFTest extends TestCase
 		//test for TerminException because of one unknown appointment termin
 		try
 		{
-			System.out.println(termin.getId());
 			server.delete(termin);
 			fail("Should throw TerminException!");
 		}
