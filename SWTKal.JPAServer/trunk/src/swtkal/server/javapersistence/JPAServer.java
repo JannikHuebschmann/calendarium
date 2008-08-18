@@ -237,7 +237,7 @@ public class JPAServer extends Server
 			}
 			catch (IllegalArgumentException exp)
 			{		
-				tx.commit();
+				tx.setRollbackOnly();
 				throw new TerminException("ID of appointment is unknown!");
 			}
 		tx.commit();
@@ -272,10 +272,7 @@ public class JPAServer extends Server
 	{
 		logger.fine("Method getTermin called for ID " + id);
 
-		tx.begin();
-			Termin result = manager.find(Termin.class, id);
-		tx.commit();
-		
+		Termin result = manager.find(Termin.class, id);
 		if (result == null) 
 			throw new TerminException("ID of appointment is unknown!");
 		
