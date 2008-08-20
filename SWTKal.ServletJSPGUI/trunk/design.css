@@ -1,0 +1,171 @@
+html, body {
+	width: 100%;
+	margin: 0px auto;
+	font-family: sans-serif;
+	background-color:#eeeeee;
+}
+
+div.loginframe {
+	border: 1px solid #000000;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 400px;
+	height: 300px;
+	margin-top: -150px;
+	margin-left: -200px;
+	background-color: #ffffff;
+}
+div.mainframe {
+	border: 1px solid #000000;
+	height: auto;
+	width: 770px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	background-color: #ffffff;
+	padding-bottom: 20px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div.top {
+	margin: 20px;
+	width: 730px;
+}
+
+div.main {
+	width: 730px;
+	height: auto;
+	margin: 20px;
+}
+
+
+table.login {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 200px;
+	margin-left: -100px;
+	height: 200px;
+	margin-top: -100px;
+	border-collapse: collapse;
+}
+
+.cell_label {
+	font-size: 10pt;
+	font-weight: bold;
+	text-align: right;
+}
+.cell_center {
+	text-align: center;
+}
+.button {
+	width: 100%;
+}
+.line_1px {
+	border: 1px solid #000000;
+}
+.swtcal_logo {
+	width: 200px;
+	height: 124px;
+	border: 1px solid #000000;
+	font-size: 16;
+	font-weight: bold;
+}
+
+table.header {
+	border-collapse: collapse;
+	margin: auto;
+	width: 680px;
+}
+table.header td {
+	font-size: 10pt;
+	vertical-align: bottom;
+}
+
+table.navigationbar {
+	border-collapse: collapse;
+	padding: 0;
+	margin: 0;
+	margin: auto;
+	width: auto;
+	text-align: center;
+}
+table.navigationbar td {
+	font-size:10pt;
+}
+
+table.calendarview {
+	border: 1px solid #000000;
+	background-color: #ffffff;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: collapse;
+	width: 730px;
+}
+table.calendarview tr {
+	vertical-align: top;
+}
+table.calendarview td {
+	text-align: center;
+	font-size: 8pt;
+	border: 1px solid #000000;
+}
+table.calendarview tr.calendarhours {
+	height: 20px;
+}
+table.calendarview tr.calendarhours td {
+	text-align: left;
+	padding-left: 5px;
+	padding-right: 5px;
+	width: 90px;
+}
+table.calendarview tr.calendarhours td.hours {
+	text-align: right;
+	padding-right: 10px;
+	font-weight: bold;
+	width: 35px;
+	white-space: nowrap;
+}
+table.calendarview tr.calendardays td {
+	text-align: center;
+	font-weight: bold;
+}
+table.calendarview td.tia {
+	background-color: #0066cc;	
+}
+table.calendarview a:link, a:visited{
+	color: #ffffff;
+}
+table.calendarview td.tse {
+	background-color: #0066cc;
+	color: #ffffff;	
+}
+#currentsite {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+div.formframe {
+	border: 1px solid #000000;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 40px;
+	width: 400px;
+	height: auto;
+	padding: 20px 10px;
+}
+
+table.create {
+	margin-left: auto;
+	margin-right: auto;
+	width: auto;
+	height: auto;
+	border-collapse: collapse;
+}
+table.create td.headline {
+	font-size: 12pt;
+	font-weight: bold;
+	text-align: left;
+}
