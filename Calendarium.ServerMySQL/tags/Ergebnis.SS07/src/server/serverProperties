@@ -1,7 +1,0 @@
-#--- Server Settings ---
-#Sun Apr 22 15:43:00 CEST 2007
-CalendariumEMail=Calendarium
-RMIServerPort=2005
-RMIServerName=phoenix-4
-SMTPServerPort=25
-SMTPServerName=mailsrv.uni-klu.ac.at
