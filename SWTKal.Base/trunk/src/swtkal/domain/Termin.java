@@ -100,7 +100,7 @@ public class Termin extends Eintrag
 
 	public Collection<Person> getTeilnehmer()
 	{
-		if (teilnehmer instanceof Vector)
+		if (teilnehmer instanceof Vector<?>)
 			return teilnehmer;
 		else
 			return new Vector<Person>(teilnehmer);
