@@ -56,7 +56,9 @@
           target: clean                      
          - - - - - - - - - - - - - - - - - -->
     <target name="clean">
-    	<delete dir="${javadoc.dir}/"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${javadoc.dir}" includes="**/*"/>
+        </delete>
     	<delete dir="${deploy.dir}/"/>
     </target>
 
