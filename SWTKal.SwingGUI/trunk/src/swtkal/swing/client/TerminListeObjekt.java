@@ -27,7 +27,7 @@ class TerminListeObjekt extends ListeObjekt
 	TerminListeObjekt(Ansicht s, Datum d, Vector termine)
 	{
 		super(s, d);
-		small = true ? s.getClass() != Tagesansicht.class : false;
+		small = (s.getClass() != Tagesansicht.class);
 
 		init();
 		create(termine);

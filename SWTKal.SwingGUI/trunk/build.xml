@@ -7,7 +7,7 @@
 
 <project name="SWTKal.Swing" default="default">
 	
-	<property name="deploy.dir" value="deploy/jars"/>
+	<property name="deploy.dir" value="targets/deploy/jars"/>
 
     <!-- ================================= 
           target: default              
