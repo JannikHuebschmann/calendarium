@@ -35,5 +35,12 @@
     <target name="deploy.dirs">
     	<mkdir dir="${deploy.dir}"/>
     </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: clean                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="clean">
+    	<delete dir="${deploy.dir}/"/>
+    </target>
 
 </project>
