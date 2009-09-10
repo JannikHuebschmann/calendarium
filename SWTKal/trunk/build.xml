@@ -10,20 +10,12 @@
             SWT-Kalender als Fallstudie zur SWT I Vorlesung
     </description>
 
-	<property name="javadoc.dir" 					value="documentation/javadoc"/>
-	<property name="javadoc.data.dir"				value="documentation/javadocdata"/>
-	<property name="javadoc.swtkal.base.dir" 		value="${javadoc.dir}/swtkal.base"/>
-	<property name="javadoc.swtkal.stylesheet" 		value="${javadoc.data.dir}/stylesheet.css"/>
-	<property name="javadoc.swtkal.base.overview" 	value="${javadoc.data.dir}/SWTKalBase.html"/>
-	<property name="proj.swtkal.base.bin" 			value="../SWTKal.Base/bin"/>
-	<property name="proj.swtkal.base.src" 			value="../SWTKal.Base/src"/>
-	
-	<property name="junit.jar" 						value="../SWTKal.Base/jars/junit.jar"/>
-	
-	<property name="deploy.client" 					value="deploy/client"/>
-	<property name="deploy.monitor" 				value="deploy/monitor"/>
-	<property name="deploy.server" 					value="deploy/server"/>
-	<property name="deploy.base" 					value="deploy/base"/>
+	<property name="javadoc.dir" 					value="targets/javadoc"/>	
+	<property name="junit.jar" 						value="../SWTKal.Base/resources/jars/junit.jar"/>	
+	<property name="deploy.client" 					value="targets/deploy/client"/>
+	<property name="deploy.monitor" 				value="targets/deploy/monitor"/>
+	<property name="deploy.server" 					value="targets/deploy/server"/>
+	<property name="deploy.base" 					value="targets/deploy/base"/>
 	<property name="run.dir" 						value="run.dir"/>
 
 	<!-- ================================= 
@@ -52,19 +44,19 @@
     	<ant dir="../SWTKal.SwingGUI" inheritall="false"></ant>
     	
 		<!-- Client-Deployment -->
-    	<copy todir="${deploy.client}"><fileset file="../SWTKal.SwingGUI/deploy/jars/swtkal.swingclient.jar"/></copy>
+    	<copy todir="${deploy.client}"><fileset file="../SWTKal.SwingGUI/targets/deploy/jars/swtkal.swingclient.jar"/></copy>
     	
     	<!-- Monitor-Deployment -->
-    	<copy todir="${deploy.monitor}"><fileset file="../SWTKal.SwingGUI/deploy/jars/swtkal.swing.jar"/></copy>
+    	<copy todir="${deploy.monitor}"><fileset file="../SWTKal.SwingGUI/targets/deploy/jars/swtkal.swing.jar"/></copy>
     	
     	<!-- Server-Deployment -->
     	<!-- SimpleServer ist in Base enthalten - wird evtl. durch Teilprojekte gefuellt! -->
     	
 		<!-- Base-Deployment -->
-		<copy todir="${deploy.base}"><fileset file="../SWTKal.Base/deploy/jars/swtkal.base.jar"/></copy>
-    	<copy todir="${deploy.base}"><fileset file="../SWTKal.Base/deploy/jars/swtkal.junittests.jar"/></copy>
+		<copy todir="${deploy.base}"><fileset file="../SWTKal.Base/targets/deploy/jars/swtkal.base.jar"/></copy>
+    	<copy todir="${deploy.base}"><fileset file="../SWTKal.Base/targets/deploy/jars/swtkal.junittests.jar"/></copy>
     	<copy todir="${deploy.base}"><fileset file="${junit.jar}"/></copy>
-		<!-- wird unnoetig, wenn Zugriff auf Image-Ressourcen aus Jar-Dateien realisiert wurde -->
+		<!-- das Folgende wird unnoetig, wenn Zugriff auf Image-Ressourcen aus Jar-Dateien realisiert wurde -->
     	<copy todir="${run.dir}"><fileset dir="../SWTKal.SwingGUI/src/" includes="images/**"/></copy>
     </target>
 
@@ -114,33 +106,11 @@
     </target>
 	
 	<!-- - - - - - - - - - - - - - - - - - 
-          target: create javadoc for swtkal.base                   
+          target: copy javadoc for swtkal.base                   
          - - - - - - - - - - - - - - - - - -->	
-	<!-- To run javadoc, please change in the "projekt" -> "properties" -> "Java Build path" 
-			-> "Libraries" -> JRE System Library to "JDK 1.6.0_02" -->		
     <target name="javadoc.SWTKal.Base"
-    	description="Erzeugt die Javadoc-API-Beschreibungen.">
-	        <javadoc
-	        	author="true" 
-	        	destdir="${javadoc.swtkal.base.dir}" 
-	        	overview="${javadoc.swtkal.base.overview}"
-	        	header="SWTKal"
-	        	doctitle="SWTKal - Fallstudie SWT-Vorlesung" 
-	        	windowtitle="SWTKal"
-	        	footer="SWTKal - Fallstudie SWT-Vorlesung"
-	          	nodeprecated="false" 
-	        	nodeprecatedlist="false" 
-	        	noindex="false" 
-	        	nonavbar="false" 
-	          	notree="false" 
-	        	packagenames="swtkal.server,swtkal.domain,swtkal.monitor,swtkal.exceptions,swtkal.client" 
-	        	source="1.6" 
-	          	sourcepath="${proj.swtkal.base.src}" 
-	        	splitindex="true" 
-	        	stylesheetfile="${javadoc.swtkal.stylesheet}" 
-	        	use="true" 
-	        	version="true">	  
-	        </javadoc>
+    	description="Kopiert die Javadoc-API-Beschreibungen.">
+    	<copy todir="${javadoc.dir}"><fileset dir="../SWTKal.Base/targets/javadoc/"/></copy>
 	</target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
@@ -148,7 +118,6 @@
          - - - - - - - - - - - - - - - - - -->
     <target name="create.dirs">
     	<mkdir dir="${javadoc.dir}"/>
-    	<mkdir dir="${javadoc.swtkal.base.dir}"/>
     	<mkdir dir="${deploy.client}"/>
     	<mkdir dir="${deploy.monitor}"/>
     	<mkdir dir="${deploy.server}"/>
