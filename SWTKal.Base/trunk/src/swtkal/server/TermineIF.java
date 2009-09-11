@@ -7,8 +7,8 @@
  *****************************************************************************************************
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
- *	01.08.2007			swtUser			initial version
- *	01.06.2008			swtUser			new update method and extended search functionality
+ *	01.08.2007		swtUser			initial version
+ *	01.06.2008		swtUser			new update method and extended search functionality
  *
  */
 package swtkal.server;
@@ -59,11 +59,11 @@ public interface TermineIF
 
 	/**
 	 * Finds an appointment with a given internal id.
-	 * @param id the internal id of the appointment
+	 * @param terminId the internal id of the appointment
 	 * @return Termin the retrieved appointment
 	 * @throws TerminException
 	 */
-	public Termin getTermin(int id) throws TerminException;
+	public Termin getTermin(int terminId) throws TerminException;
 
 	/**
 	 * Finds all appointments of a person as a participant for a given day.

@@ -7,7 +7,7 @@
  *****************************************************************************************************
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
- *	01.08.2007			swtUser			initial version
+ *	01.08.2007		swtUser			initial version
  *
  */
 package swtkal.server;
@@ -253,7 +253,7 @@ public class SimpleServer extends Server
 		throw new TerminException("Not yet implemented!");
 	}
 
-	public Termin getTermin(int id) throws TerminException
+	public Termin getTermin(int terminId) throws TerminException
 	{
 		throw new TerminException("Not yet implemented!");
 		// TODO Auto-generated method stub

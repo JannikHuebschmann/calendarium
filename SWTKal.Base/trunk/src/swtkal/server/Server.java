@@ -7,14 +7,19 @@
  *****************************************************************************************************
  *	date			| 	author		| 	reason for change
  *****************************************************************************************************
- *	01.08.2007			swtUser			initial version
+ *	01.08.2007		swtUser			initial version
  *
  */
 package swtkal.server;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*****************************************************************************************************
  * Abstract class Server specifies the required server interface and realizes
