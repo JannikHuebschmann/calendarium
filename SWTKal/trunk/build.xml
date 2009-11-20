@@ -5,7 +5,7 @@
                    
      ====================================================================== -->
 
-<project name="SWTKal" default="default" basedir=".">
+<project name="SWTKal" default="prepare" basedir=".">
     <description>
             SWT-Kalender als Fallstudie zur SWT I Vorlesung
     </description>
@@ -19,9 +19,9 @@
 	<property name="run.dir" 						value="run.dir"/>
 
 	<!-- ================================= 
-          target: default              
+          target: prepare              
          ================================= -->
-    <target name="default" depends="info, collect.jars">
+    <target name="prepare" depends="info, collect.jars">
     </target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
