@@ -5,14 +5,14 @@
                    
      ====================================================================== -->
 
-<project name="SWTKal.Swing" default="default">
+<project name="SWTKal.Swing" default="init">
 	
 	<property name="deploy.dir" value="targets/deploy/jars"/>
 
     <!-- ================================= 
-          target: default              
+          target: init              
          ================================= -->
-    <target name="default" depends="deploy.jar">
+    <target name="init" depends="deploy.jar">
     	<echo>Buildfile SWTKal.Swing-Teilprojekt</echo>
      </target>
 
