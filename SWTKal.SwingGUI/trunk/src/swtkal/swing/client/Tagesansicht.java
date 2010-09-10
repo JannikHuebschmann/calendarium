@@ -133,7 +133,7 @@ public class Tagesansicht extends Ansicht
 		setDateLabelSize(new Dimension(100, 25));
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private void loadDataObjects()
 	{
 	// Vector toDo = Data.toDo

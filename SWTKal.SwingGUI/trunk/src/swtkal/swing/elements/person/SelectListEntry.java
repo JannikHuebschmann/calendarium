@@ -147,7 +147,7 @@ public class SelectListEntry implements ActionListener, ListSelectionListener,
 		return scrollPane;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void createModel(Server server)
 	{
 		mModel = new DefaultListModel();
@@ -181,7 +181,7 @@ public class SelectListEntry implements ActionListener, ListSelectionListener,
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void removePerson(String kuerzel)
 	{
 		Enumeration enumer = mModel.elements();
@@ -194,7 +194,7 @@ public class SelectListEntry implements ActionListener, ListSelectionListener,
 
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private Person contains(String kuerzel)
 	{
 		Enumeration enumer = mModel.elements();

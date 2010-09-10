@@ -12,10 +12,10 @@ public class OffeneKalender
 {
 //	private Hashtable personenTable;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private Vector personenListe;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public OffeneKalender()
 	{
 //		personenTable = new Hashtable();
@@ -27,7 +27,7 @@ public class OffeneKalender
 	// Funktionen //
 	// ////////////////////////////////////////////////////////////////////////////////////
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public Enumeration getEnumeration()
 	{
 		return personenListe.elements();
@@ -55,7 +55,7 @@ public class OffeneKalender
 		return 0;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public Vector getPersonenListe()
 	{
 		return personenListe;

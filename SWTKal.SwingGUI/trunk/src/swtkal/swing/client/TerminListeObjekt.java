@@ -23,7 +23,7 @@ class TerminListeObjekt extends ListeObjekt
 	// Beschriftung
 	private boolean small;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	TerminListeObjekt(Ansicht s, Datum d, Vector termine)
 	{
 		super(s, d);
@@ -42,7 +42,7 @@ class TerminListeObjekt extends ListeObjekt
 		HOUR_HEIGHT = 36;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	void create(Vector termine)
 	{
 		TerminScrollListe terminListe;
@@ -72,7 +72,7 @@ class TerminListeObjekt extends ListeObjekt
 		gui.add("Center", terminListe);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	void addToGrid(Vector termine, int index, Termin[][] grid)
 	{
 		int bgnMin, bgnHour;
@@ -233,7 +233,7 @@ class TerminListeObjekt extends ListeObjekt
 			create();
 		}
 
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings("rawtypes")
 		TerminScrollListe(Vector termine, Termin[][] grid)
 		{
 			create(grid, termine);
@@ -359,7 +359,7 @@ class TerminListeObjekt extends ListeObjekt
 			setViewportView(mControlPane);
 		}
 
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings("rawtypes")
 		void create(Termin[][] grid, Vector termine)
 		{
 			int bWidth, bHeight;
