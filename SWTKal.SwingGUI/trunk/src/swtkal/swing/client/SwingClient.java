@@ -40,6 +40,7 @@ public class SwingClient extends Client implements ActionListener
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());			// *** use this for MacOS
 		}
 		catch (Exception exc)
 		{
@@ -304,6 +305,10 @@ public class SwingClient extends Client implements ActionListener
 		{}
 
 		layer.add(gui, 0);
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	class WindowEventHandler extends WindowAdapter
