@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>SWTKal</name>
+	<comment></comment>
+	<projects>
+		<project>SWTKal.Base</project>
+		<project>SWTKal.Base.Swing</project>
+		<project>SWTKal.Client</project>
+		<project>SWTKal.Monitor.Swing</project>
+		<project>SWTKal.ServerFS</project>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+</projectDescription>
