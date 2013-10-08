@@ -2,6 +2,7 @@ package swtkal.swing.elements.person;
 // Achtung: Klasse im Wesentlichen unveraendert aus Calendarium uebernommen
 
 import java.awt.*;
+
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -21,6 +22,7 @@ public class EditOneUser extends ListenerForActions
 
 	private CharacterTextField kuerzel, vorname, nachname;
 	private JPasswordField[] passwort = new JPasswordField[2];
+	@SuppressWarnings("rawtypes")
 	private JComboBox bevorzugt;
 	private JTextField email;
 	private Zahlenfeld fax;
@@ -46,6 +48,7 @@ public class EditOneUser extends ListenerForActions
 		create();
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	void create()
 	{
 		JPanel pane = new JPanel();

@@ -3,6 +3,7 @@ package swtkal.swing.elements.person;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
@@ -23,8 +24,10 @@ public class SelectListEntry implements ActionListener, ListSelectionListener,
 	private JPanel gui = new JPanel();
 
 	// JList
+	@SuppressWarnings("rawtypes")
 	public DefaultListModel mModel;
 
+	@SuppressWarnings("rawtypes")
 	public JList mListBox;
 
 	private int mPos = 0;
@@ -126,6 +129,7 @@ public class SelectListEntry implements ActionListener, ListSelectionListener,
 		return gui;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	JScrollPane createList(Server server)
 	{
 		mListBox = new JList();
@@ -147,7 +151,7 @@ public class SelectListEntry implements ActionListener, ListSelectionListener,
 		return scrollPane;
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void createModel(Server server)
 	{
 		mModel = new DefaultListModel();
@@ -282,6 +286,7 @@ public class SelectListEntry implements ActionListener, ListSelectionListener,
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public Object[] getSelectedObjects()
 	{
 		return mListBox.getSelectedValues();
@@ -373,6 +378,7 @@ public class SelectListEntry implements ActionListener, ListSelectionListener,
 	// SelectionCellRenderer // SelectionCellRenderer // SelectionCellRenderer
 	// // SelectionCell //
 	// ////////////////////////////////////////////////////////////////////////////////////////////
+	@SuppressWarnings("rawtypes")
 	class SelectionCellRenderer extends JLabel implements ListCellRenderer
 	{
 		private static final long serialVersionUID = -8100911759388290485L;

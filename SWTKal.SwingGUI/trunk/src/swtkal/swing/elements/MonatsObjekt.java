@@ -5,6 +5,7 @@ package swtkal.swing.elements;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
@@ -32,8 +33,10 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 	                          day;		// selektiertes Datum
 
 	// Combobox
+	@SuppressWarnings("rawtypes")
 	private JComboBox monthCombo;
 
+	@SuppressWarnings("rawtypes")
 	private JComboBox yearCombo;
 
 	// Buttons
@@ -111,6 +114,7 @@ public class MonatsObjekt extends JPanel implements ActionListener, ItemListener
 		return day;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private JPanel createMtSelect(int mt, int yr)
 	{
 		JPanel selectMonth = new JPanel();
