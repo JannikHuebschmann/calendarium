@@ -1,0 +1,56 @@
+<html>
+
+<head>
+<title>Das Softwaretechnik-Kalenderprojekt</title>
+
+<body>
+<h1>Softwaretechnik-Kalenderprojekt</h1>
+
+<p>Das SWTKal-Projekt dient der Verdeutlichung der vermittelten Vorlesungsinhalte mithilfe
+einer mittelgroßen (und damit nicht ganz trivialen) Fallstudie.
+Es soll einen typischen Zwischenstand innerhalb der Implementierungsphase repräsentieren
+mit einem lauffähigen Prototypen,
+der bestimmte Teile der geforderten Funktionalität bereits realisiert.
+Gleichzeitig stellt das Projekt eine Standardumgebung für die direkte
+Anwendung der erlernten Vorlesungsinhalte im Rahmen von Praktikumsaufgaben dar.<p/>
+
+<p>Das gesamte Projekt ist in mehrere einzelne Eclipse-Projekte unterteilt,
+die sich z.T. gegenseitig benutzen und aufeinander verweisen:
+<ul>
+<li><b>SWTKal -</b>
+Dieses Eclipse-Projekt enthält u.a. die Dokumentation zum Gesamtprojekt
+und alle übergreifenden Aspekte dazu.</li>
+<li><b>SWTKal.Base -</b> Dieses Projekt enthält die anwendungsspezifischen Grundklassen,
+die Realisierung der anwendungsspezifischen Funktionalität sowie die Spezifikation
+wichtiger Schnittstellen als Interfaces oder abstrakte Klasse.
+Darüber hinaus werden beispielhaft einfachste Server-, Monitor- und
+Client-Realisierungen zur Verfügung gestellt.
+</li>
+<li><b>SWTKal.SwingGUI -</b> Dieses Projekt realisiert
+eine einfache Swing-basierte Benutzungsoberfläche zum Client und Monitor im SWT-Kalenderprojekt,
+die im Wesentlichen unverändert und nur leicht angepasst aus dem Calendarium-Projekt
+zum UML-Lehrbuch Hitz et al. übernommen wurde.</li>
+<li><b>SWTKal.Server.mySQL -</b> Dieses noch zu realisierende Teilprojekt enthält eine Server-Implementierung
+mittels JDBC auf der Basis des Open-Source-DBMS MySQL.</li>
+<li><b>SWTKal.JPAServer -</b> Dieses Teilprojekt realisiert eine Server-Implementierung auf Basis
+des Java Persistence APIs JPA.</li>
+</ul>
+</ul>
+</p>
+
+<p>Das SWTKal-Projekt nutzt Java JDK 1.6 und wird mit Eclipse entwickelt.
+Einige hilfreiche Links zum weiteren Einstieg ins Kalenderprojekt:
+<ul>
+<li><a href="./documentation/lastenheft.pdf">Lastenheft (auszugsweise)</a></li>
+<li><a href="unknown">Pflichtenheft (auszugsweise)</a></li>
+<li><a href="./documentation/entwurf.html">Entwurfsdokument</a></li>
+<li><a href="./documentation/javadoc/">Javadoc API-Dokumentation</a></li>
+</ul>
+</p>
+
+</body>
+</html>
+
+
+
+
