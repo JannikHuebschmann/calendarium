@@ -8,7 +8,7 @@
 <project name="SWTKal.Base" default="init">
 	
 	<property name="javadoc.dir" value="targets/javadoc"/>
-	<property name="javadoc.exe" value="C:/Program Files/Java/jdk1.8.0_65/bin/javadoc.exe"/>
+	<property name="javadoc.exe" value="C:/Program Files/Java/jdk1.8.0_74/bin/javadoc.exe"/>
 	<property name="deploy.dir" value="targets/deploy/jars"/>
 
     <!-- ================================= 
@@ -39,8 +39,8 @@
 				"swtkal.client*:swtkal.domain*:swtkal.exceptions*:swtkal.monitor*:swtkal.server*" />
 			
 			<doctitle><![CDATA[<h1>SWTKal API</h1>]]></doctitle>
-			<header>SWTKal Fallstudie SWT-Vorlesung im WS 2009</header>
-			<footer>SWTKal Fallstudie SWT-Vorlesung im WS 2009</footer>
+			<header>SWTKal Fallstudie SWT-Vorlesung</header>
+			<footer>SWTKal Fallstudie SWT-Vorlesung</footer>
 		</javadoc>
     </target>
 
