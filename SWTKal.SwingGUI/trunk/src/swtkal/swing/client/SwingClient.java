@@ -39,8 +39,8 @@ public class SwingClient extends Client implements ActionListener
 		// Look & Feel
 		try
 		{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());			// *** use this for MacOS
+//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());			// *** use this for MacOS
 		}
 		catch (Exception exc)
 		{
