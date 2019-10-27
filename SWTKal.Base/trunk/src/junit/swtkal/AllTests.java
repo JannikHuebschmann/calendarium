@@ -28,6 +28,7 @@ public class AllTests
 		TestSuite suite = new TestSuite("junit.swtkal");
 		suite.addTest(junit.swtkal.domain.AllTests.suite());
 		suite.addTest(junit.swtkal.server.AllTests.suite());
+		//Bla Bla
 		return suite;
 	}
 }
