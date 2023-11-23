@@ -106,7 +106,7 @@ public class Tagesansicht extends Ansicht
 		top.setMinimumSize(new Dimension(100, 50));
 		top.add(createSelectDate(
 				Datum.DAYNAMESSHORT[bgnAnsicht.getWeekDay()] + ". "
-				+ bgnAnsicht.getDateStr(), false) );
+				+ bgnAnsicht.getDate(), false) );
 //		top.add(toDoListe.getGUI());
 
 		splitPane.setTopComponent(top);
@@ -174,7 +174,7 @@ public class Tagesansicht extends Ansicht
 
 			endAnsicht = bgnAnsicht;
 			setDateLabel(Datum.DAYNAMESSHORT[bgnAnsicht.getWeekDay()] + ". "
-					+ bgnAnsicht.getDateStr());
+					+ bgnAnsicht.getDate());
 
 			updateEintraege();
 		}

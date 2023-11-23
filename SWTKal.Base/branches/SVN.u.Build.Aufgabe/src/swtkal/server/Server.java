@@ -65,7 +65,7 @@ public abstract class Server implements PersonenIF, TermineIF {
         }
     }
 
-    // TODO Javadoc-Kommentare f�r die Server-Methoden einf�gen
+    // TODO Javadoc-Kommentare für die Server-Methoden einf�gen
     public static Server getServer()                // gets the Singelton object
     {
         if (server == null) {

@@ -21,4 +21,5 @@ import swtkal.client.Client;
  */
 public abstract class Monitor extends Client
 {
+
 }

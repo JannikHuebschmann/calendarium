@@ -151,22 +151,22 @@ class TerminAllgPanel extends AllgemeinPanel implements FocusListener
 		if (termin.getBeginn().isCorrectDate())
 		{
 			// Beginn
-			datePanel[0].getDatumsfeld().setDate(termin.getBeginn().getDateStr());
+			datePanel[0].getDatumsfeld().setDate(termin.getBeginn().getDate());
 
 			if (termin.getBeginn().isCorrectTime())
 			{
-				timePanel[0].getZeitfeld().setTime(termin.getBeginn().getTimeStr());
+				timePanel[0].getZeitfeld().setTime(termin.getBeginn().getTime());
 			}
 		}
 
 		if (termin.getEnde().isCorrectDate())
 		{
 			// Ende
-			datePanel[1].getDatumsfeld().setDate(termin.getEnde().getDateStr());
+			datePanel[1].getDatumsfeld().setDate(termin.getEnde().getDate());
 
 			if (termin.getEnde().isCorrectTime())
 			{
-				timePanel[1].getZeitfeld().setTime(termin.getEnde().getTimeStr());
+				timePanel[1].getZeitfeld().setTime(termin.getEnde().getTime());
 
 				if (termin.getBeginn().isCorrect())
 				{ // Dauer

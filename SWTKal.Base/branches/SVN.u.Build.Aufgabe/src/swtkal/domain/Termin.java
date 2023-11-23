@@ -12,6 +12,8 @@
  */
 package swtkal.domain;
 
+import swtkal.server.TermineIF;
+
 import java.util.Vector;
 
 /*****************************************************************************************************
@@ -24,35 +26,37 @@ public class Termin extends Eintrag
 	protected Datum beginn;
 	protected Datum ende;
 	protected boolean verschiebbar;
+	protected Integer id;
 	
 	protected Vector<Person> teilnehmer = new Vector<Person>();
 
 	public Termin(Person besitzer, String kurzText, String langText,
-			 Datum b, Datum e, boolean v)
+			 Datum beginn, Datum ende, boolean verschiebbar,Integer id)
 	{
 		super(besitzer, kurzText, langText);
 
-		beginn = b;
-		ende = e;
-		verschiebbar = v;
-		
+		this.beginn = beginn;
+		this.ende = ende;
+		this.verschiebbar = verschiebbar;
+		this.id = id;
+
 		teilnehmer.add(besitzer);	// the owner is a default participant
 	}
 
 	public Termin(Person besitzer, String kurzText, String langText,
-			 Datum b, Datum e)
+			 Datum b, Datum e,Integer id)
 	{
-		this(besitzer, kurzText, langText, b, e, false);
+		this(besitzer, kurzText, langText, b, e, false,id);
 	}
 
-	public Termin(Person besitzer, Datum b, Datum e, boolean v)
+	public Termin(Person besitzer, Datum b, Datum e, boolean v,Integer id)
 	{
-		this(besitzer, "", "", b, e, v);
+		this(besitzer, "", "", b, e, v,id);
 	}
 
-	public Termin(Person besitzer, Datum b, Datum e)
+	public Termin(Person besitzer, Datum b, Datum e,Integer id)
 	{
-		this(besitzer, "", "", b, e, false);
+		this(besitzer, "", "", b, e, false,id);
 	}
 
 	public String toString()
@@ -98,5 +102,13 @@ public class Termin extends Eintrag
 	public void setTeilnehmer(Vector<Person> t)
 	{
 		teilnehmer = t;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

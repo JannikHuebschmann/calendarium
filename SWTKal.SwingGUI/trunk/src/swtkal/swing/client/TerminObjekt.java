@@ -109,8 +109,8 @@ public class TerminObjekt extends EintragsObjekt
 
 		if (termin.getBeginn().getDaysBetween(termin.getEnde()) == 0)
 		{
-			terminText = " " + termin.getBeginn().getTimeStr() + " - "
-					+ termin.getEnde().getTimeStr();
+			terminText = " " + termin.getBeginn().getTime() + " - "
+					+ termin.getEnde().getTime();
 		}
 		else
 		{

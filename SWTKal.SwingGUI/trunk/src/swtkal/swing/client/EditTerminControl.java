@@ -14,6 +14,8 @@ import swtkal.exceptions.TerminException;
 //import basisklassen.Konflikt;
 //import basisklassen.Notifikation;
 //import data.Data;
+import swtkal.server.Server;
+import swtkal.server.SimpleServer;
 import swtkal.swing.elements.termin.EditTermin;
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -28,6 +30,8 @@ public class EditTerminControl implements ActionListener
 	protected SwingClient client;
 	protected Termin termin;
 	protected boolean edit;			// Flag
+	protected Server server = swtkal.server.Server.getServer();
+
 
 //	// TerminVorschlag
 //	private TerminVorschlag vorschlag = null;
@@ -44,8 +48,7 @@ public class EditTerminControl implements ActionListener
 		client = c;
 		editTermin = new EditTermin(f);
 		editTermin.addActionListener(this);
-
-		termin = new Termin(client.getUser(), d.addDauer(0.0), d.addDauer(1.0));
+		termin = new Termin(client.getUser(), d.addDauer(0.0), d.addDauer(1.0),null);
 		editTermin.start(termin);
 		editTermin.setTitle("Termin eintragen");
 	}
