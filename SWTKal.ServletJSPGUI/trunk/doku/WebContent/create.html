@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>SWTCal - Login</title>
+	<link rel="stylesheet" type="text/css" href="design.css">
+</head>
+<body>
+<div class="mainframe">
+	<div class="top">
+		<table class="header">
+			<tr>
+				<td>
+					<div class="swtcal_logo">SWTCal-Logo</div>
+				</td>
+				<td id="currentsite">
+					Termin erstellen
+				</td>
+				<td></td>
+				<td>
+					Name (Rolle)
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4">
+					<hr class="line_1px"></hr>
+				</td>
+			</tr>
+		</table>
+		<table class="navigationbar">
+			<tr >
+				<td>
+					<a href="overview.html">Wochenübersicht</a>
+				</td>
+				<td>
+					<a href="create.html">Termin erstellen</a>
+				</td>
+				<td>
+					<a href="create.html">Termin ändern</a>
+				</td>
+				<td>
+					<a href="create.html">Navigation 4</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="bottom">
+		<form action="create.jsp">
+			<div class="formframe">
+			<table class="create">
+				<tr>
+					<td class="cell_label">
+						Beschreibung:
+					</td>
+					<td>
+						<textarea cols="30" rows="2">
+						</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<hr class="line_1px"></hr>
+					</td>
+				</tr>
+				<tr>
+					<td class="headline" colspan="2">
+						Beginn:
+					</td>
+				</tr>
+				<tr>
+					<td class="cell_label">
+						Datum:
+					</td>
+					<td>
+						<input type="text" size="2" maxlength="2">
+						<input type="text" size="2" maxlength="2">
+						<input type="text" size="4" maxlength="4">
+					</td>
+				</tr>
+				<tr>
+					<td class="cell_label">
+						Uhrzeit:
+					</td>
+					<td>
+						<input type="text" size="2" maxlength="2">
+						<input type="text" size="2" maxlength="2">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<hr class="line_1px"></hr>
+					</td>
+				</tr>
+				<tr>
+					<td class="headline" colspan="2">
+						Ende:
+					</td>
+				</tr>
+				<tr>
+					<td class="cell_label">
+						Datum:
+					</td>
+					<td>
+						<input type="text" size="2" maxlength="2">
+						<input type="text" size="2" maxlength="2">
+						<input type="text" size="4" maxlength="4">
+					</td>
+				</tr>
+				<tr>
+					<td class="cell_label">
+						Uhrzeit:
+					</td>
+					<td>
+						<input type="text" size="2" maxlength="2">
+						<input type="text" size="2" maxlength="2">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<hr class="line_1px"></hr>
+					</td>
+				</tr>
+				<tr>
+					<td class="cell_label">
+						Dauer in Stunden:
+					</td>
+					<td>
+						<input type="text" size="2" maxlength="2">
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+					<td>
+						<input type="submit" name="create" value="eintragen">
+						<input type="reset" value="abbrechen">
+					</td>
+				</tr>
+			</table>
+			</div>
+		</form>
+	</div>
+</div>
+</body>
+</html>

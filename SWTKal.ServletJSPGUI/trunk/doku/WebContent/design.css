@@ -1,0 +1,145 @@
+html, body {
+	width: 100%;
+	margin: 0px auto;
+	font-family: sans-serif;
+}
+
+div.loginframe {
+	border: 1px solid #000000;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 400px;
+	height: 300px;
+	margin-top: -150px;
+	margin-left: -200px;
+	background-color: #eeeeee;
+}
+div.mainframe {
+	border: 1px solid #000000;
+	min-height: 400px;
+	min-width: 740px;
+	margin: 20px;
+	background-color: #eeeeee;
+	padding-bottom: 20px;
+}
+
+div.top {
+	margin: 20px;
+	min-width: 700px;
+}
+
+div.main {
+	min-width: 700px;
+	margin: 20px;
+}
+
+
+table.login {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 200px;
+	margin-left: -100px;
+	height: 200px;
+	margin-top: -100px;
+	border-collapse: collapse;
+}
+
+.cell_label {
+	font-size: 10pt;
+	font-weight: bold;
+	text-align: right;
+}
+.cell_center {
+	text-align: center;
+}
+.button {
+	width: 100%;
+}
+.line_1px {
+	border: 1px solid #000000;
+}
+.swtcal_logo {
+	width: 180px;
+	height: 100px;
+	border: 1px solid #000000;
+	margin: auto;
+	font-size: 16;
+	font-weight: bold;
+}
+
+table.header {
+	border-collapse: collapse;
+	margin: auto;
+	width: 700px;
+}
+table.header td {
+	font-size: 10pt;
+	vertical-align: bottom;
+}
+
+table.navigationbar {
+	border-collapse: collapse;
+	margin: auto;
+	width:600px;
+	text-align: center;
+}
+table.navigationbar td {
+	font-size:10pt;
+	border-right: 1px solid #000000;
+	border-left: 1px solid #000000;
+}
+
+table.calendarview {
+	border: 1px solid #000000;
+	background-color: #ffffff;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: collapse;
+}
+table.calendarview td {
+	text-align: center;
+	width: 100px;
+	font-size: 10pt;
+	font-weight: bold;
+	border: 1px solid #000000;
+}
+table.calendarview tr.calendarhours {
+	height: 20px;
+	text-align: left;
+}
+table.calendarview tr.calendarhours td {
+	text-align: left;
+}
+table.calendarview tr.calendardays td {
+	text-align: center;
+}
+#currentsite {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+div.formframe {
+	border: 1px solid #000000;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 40px;
+	width: 400px;
+	height: auto;
+	padding: 20px 10px;
+}
+
+table.create {
+	margin-left: auto;
+	margin-right: auto;
+	width: auto;
+	height: auto;
+	border-collapse: collapse;
+}
+table.create td.headline {
+	font-size: 12pt;
+	font-weight: bold;
+	text-align: left;
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+
+     Buildfile zum SWTKal.JPAServer Teilprojekt
+                   
+     ====================================================================== -->
+
+<project name="SWTKal.JPAServer" default="default">
+	
+	<property name="deploy.dir"    value="deploy/jars"/>
+	<property name="deploy.server" value="../SWTKal/deploy/server"/>
+	<property name="run.dir" 	   value="../SWTKal/run.dir"/>
+
+    <!-- ================================= 
+          target: default              
+         ================================= -->
+    <target name="default" depends="deploy.jpaserver">
+    	<echo>Buildfile SWTKal.JPAServer-Teilprojekt</echo>
+    </target>
+
+    <!-- ================================= 
+          target: deploy.jpaserver              
+         ================================= -->
+    <target name="deploy.jpaserver" depends="deploy.dirs"
+	        description="stellt die SWTKal-JPAServer-Klassen als Jar-Datei zur Verfuegung">
+    	<jar destfile="${deploy.dir}/swtkal.jpaserver.jar">
+    		<fileset dir="bin" excludes="junit/** *.xml resources/**"/>
+    	    <fileset dir="src/resources" excludes="*.xml"/>
+    	</jar>
+    	<copy todir="${deploy.server}"><fileset dir="${deploy.dir}"/></copy>
+    	<copy todir="${run.dir}" file="src/resources/swtkalServerProperties.xml" overwrite="true" />
+    	<copy todir="${run.dir}" file="src/resources/log4j.xml" overwrite="true" />
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: deploy.dirs                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="deploy.dirs">
+     	<mkdir dir="${deploy.dir}"/>
+    </target>
+
+</project>

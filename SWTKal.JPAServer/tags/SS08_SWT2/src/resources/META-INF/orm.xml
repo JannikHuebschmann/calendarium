@@ -1,0 +1,40 @@
+<!-- 
+ *****************************************************************************************************
+ * 	Project:			SWTKal.JPAServer
+ * 	
+ *  creation date:		01.08.2007
+ *
+ * 
+ *****************************************************************************************************
+ *	date			| 	author		| 	reason for change
+ *****************************************************************************************************
+ *	01.03.2008			ejbUser			initial version
+ *
+ *
+ -->
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_1_0.xsd"
+                 version="1.0">
+	<entity class="swtkal.domain.Person" access="FIELD">
+		<attributes>
+			<id name="kuerzel"/>
+		</attributes>
+	</entity>
+	
+	<entity class="swtkal.domain.Eintrag" access="FIELD">
+		<inheritance/>
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY"/>
+			</id>
+			<many-to-one name="besitzer"/>
+		</attributes>
+	</entity>
+	
+	<entity class="swtkal.domain.Termin" access="FIELD">
+		<attributes>
+			<many-to-many name="teilnehmer" fetch="EAGER"/>
+		</attributes>
+	</entity>	
+</entity-mappings>

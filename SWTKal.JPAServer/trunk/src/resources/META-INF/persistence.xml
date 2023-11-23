@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence>
+   <!-- use this persistence unit during development and when MySQL is not available                   -->
+   <!-- see corresponding property in the constructor of class swtkal.server.javapersistence.JPAServer -->
+   <persistence-unit name="swtkal.hypersonic">
+       <properties>
+            <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
+            <property name="hibernate.connection.username" value="sa"/>
+            <property name="hibernate.connection.password" value=""/>
+            <property name="hibernate.connection.url" value="jdbc:hsqldb:."/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
+       </properties>
+   </persistence-unit>
+   
+   <persistence-unit name="swtkal.mysql">
+       <properties>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.username" value="swtkal"/>
+            <property name="hibernate.connection.password" value="laktws"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://193.175.197.9/swtkal"/>
+	        <property name="hibernate.hbm2ddl.auto" value="validate"/>
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>
+       </properties>
+   </persistence-unit>
+</persistence>

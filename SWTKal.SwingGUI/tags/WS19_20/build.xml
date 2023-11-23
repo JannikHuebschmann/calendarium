@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+
+     Buildfile zum SWTKal.Swing Teilprojekt
+                   
+     ====================================================================== -->
+
+<project name="SWTKal.Swing" default="init">
+	
+	<property name="deploy.dir" value="targets/deploy/jars"/>
+
+    <!-- ================================= 
+          target: init              
+         ================================= -->
+    <target name="init" depends="deploy.jar">
+    	<echo>Buildfile SWTKal.Swing-Teilprojekt</echo>
+     </target>
+
+    <!-- ================================= 
+          target: deploy.jar              
+         ================================= -->
+    <target name="deploy.jar" depends="deploy.dirs"
+	        description="stellt die SWTKal.Swing-Klassen als Jar-Datei zur Verfuegung">
+    	<jar destfile="${deploy.dir}/swtkal.swing.jar">
+    		<fileset dir="bin" excludes="junit/** *.xml *.log"/>
+    	</jar>
+    	<jar destfile="${deploy.dir}/swtkal.swingclient.jar">
+    		<fileset dir="bin" excludes="junit/** swtkal/swing/monitor/** *.xml *.log"/>
+    	</jar>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: deploy.dirs                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="deploy.dirs">
+    	<mkdir dir="${deploy.dir}"/>
+    </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: clean                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="clean">
+    	<delete dir="${deploy.dir}/"/>
+    </target>
+
+</project>

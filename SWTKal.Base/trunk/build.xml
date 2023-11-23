@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+
+     Buildfile zum SWTKal.Base Teilprojekt
+                   
+     ====================================================================== -->
+
+<project name="SWTKal.Base" default="init">
+	
+	<property name="javadoc.dir" value="targets/javadoc"/>
+	<property name="javadoc.exe" value="C:/Program Files/Java/jdk1.8.0_74/bin/javadoc.exe"/>
+	<property name="deploy.dir" value="targets/deploy/jars"/>
+
+    <!-- ================================= 
+          target: init              
+         ================================= -->
+    <target name="init" depends="deploy.base">
+    	<echo>Buildfile SWTKal.Base-Teilprojekt</echo>
+    </target>
+
+    <!-- ================================= 
+          target: deploy.base              
+         ================================= -->
+    <target name="deploy.base" depends="deploy.dirs"
+	        description="stellt die SWTKal-Basisklassen als Jar-Dateien zur Verfuegung">
+    	<jar destfile="${deploy.dir}/swtkal.base.jar">      <fileset dir="bin" excludes="junit/** *.xml"/></jar>
+    	<jar destfile="${deploy.dir}/swtkal.junittests.jar"><fileset dir="bin" includes="junit/**"/>      </jar>
+    </target>
+
+    <!-- ================================= 
+          target: deploy.javadoc              
+         ================================= -->
+    <target name="deploy.javadoc" depends="deploy.dirs"
+        	description="stellt die Javadoc-Dokumentation zur Verfuegung">
+			<javadoc destdir="${javadoc.dir}" executable="${javadoc.exe}">
+			<fileset dir="src" excludes="junit/**, **Properties.xml" />
+			
+			<group title="Base Packages" packages=
+				"swtkal.client*:swtkal.domain*:swtkal.exceptions*:swtkal.monitor*:swtkal.server*" />
+			
+			<doctitle><![CDATA[<h1>SWTKal API</h1>]]></doctitle>
+			<header>SWTKal Fallstudie SWT-Vorlesung</header>
+			<footer>SWTKal Fallstudie SWT-Vorlesung</footer>
+		</javadoc>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: deploy.dirs                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="deploy.dirs">
+    	<mkdir dir="${javadoc.dir}"/>
+    	<mkdir dir="${deploy.dir}"/>
+    </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: clean                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="clean">
+        <delete includeemptydirs="true">
+            <fileset dir="${javadoc.dir}" includes="**/*"/>
+        </delete>
+    	<delete dir="${deploy.dir}/"/>
+    </target>
+
+</project>
